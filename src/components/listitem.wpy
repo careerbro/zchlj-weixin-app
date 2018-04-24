@@ -12,6 +12,8 @@
   font-size:0.85em;
   line-height: 2em;
   float:left;
+  max-width: 10em;
+  overflow: hidden;
 }
 
 .salary {
@@ -19,6 +21,7 @@
   font-size: 0.8em;
   text-align: right;
   margin-top: 5px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .detail{
