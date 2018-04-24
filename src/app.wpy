@@ -1,0 +1,96 @@
+<style lang="less">
+@import './weui.wxss';
+
+.container {
+  height: 100%;
+  background-color: #eeeeee;
+  min-height: 100vh;
+}
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/home/home',
+      // 'pages/index',
+      'pages/user/userhome',
+      'pages/user/userinfo',
+      'pages/system/feedback'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#20B2AA',
+      navigationBarTitleText: ' 职场红领巾',
+      navigationBarTextStyle: '#fff'
+    },
+    tabBar: {
+      "color": "#707070",
+      "selectedColor": "#3CB371",
+      "list": [
+        {
+          "pagePath": "pages/home/home",
+          "text": "首页",
+          "iconPath": "./images/home-un.png",
+          "selectedIconPath": "./images/home.png"
+        },
+        {
+          "pagePath": "pages/user/userhome",
+          "text": "爆料",
+          "iconPath": "./images/add-un.png",
+          "selectedIconPath": "./images/add.png"
+        },
+        {
+          "pagePath": "pages/user/userhome",
+          "text": "我",
+          "iconPath": "./images/user-un.png",
+          "selectedIconPath": "./images/user.png"
+        }
+      ]
+    },
+  }
+
+  globalData = {
+    userInfo: null
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix')
+  }
+
+  onLaunch() {
+    this.testAsync()
+  }
+
+  sleep (s) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('promise resolved')
+      }, s * 1000)
+    })
+  }
+
+  async testAsync () {
+    const data = await this.sleep(3)
+    console.log(data)
+  }
+
+  getUserInfo(cb) {
+    const that = this
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo
+    }
+    wepy.getUserInfo({
+      success (res) {
+        that.globalData.userInfo = res.userInfo
+        cb && cb(res.userInfo)
+      }
+    })
+  }
+}
+</script>

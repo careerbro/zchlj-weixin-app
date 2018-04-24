@@ -1,0 +1,202 @@
+<style scoped>
+.home-page-header {
+  text-align: center;
+  background-color: #20B2AA;
+  top: -1px;
+  height: 30vh;
+}
+
+.applogo {
+  padding-top: 5vh;
+  padding-bottom: 3vh;
+  height: 10vh;
+  width: 10vh;
+}
+
+.citybar {
+  width: 15vh;
+  display: flex;
+}
+
+.city {
+  color: #fff;
+  font-size: 0.9em;
+  margin:auto;
+}
+
+.dropdown {
+  width: 2vh;
+  height: 2vh;
+  margin:auto;
+}
+
+.searchbar {
+  display: flex;
+  padding: 0 4vh;
+}
+
+.weui-search-bar {
+  background-color: #20B2AA;
+  padding: 0;
+  width: 70vh;
+  border-style: none;
+  border-radius: 15px;
+}
+
+</style>
+
+
+<template>
+  <view class="container">
+    <view class="home-page-header">
+      <image class="applogo"
+      src="https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png"/>
+      <view class='searchbar'>
+        <view class='citybar'>
+          <view class='city'>广州</view>
+          <!-- <image class="dropdown" src="/images/dropdown.png"/> -->
+        </view>
+        <view class="weui-search-bar">
+          <view class="weui-search-bar__form">
+              <view class="weui-search-bar__box">
+                  <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                  <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+                  <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                      <icon type="clear" size="14"></icon>
+                  </view>
+              </view>
+              <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                  <icon class="weui-icon-search" type="search" size="14"></icon>
+                  <view class="weui-search-bar__text">搜索公司/职位</view>
+              </label>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel weui-panel_access all-item-info">
+      <repeat for="{{datalist}}" index="index" item="item">
+        <listitem :itemValue.sync="item"></listitem>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import listitem  from '../../components/listitem'
+
+  export default class home extends wepy.page{
+    config = {
+      navigationBarTitleText: ''
+    }
+
+    components = {
+      listitem
+    }
+
+    data = {
+      datalist: [
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '10K-14K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '1-3年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '1K-4K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '0-1年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '13K-15K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '1K-4K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '0-1年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '13K-15K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '1K-4K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '0-1年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '13K-15K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '1K-4K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '0-1年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '13K-15K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '1K-4K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '0-1年',
+          xueli: '本科',
+          date: '04-24'
+        },
+        {
+          job: 'Web前端高级开发工程师',
+          salary: '13K-15K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '04-24'
+        }
+      ]
+    }
+  }
+</script>
+

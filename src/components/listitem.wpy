@@ -1,0 +1,88 @@
+<style lang="less">
+.weui-media-box__hd_in-appmsg {
+  width:4em;
+  height:4em;
+  line-height:4em;
+}
+
+
+.job{
+  text-align:left;
+  color:#000;
+  font-size:0.85em;
+  line-height: 2em;
+  float:left;
+}
+
+.salary {
+  color: #FF4500;
+  font-size: 0.8em;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.detail{
+  line-height: 1.5em;
+  display: block;
+}
+
+.tags{
+  float: left;
+  display: flex;
+}
+
+.date{
+  text-align: right;
+  margin-top: 5px;
+}
+
+.tag{
+    /* margin: 2px; */
+    padding-right: 1em;
+    text-align: center;
+    height: 2.3em;
+    line-height: 2.3em;
+    /* border-color: red;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px; */
+}
+</style>
+<template>
+  <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+        <image class="weui-media-box__thumb" src="https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png" />
+    </view>
+    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+        <view class="weui-media-box__title ">
+            <view class="job">{{itemValue.job}}</view>
+            <view class="salary">{{itemValue.salary}}</view>
+        </view>
+        <view class="weui-media-box__desc detail">
+          {{itemValue.company}}
+        </view>
+        <view class="weui-media-box__desc detail">
+          <view class='tags'>
+            <view class="tag">{{itemValue.city}}</view>
+            <view class="tag">{{itemValue.xueli}}</view>
+            <view class="tag">{{itemValue.jingyan}}</view>
+          </view>
+          <view class='date'>
+            {{itemValue.date}}
+          </view>
+        </view>
+    </view>
+</view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class listitem extends wepy.component {
+    props = {
+      itemValue: {
+        type: [Object],
+        default: null
+      }
+    }
+  }
+</script>

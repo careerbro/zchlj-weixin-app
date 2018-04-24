@@ -1,0 +1,13 @@
+{
+  "description": "职场红领巾",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram",
+  "appid": "wxd7abdd06de2298f5",
+  "projectname": "zchlj-wechat",
+  "miniprogramRoot": "./dist"
+}

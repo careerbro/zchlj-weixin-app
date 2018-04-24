@@ -1,0 +1,74 @@
+<style scoped>
+
+  .user-info {
+    width: 100%;
+    padding-top: 20rpx;
+  }
+
+  .avatar{
+    text-align:left;
+    color:#000;
+    font-size: 1em;
+    line-height: 5em;
+    float:left;
+  }
+
+  .avatarimg {
+    width: 81px;
+    height: 81px;
+    /* margin: 5px; */
+  }
+
+  .label{
+    text-align:left;
+    color:#000;
+    font-size: 1em;
+    float:left;
+  }
+
+  .value {
+    color: #696969;
+    font-size: 0.9em;
+    text-align: right;
+  }
+
+</style>
+
+
+<template>
+  <view  class="container">
+    <view class="user-info">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+              <textarea class="weui-textarea" placeholder="请告诉我们你的意见和建议" style="height: 10em" />
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" @tap="showTopTips">提交</button>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class feedback extends wepy.page{
+    config = {
+      navigationBarTitleText: '意见反馈'
+    }
+
+    data = {
+      userInfo: null
+    }
+
+    onLoad() {
+      let self = this
+      console.log('enter feedback')
+    }
+  }
+</script>
+

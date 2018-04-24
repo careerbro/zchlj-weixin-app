@@ -1,0 +1,128 @@
+<style scoped>
+
+  .user-info {
+    width: 100%;
+    padding-top: 20rpx;
+  }
+
+</style>
+
+
+<template>
+  <view  class="container">
+    <view class="user-info">
+      <view class="weui-panel weui-panel_access ">
+        <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" @tap="goToPage('./userinfo')" >
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <image class="weui-media-box__thumb" src="{{userInfo.avatarUrl}}" />
+          </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view class="weui-media-box__title">{{userInfo.nickName}}</view>
+              <view class="weui-media-box__desc">华南理工大学</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel">
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cells weui-cells_in-small-appmsg">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+              <!-- <image src="/images/publish.png" class='itemImageIcon' /> -->
+            </view>
+            <view class="weui-cell__bd weui-cell_primary">
+                <view>我的收藏</view>
+            </view>
+          </view>
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+              <!-- <image src="/images/publish.png" class='itemImageIcon' /> -->
+            </view>
+            <view class="weui-cell__bd weui-cell_primary">
+                <view>我的关注</view>
+            </view>
+          </view>
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+              <!-- <image src="/images/company.png" class='itemImageIcon' /> -->
+            </view>
+            <view class="weui-cell__bd weui-cell_primary">
+                <view>我的参与</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-panel">
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cells weui-cells_in-small-appmsg" @tap="goToPage('../system/feedback')">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+              <!-- <image src="/images/publish.png" class='itemImageIcon' /> -->
+            </view>
+            <view class="weui-cell__bd weui-cell_primary">
+                <view>意见反馈</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-panel">
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cells weui-cells_in-small-appmsg">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+              <!-- <image src="/images/publish.png" class='itemImageIcon' /> -->
+            </view>
+            <view class="weui-cell__bd weui-cell_primary">
+                <view>设置</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+    <view class="weui-footer weui-footer_fixed-bottom">
+        <view class="weui-footer__text">Copyright © 2018-2020 职场红领巾</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+
+
+  export default class userhome extends wepy.page{
+    config = {
+      navigationBarTitleText: '我的'
+    }
+
+    data = {
+      userInfo: null
+    }
+
+    methods = {
+      goToPage: (url) => {
+        wepy.navigateTo({
+          url: url,
+        })
+      }
+    }
+
+    onLoad() {
+      let self = this
+      this.$parent.getUserInfo(function (userInfo) {
+        console.log(userInfo)
+        if (userInfo) {
+          self.userInfo = userInfo
+        }
+        self.$apply()
+      })
+    }
+  }
+</script>
+

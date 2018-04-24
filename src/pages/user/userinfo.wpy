@@ -1,0 +1,107 @@
+<style scoped>
+
+  .user-info {
+    width: 100%;
+    padding-top: 20rpx;
+  }
+
+  .avatar{
+    text-align:left;
+    color:#000;
+    font-size: 1em;
+    line-height: 5em;
+    float:left;
+  }
+
+  .avatarimg {
+    width: 81px;
+    height: 81px;
+    /* margin: 5px; */
+  }
+
+  .label{
+    text-align:left;
+    color:#000;
+    font-size: 1em;
+    float:left;
+  }
+
+  .value {
+    color: #696969;
+    font-size: 0.9em;
+    text-align: right;
+  }
+
+</style>
+
+
+<template>
+  <view  class="container">
+    <view class="user-info">
+      <view class="weui-panel">
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <view class="weui-cells weui-cells_in-small-appmsg">
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+              <view class="weui-cell__bd weui-cell_primary">
+                <view class="avatar ">头像</view>
+                <view class="value ">
+                  <image class='avatarimg' src="{{userInfo.avatarUrl}}" />
+                </view>
+              </view>
+            </view>
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+              <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">昵称</view>
+                <view class="value">{{userInfo.nickName}}</view>
+              </view>
+            </view>
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+              <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">学校</view>
+                <view class="value">华南理工大学</view>
+              </view>
+            </view>
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+              <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">邮箱</view>
+                <view class="value">1032158854@qq.com</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class userinfo extends wepy.page{
+    config = {
+      navigationBarTitleText: '个人信息'
+    }
+
+    data = {
+      userInfo: null
+    }
+
+    onLoad() {
+      let self = this
+      console.log('enter userinfo')
+      console.log(this.$parent.globalData.userInfo)
+      if (this.$parent.globalData.userInfo) {
+        this.userInfo = this.$parent.globalData.userInfo
+      } else {
+        this.$parent.getUserInfo(function (userInfo) {
+          console.log(userInfo)
+          if (userInfo) {
+            self.userInfo = userInfo
+          }
+          self.$apply()
+        })
+      }
+    }
+  }
+</script>
+
