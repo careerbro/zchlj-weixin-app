@@ -1,0 +1,214 @@
+<style scoped>
+.input-education {
+  /* text-align: right; */
+}
+
+</style>
+
+
+<template>
+  <view class="container weui-mask">
+    <view class='page'>
+    <view class="page__hd">
+        <view class="page__title"></view>
+        <!-- <view class="page__desc">面板</view> -->
+    </view>
+    <view class="page__bd">
+      <view class="weui-cells__title">公司信息</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">公司名称</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" disabled/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">公司行业</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" disabled/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
+      </view>
+
+      <view class="weui-cells__title">岗位信息</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">岗位名称</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" disabled/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
+      </view>
+
+      <view class="weui-cells__title">薪资数据</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">岗位名称</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input"  disabled/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
+      </view>
+
+      <view class="weui-cells__title">福利信息</view>
+      <view class="weui-cells weui-cells_after-title">
+        <label class="weui-cell weui-check__label" wx:for="{{fuliInfos}}" wx:key="value" bindtap='clickFuliItem' data-fuliitem="{{item.value}}">
+          <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+          <view class="weui-cell__hd weui-check__hd_in-checkbox">
+              <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
+              <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
+          </view>
+          <view class="weui-cell__bd">{{item.name}}</view>
+        </label>
+        <view class="weui-cell weui-cell_link">
+            <view class="weui-cell__bd" bindtap='addItem'>添加更多</view>
+        </view>
+      </view>
+
+      <view class="weui-cells__title">学历背景</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input" @tap="selectEducation(0)">
+          <view class="weui-cell__hd">
+              <view class="weui-label">学历</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input input-education" value="{{education}}" disabled/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
+        <view class="weui-cell weui-cell_input" @tap="selectEducation(1)">
+          <view class="weui-cell__hd">
+              <view class="weui-label">学校</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input input-education" value="{{school}}" disabled/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">学校名称</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input input-education" placeholder="请输入学校名称"/>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+    <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" bindtap="showTopTips">确定</button>
+    </view>
+  </view>
+
+  <modal hidden="{{addItemForm}}" title="{{addItemFormTitle}}" confirm-text="提交" cancel-text="取消" bindcancel="cancelAdd" bindconfirm="confirmAdd">
+      <input type='text' placeholder="请输入福利信息" bindinput="bindInput"/>
+  </modal>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class addsalary extends wepy.page{
+    config = {
+      navigationBarTitleText: '爆料'
+    }
+
+    data = {
+      fuliInfos: [
+      { name: '包食宿', value: '包食宿', checked: false },
+      { name: '交通补贴', value: '交通补贴', checked: false },
+      { name: '解决户口', value: '解决户口', checked: false },
+      ],
+      educations: [
+        '本科','硕士','博士','其他'
+      ],
+      schools: ['211','985','C9','海外高校','其他'],
+      education: '本科',
+      school: '211',
+      addItemForm: true,
+      addItemFormTitle: '添加福利',
+      addItemInfo: ''
+    }
+
+    methods = {
+      clickFuliItem: function(e) {
+        let fuliitem = e.currentTarget.dataset.fuliitem;
+        console.log(fuliitem)
+        let fuliInfos = this.fuliInfos;
+        for (let item of fuliInfos) {
+          console.log(item)
+          if (item.value == fuliitem) {
+            item.checked = !item.checked;
+            break;
+          }
+        }
+        this.fuliInfos = fuliInfos
+        this.$apply()
+      },
+
+      selectEducation: function(e) {
+        console.log(e)
+        let itemList = e == 0 ? this.educations : this.schools
+        let self = this
+
+        wepy.showActionSheet({
+          itemList: itemList,
+          success: function(res) {
+            if (!res.cancel) {
+              console.log(res.tapIndex)
+              if(e == 1) {
+                self.school = itemList[res.tapIndex]
+              } else {
+                self.education = itemList[res.tapIndex]
+              }
+              self.$apply()
+            }
+          }
+        })
+      },
+
+      addItem: function(e) {
+        this.addItemFormTitle = '添加福利'
+        this.addItemForm = false
+      },
+
+      cancelAdd: function(e){
+        this.addItemForm = true
+        this.$apply()
+      },
+
+      confirmAdd: function(e) {
+        this.addItemForm = true
+        console.log(this.addItemInfo)
+        if (this.addItemInfo != null && this.addItemInfo != '') {
+          this.fuliInfos.push({
+            name: this.addItemInfo, value: this.addItemInfo, checked: true
+          })
+          this.addItemInfo = ''
+        }
+        this.$apply()
+      },
+
+      bindInput: function(e) {
+        // console.log(e)
+        this.addItemInfo = e.detail.value
+      }
+    }
+  }
+</script>
+

@@ -20,7 +20,8 @@ export default class extends wepy.app {
       // 'pages/index',
       'pages/user/userhome',
       'pages/user/userinfo',
-      'pages/system/feedback'
+      'pages/system/feedback',
+      'pages/salary/addsalary'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -39,7 +40,7 @@ export default class extends wepy.app {
           "selectedIconPath": "./images/home.png"
         },
         {
-          "pagePath": "pages/user/userhome",
+          "pagePath": "pages/salary/addsalary",
           "text": "爆料",
           "iconPath": "./images/add-un.png",
           "selectedIconPath": "./images/add.png"

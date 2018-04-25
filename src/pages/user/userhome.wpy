@@ -5,6 +5,17 @@
     padding-top: 20rpx;
   }
 
+  .itemImageIcon {
+    height: 1.5em;
+    width: 1.5em;
+    vertical-align:top;
+
+  }
+
+  .weui-cell__bd {
+    padding-left: 0.5em;
+  }
+
 </style>
 
 
@@ -28,7 +39,7 @@
         <view class="weui-cells weui-cells_in-small-appmsg">
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <!-- <image src="/images/publish.png" class='itemImageIcon' /> -->
+              <image src="../../images/shoucang.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>我的收藏</view>
@@ -36,7 +47,7 @@
           </view>
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <!-- <image src="/images/publish.png" class='itemImageIcon' /> -->
+              <image src="../../images/xihuan.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>我的关注</view>
@@ -44,7 +55,7 @@
           </view>
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <!-- <image src="/images/company.png" class='itemImageIcon' /> -->
+              <image src="../../images/canyu.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>我的参与</view>
@@ -59,7 +70,7 @@
         <view class="weui-cells weui-cells_in-small-appmsg" @tap="goToPage('../system/feedback')">
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <!-- <image src="/images/publish.png" class='itemImageIcon' /> -->
+              <image src="../../images/feedback.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>意见反馈</view>
@@ -74,7 +85,7 @@
         <view class="weui-cells weui-cells_in-small-appmsg">
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <!-- <image src="/images/publish.png" class='itemImageIcon' /> -->
+              <image src="../../images/setting.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>设置</view>
