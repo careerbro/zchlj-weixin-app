@@ -1,6 +1,36 @@
 <style scoped>
-.input-education {
-  /* text-align: right; */
+.select-input-value {
+  text-align: right;
+}
+.salary-title {
+  display: flex;
+}
+
+.salary-title-icon {
+  width: 1.5em;
+}
+
+.salary-title-label {
+  padding-left: 0.5em;
+  width: 4em;
+  font-size: 1em;
+}
+
+.salary-input {
+  display: flex;
+  align-items: center;
+}
+
+.salary-input-value {
+  margin: 0.4em 1em ;
+  width: 100rpx;
+  height: 2em;
+  min-height: 2em;
+  border-style: solid;
+  border-color: #DCDCDC	;
+  border-width: 1px;
+  border-radius: 0.1em;
+  text-align: center;
 }
 
 </style>
@@ -16,21 +46,21 @@
     <view class="page__bd">
       <view class="weui-cells__title">公司信息</view>
       <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input">
+        <view class="weui-cell weui-cell_input" @tap="selectItemValue('company', '选择公司')">
           <view class="weui-cell__hd">
               <view class="weui-label">公司名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" disabled/>
+              <input class="weui-input select-input-value" value="{{company}}" disabled/>
           </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
-        <view class="weui-cell weui-cell_input">
+        <view class="weui-cell weui-cell_input" @tap="selectItemValue('hangye', '选择行业')">
           <view class="weui-cell__hd">
               <view class="weui-label">公司行业</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" disabled/>
+              <input class="weui-input select-input-value" value="{{hangye}}" disabled/>
           </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
@@ -38,12 +68,12 @@
 
       <view class="weui-cells__title">岗位信息</view>
       <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input">
+        <view class="weui-cell weui-cell_input" @tap="selectItemValue('job', '选择岗位')">
           <view class="weui-cell__hd">
               <view class="weui-label">岗位名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" disabled/>
+              <input class="weui-input select-input-value" value="{{job}}" disabled/>
           </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
@@ -51,15 +81,38 @@
 
       <view class="weui-cells__title">薪资数据</view>
       <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input">
-          <view class="weui-cell__hd">
-              <view class="weui-label">岗位名称</view>
+        <radio-group bindchange="radioChange">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd salary-title" @tap="changeSelectSalary('year')">
+              <view class="salary-title-icon">
+                <icon  wx:if="{{secectSalary == 'year'}}" class="weui-icon-radio" type="success_no_circle"></icon>
+              </view>
+              <view class="weui-label salary-title-label">年薪</view>
+            </view>
+            <view class="weui-cell__bd salary-input">
+              <input class="weui-input salary-input-value"/>
+              <view style="width: 40rpx; paddind-left: -20rpx">K</view>
+              <view style="width: 40rpx;">~</view>
+              <input class="weui-input salary-input-value"/>
+              <view style="width: 40rpx; paddind-left: -20rpx">K</view>
+            </view>
           </view>
-          <view class="weui-cell__bd">
-              <input class="weui-input"  disabled/>
+          <view class="weui-cell weui-cell_input"  @tap="changeSelectSalary('month')">
+            <view class="weui-cell__hd salary-title">
+              <view class="salary-title-icon">
+                <icon  wx:if="{{secectSalary == 'month'}}" class="weui-icon-radio" type="success_no_circle"></icon>
+              </view>
+              <view class="weui-label salary-title-label">月薪</view>
+            </view>
+            <view class="weui-cell__bd salary-input">
+              <input class="weui-input salary-input-value"/>
+              <view style="width: 40rpx; paddind-left: -20rpx">K</view>
+              <view style="width: 40rpx;">~</view>
+              <input class="weui-input salary-input-value"/>
+              <view style="width: 40rpx; paddind-left: -20rpx">K</view>
+            </view>
           </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-        </view>
+        </radio-group>
       </view>
 
       <view class="weui-cells__title">福利信息</view>
@@ -97,13 +150,14 @@
           </view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
-        <view class="weui-cell weui-cell_input">
+        <view class="weui-cell weui-cell_input" @tap="selectItemValue('schoolName', '选择学校')">
           <view class="weui-cell__hd">
               <view class="weui-label">学校名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input input-education" placeholder="请输入学校名称"/>
+              <input class="weui-input select-input-value" value="{{schoolName}}" disabled/>
           </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
       </view>
     </view>
@@ -123,7 +177,7 @@
 <script>
   import wepy from 'wepy'
 
-  export default class addsalary extends wepy.page{
+  export default class addSalary extends wepy.page{
     config = {
       navigationBarTitleText: '爆料'
     }
@@ -142,7 +196,12 @@
       school: '211',
       addItemForm: true,
       addItemFormTitle: '添加福利',
-      addItemInfo: ''
+      addItemInfo: '',
+      company: '',
+      hangye: '',
+      job: '',
+      schoolName: '',
+      secectSalary: 'month'
     }
 
     methods = {
@@ -207,6 +266,16 @@
       bindInput: function(e) {
         // console.log(e)
         this.addItemInfo = e.detail.value
+      },
+
+      selectItemValue: function(type, title) {
+        wepy.navigateTo({
+          url: '../common/searchandselect?type=' + type + '&title=' + title,
+        })
+      },
+
+      changeSelectSalary: function(type) {
+        this.secectSalary = type;
       }
     }
   }

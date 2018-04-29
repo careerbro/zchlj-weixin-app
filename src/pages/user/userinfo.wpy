@@ -73,12 +73,16 @@
     </view>
   </view>
 
+  <!-- <modal hidden="{{addItemForm}}" title="{{addItemFormTitle}}" confirm-text="提交" cancel-text="取消" bindcancel="cancelAdd" bindconfirm="confirmAdd">
+    <input type='text' placeholder="请输入福利信息" bindinput="bindInput"/>
+  </modal> -->
+
 </template>
 
 <script>
   import wepy from 'wepy'
 
-  export default class userinfo extends wepy.page{
+  export default class UserInfo extends wepy.page{
     config = {
       navigationBarTitleText: '个人信息'
     }

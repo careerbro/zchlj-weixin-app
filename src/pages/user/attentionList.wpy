@@ -1,0 +1,73 @@
+<style scoped>
+
+  .attention-info {
+    width: 100%;
+    padding-top: 20rpx;
+  }
+
+  .itemImageIcon {
+    height: 1.5em;
+    width: 1.5em;
+    vertical-align:top;
+
+  }
+
+  .weui-cell__bd {
+    padding-left: 0.5em;
+  }
+
+</style>
+
+
+<template>
+  <view  class="container">
+    <view class="attention-info">
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cells weui-cells_in-small-appmsg">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__hd">
+              <image src="../../images/shoucang.png" class='itemImageIcon' />
+            </view>
+            <view class="weui-cell__bd weui-cell_primary">
+                <view>关注公司</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-footer weui-footer_fixed-bottom">
+        <view class="weui-footer__text">Copyright © 2018-2020 职场红领巾</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+
+
+  export default class AttentionList extends wepy.page{
+
+    data = {
+      type: ''
+    }
+
+    methods = {
+      goToPage: (url) => {
+        wepy.navigateTo({
+          url: url,
+        })
+      }
+    }
+
+    onLoad(options) {
+      console.log(options)
+      this.type = options.type
+      wepy.setNavigationBarTitle({
+        title: options.title
+      })
+    }
+  }
+</script>
+

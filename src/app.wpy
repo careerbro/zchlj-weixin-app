@@ -16,12 +16,17 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/login',
       'pages/home/home',
+      // 'pages/login',
       // 'pages/index',
-      'pages/user/userhome',
-      'pages/user/userinfo',
+      'pages/user/userHome',
+      'pages/user/userInfo',
+      'pages/user/userAttention',
+      'pages/user/attentionList',
       'pages/system/feedback',
-      'pages/salary/addsalary'
+      'pages/salary/addSalary',
+      'pages/common/searchandselect'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -40,13 +45,13 @@ export default class extends wepy.app {
           "selectedIconPath": "./images/home.png"
         },
         {
-          "pagePath": "pages/salary/addsalary",
+          "pagePath": "pages/salary/addSalary",
           "text": "爆料",
           "iconPath": "./images/add-un.png",
           "selectedIconPath": "./images/add.png"
         },
         {
-          "pagePath": "pages/user/userhome",
+          "pagePath": "pages/user/userHome",
           "text": "我",
           "iconPath": "./images/user-un.png",
           "selectedIconPath": "./images/user.png"
@@ -92,6 +97,25 @@ export default class extends wepy.app {
         cb && cb(res.userInfo)
       }
     })
+  }
+
+  getWxCode(cb) {
+    wepy.login().then((res) => {
+      if (res.code) {
+        this.data.code = res.code;
+        console.log("app get code.", res.code);
+        callback && callback(res.code);
+      } else {
+        console.log("not get app code.", res);
+        callback && callback(null);
+      }
+    }, (res) => {
+      console.log("getWxCode failed..", res);
+      callback && callback(null);
+    }).catch((err) => {
+      console.log("getWxCode error..", err);
+      callback && callback(null);
+    });
   }
 }
 </script>

@@ -1,11 +1,103 @@
 <style scoped>
+.container {
+  text-align: center;
+  width: 750rpx;
+  height: 100vh;
+  background-size: 100% 100%;
+}
+
+.show-info {
+  height: 40vh
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+  position: relative;
+  top: 15vh;
+}
+
+.description {
+  font-size: 1em;
+  position: relative;
+  top: 17vh;
+}
+
+.important-info {
+  font-size: 0.8em;
+  text-align: center;
+  color: red;
+  position: absolute;
+  bottom: 1em;
+  width: 100%;
+}
+
+.login-form {
+  height: 60vh;
+}
+
+.weui-input {
+  background-color: white;
+  height: 1em;
+  width: 100%;
+  /* text-align: left; */
+  border-radius: 0.4em;
+}
+
+.button-sp-area {
+  padding-top: 1em;
+  width: 250rpx;
+  margin: 0 250rpx;
+}
+
+.button-sp-area-second {
+  padding-top: 1em;
+  width: 250rpx;
+  margin: 0 62.5rpx;
+}
+
+.note {
+  font-size: 0.75em;
+  color: #808080;
+  text-align: left;
+  padding-left: 1em;
+}
 
 </style>
 
 
 <template>
   <view class="container">
-    学习学习、
+    <view class="show-info">
+      <view class="title">职场红领巾</view>
+      <view class="description">一个为你确定方向的平台</view>
+    </view>
+    <view class="login-form">
+      <view wx:if="{{first}}">
+        <view class="weui-cell">
+          <input class="weui-input" placeholder = "请填写你的学校全称"/>
+        </view>
+        <view class="note">学校不会显示在用户所爆料的薪资信息</view>
+        <view class="button-sp-area">
+          <button class="weui-btn" type="primary" @tap="goNextOrLast">下一步</button>
+        </view>
+      </view>
+      <view wx:if="{{second}}">
+        <view class="weui-cell">
+          <input class="weui-input" placeholder = "请填写你的邮箱"/>
+        </view>
+        <view class="note">邮箱将会收到每周整理的所关注公司的更新的薪资信息，同样不会显示在用户所爆料的薪资信息中</view>
+        <view style="display: flex;">
+          <view class="button-sp-area-second">
+            <button class="weui-btn" type="default" @tap="goNextOrLast">上一步</button>
+          </view>
+          <view class="button-sp-area-second">
+            <button class="weui-btn" type="primary" @tap="goHome">完成</button>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="important-info">本平台坚决保护个人信息，解决你的后顾之忧</view>
   </view>
 </template>
 
@@ -14,7 +106,37 @@
 
   export default class login extends wepy.page{
     config = {
-      navigationBarTitleText: '注册'
+      navigationBarTitleText: '',
+      navigationBarBackgroundColor: '#eeeeee'
+    }
+
+    data = {
+      first: true,
+      second: false,
+      school: '',
+      email: '',
+
+    }
+
+    methods = {
+      goNextOrLast: function () {
+        this.first = !this.first;
+        this.second = !this.second;
+      },
+
+      goHome: function () {
+        console.log('go to home')
+        //  wepy.navigateBack({
+        //   delta: 1
+        // });
+        wepy.showToast({
+            title: '您是职场红领巾第**位来自**大学的用户',
+            duration: 3000
+        });
+        wepy.switchTab({
+          url: 'home/home'
+        })
+      },
     }
   }
 </script>

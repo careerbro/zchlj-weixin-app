@@ -23,7 +23,7 @@
   <view  class="container">
     <view class="user-info">
       <view class="weui-panel weui-panel_access ">
-        <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" @tap="goToPage('./userinfo')" >
+        <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" @tap="goToPage('./userInfo')" >
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
               <image class="weui-media-box__thumb" src="{{userInfo.avatarUrl}}" />
           </view>
@@ -45,7 +45,7 @@
                 <view>我的收藏</view>
             </view>
           </view>
-          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="goToPage('./userAttention')">
             <view class="weui-cell__hd">
               <image src="../../images/xihuan.png" class='itemImageIcon' />
             </view>
@@ -85,7 +85,7 @@
         <view class="weui-cells weui-cells_in-small-appmsg">
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <image src="../../images/setting.png" class='itemImageIcon' />
+              <image src="../../images/setting.png" class='itemImageIcon' @tap="setting"/>
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>设置</view>
@@ -107,7 +107,7 @@
 
 
 
-  export default class userhome extends wepy.page{
+  export default class UserHome extends wepy.page{
     config = {
       navigationBarTitleText: '我的'
     }
@@ -121,6 +121,22 @@
         wepy.navigateTo({
           url: url,
         })
+      },
+      setting: function() {
+            console.log('filePath')
+        wepy.downloadFile({
+          url: 'http://example.com/somefile.pdf',
+          success: function (res) {
+            var filePath = res.tempFilePath
+            console.log(filePath)
+            wepy.openDocument({
+              filePath: filePath,
+              success: function (res) {
+                console.log('打开文档成功')
+              }
+            })
+          }
+        })
       }
     }
 
@@ -132,6 +148,12 @@
           self.userInfo = userInfo
         }
         self.$apply()
+      })
+
+      wepy.login({
+        success (res) {
+          console.log(res)
+        }
       })
     }
   }

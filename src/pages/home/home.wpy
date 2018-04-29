@@ -197,6 +197,12 @@
         }
       ]
     }
+
+    onLoad() {
+      // wepy.navigateTo({
+      //   url: '../login',
+      // })
+    }
   }
 </script>
 
