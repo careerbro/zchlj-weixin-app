@@ -34,7 +34,7 @@
   wepy build --watch
   ```
   执行停止后查看项目目录，如图
-  ![生成文件目录](https://github.com/careerbro/zchlj-weixin-app/blob/develop/readme/1525397181948.jpg)
+  > ![生成文件目录](https://github.com/careerbro/zchlj-weixin-app/blob/develop/readme/1525397181948.jpg)
 
   * 使用微信开发者工具打开项目(上图)下 ／dist 文件夹
   > * 点击右上角详情按钮
