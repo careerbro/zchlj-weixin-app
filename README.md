@@ -34,12 +34,12 @@
   wepy build --watch
   ```
   执行停止后查看项目目录，如图
-  ![生成文件目录]()
+  ![生成文件目录](https://github.com/careerbro/zchlj-weixin-app/blob/develop/readme/1525397181948.jpg)
 
   * 使用微信开发者工具打开项目(上图)下 ／dist 文件夹
   > * 点击右上角详情按钮
   > * 取消勾选  ES6 转 ES5
   > * 开发模式勾选 不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书
-  > ![设置操作]()
+  > ![设置操作](https://github.com/careerbro/zchlj-weixin-app/blob/develop/readme/1525397389193.jpg)
 
 
