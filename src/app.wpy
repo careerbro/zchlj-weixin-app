@@ -6,6 +6,10 @@
   background-color: #eeeeee;
   min-height: 100vh;
 }
+
+button[type = primary] {
+  background-color: #5C8FCC;
+}
 </style>
 
 <script>
@@ -16,19 +20,22 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      // 'pages/login',
+      'pages/login',
       // 'pages/salary/salaryInfo',
       'pages/home/home',
-      'pages/login',
+      // 'pages/login',
       // 'pages/index',
       'pages/user/userHome',
       'pages/user/userInfo',
+      'pages/user/userCollection',
       'pages/user/userAttention',
       'pages/user/attentionList',
-      'pages/system/feedback',
+      'pages/user/userJoin',
       'pages/salary/addSalary',
       'pages/salary/salaryInfo',
-      'pages/common/searchandselect'
+      'pages/common/searchandselect',
+      'pages/system/feedback',
+      'pages/system/setting',
     ],
     window: {
       backgroundTextStyle: 'light',

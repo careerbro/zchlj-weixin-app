@@ -1,7 +1,11 @@
 <style scoped>
-.select-input-value {
+/* .select-input-value {
   text-align: right;
+} */
+.weui-cells {
+  font-size: 32rpx;
 }
+
 .salary-title {
   display: flex;
 }
@@ -46,36 +50,36 @@
     <view class="page__bd">
       <view class="weui-cells__title">公司信息</view>
       <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input" @tap="selectItemValue('company', '选择公司')">
+        <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
               <view class="weui-label">公司名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{company}}" disabled/>
+              <input class="weui-input select-input-value" value="{{company}}"  placeholder="请输入公司名称"/>
           </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
-        <view class="weui-cell weui-cell_input" @tap="selectItemValue('hangye', '选择行业')">
+        <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
               <view class="weui-label">公司行业</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{hangye}}" disabled/>
+              <input class="weui-input select-input-value" value="{{hangye}}"  placeholder="请输入公司行业"/>
           </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
       </view>
 
       <view class="weui-cells__title">岗位信息</view>
       <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input" @tap="selectItemValue('job', '选择岗位')">
+        <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
               <view class="weui-label">岗位名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{job}}" disabled/>
+              <input class="weui-input select-input-value" value="{{job}}"  placeholder="请输入岗位名称"/>
           </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
       </view>
 
@@ -137,9 +141,9 @@
               <view class="weui-label">学历</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input input-education" value="{{education}}" disabled/>
+              <input class="weui-input" value="{{education}}" disabled/>
           </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
         <view class="weui-cell weui-cell_input" @tap="selectEducation(1)">
           <view class="weui-cell__hd">
@@ -148,18 +152,55 @@
           <view class="weui-cell__bd">
               <input class="weui-input input-education" value="{{school}}" disabled/>
           </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
-        <view class="weui-cell weui-cell_input" @tap="selectItemValue('schoolName', '选择学校')">
+        <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
               <view class="weui-label">学校名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{schoolName}}" disabled/>
+              <input class="weui-input select-input-value" value="{{schoolName}}" placeholder="请输入学校名称"/>
           </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
       </view>
+
+      <view class="weui-cells__title">其它信息</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">工作经验</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" placeholder="请输入工作月份"/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">Offer时间</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" placeholder="请输入得到Offer时间" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">工作地点</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" placeholder="请选择工作地点" />
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-cells__title">备注信息</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="意犹未尽？畅所欲言！" style="height: 5em" />
+                </view>
+            </view>
+        </view>
     </view>
 
 

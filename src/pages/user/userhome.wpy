@@ -25,10 +25,12 @@
       <view class="weui-panel weui-panel_access ">
         <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" @tap="goToPage('./userInfo')" >
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <image class="weui-media-box__thumb" src="{{userInfo.avatarUrl}}" />
+              <!-- <image class="weui-media-box__thumb" src="{{userInfo.avatarUrl}}" /> -->
+              <open-data class="weui-media-box__thumb" type="userAvatarUrl"></open-data>
           </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-              <view class="weui-media-box__title">{{userInfo.nickName}}</view>
+              <!-- <view class="weui-media-box__title">{{userInfo.nickName}}</view> -->
+              <open-data class="weui-media-box__title" type="userNickName" lang="zh_CN"></open-data>
               <view class="weui-media-box__desc">华南理工大学</view>
           </view>
         </view>
@@ -37,7 +39,7 @@
     <view class="weui-panel">
       <view class="weui-media-box weui-media-box_small-appmsg">
         <view class="weui-cells weui-cells_in-small-appmsg">
-          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToPage('./userCollection')">
             <view class="weui-cell__hd">
               <image src="../../images/shoucang.png" class='itemImageIcon' />
             </view>
@@ -53,7 +55,7 @@
                 <view>我的关注</view>
             </view>
           </view>
-          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="goToPage('./userJoin')">
             <view class="weui-cell__hd">
               <image src="../../images/canyu.png" class='itemImageIcon' />
             </view>
@@ -81,7 +83,7 @@
     </view>
 
     <view class="weui-panel">
-      <view class="weui-media-box weui-media-box_small-appmsg">
+      <view class="weui-media-box weui-media-box_small-appmsg" @tap="goToPage('../system/setting')">
         <view class="weui-cells weui-cells_in-small-appmsg">
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
@@ -107,7 +109,7 @@
 
 
 
-  export default class UserHome extends wepy.page{
+  export default class userHome extends wepy.page{
     config = {
       navigationBarTitleText: '我的'
     }
@@ -129,13 +131,13 @@
 
     onLoad() {
       let self = this
-      this.$parent.getUserInfo(function (userInfo) {
-        console.log(userInfo)
-        if (userInfo) {
-          self.userInfo = userInfo
-        }
-        self.$apply()
-      })
+      // this.$parent.getUserInfo(function (userInfo) {
+      //   console.log(userInfo)
+      //   if (userInfo) {
+      //     self.userInfo = userInfo
+      //   }
+      //   self.$apply()
+      // })
 
       wepy.login({
         success (res) {

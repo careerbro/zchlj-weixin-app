@@ -1,0 +1,109 @@
+<style scoped>
+  .weui-navbar {
+    background-color: #ffffff;
+  }
+
+  .user-info {
+    width: 100%;
+    padding-top: 20rpx;
+  }
+
+  .weui-navbar__item {
+    padding: 20rpx 0;
+  }
+
+
+</style>
+
+
+<template>
+  <view  class="container">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{tabs}}" wx:key="*this">
+            <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" @tap="tabClick">
+                <view class="weui-navbar__title">{{item}}</view>
+            </view>
+        </block>
+        <view class="weui-navbar__slider" style="width: 370rpx;left: 5rpx; transform: translateX({{sliderOffset}}rpx); -webkit-transform: translateX({{sliderOffset}}rpx);"></view>
+      </view>
+      <view class="weui-tab__panel">
+        <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+          <view class="weui-panel weui-panel_access all-item-info">
+            <repeat for="{{datalist1}}" index="index" item="item">
+              <SalaryItem :itemValue.sync="item"></SalaryItem>
+            </repeat>
+          </view>
+        </view>
+        <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+          <view class="weui-panel weui-panel_access all-item-info">
+            <repeat for="{{datalist2}}" index="index" item="item">
+              <SalaryItem :itemValue.sync="item"></SalaryItem>
+            </repeat>
+          </view>
+        </view>
+      </view>
+  </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import SalaryItem  from '../../components/SalaryItem'
+
+  export default class userJoin extends wepy.page{
+    config = {
+      navigationBarTitleText: '我的参与'
+    }
+
+    components = {
+      SalaryItem
+    }
+
+    data = {
+      datalist1: [
+        {
+          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
+          job: 'Web前端高级开发工程师',
+          salary: '10K-14K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '1-3年',
+          xueli: '本科',
+          date: '04-24'
+        },
+      ],
+      datalist2: [
+        {
+          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
+          job: '市场推广',
+          salary: '10K-20K',
+          company:'酷麦',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '一天前发布'
+        },
+      ],
+      tabs: ["我的发布", "我的参与"],
+      activeIndex: 0,
+      sliderOffset: 0,
+      sliderLeft: 0
+    }
+
+    methods = {
+      tabClick: function(e) {
+        this.activeIndex = e.currentTarget.id
+        if(e.currentTarget.id == 1) {
+          this.sliderOffset = 385;
+        } else {
+          this.sliderOffset = 0
+        }
+      }
+    }
+
+    onLoad() {
+    }
+  }
+</script>
+

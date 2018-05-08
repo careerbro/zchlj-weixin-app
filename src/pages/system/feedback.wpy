@@ -3,33 +3,15 @@
   .user-info {
     width: 100%;
     padding-top: 20rpx;
+    margin-top: -20rpx;
   }
 
-  .avatar{
-    text-align:left;
-    color:#000;
-    font-size: 1em;
-    line-height: 5em;
-    float:left;
+  textarea {
+    font-size: 30rpx;
   }
 
-  .avatarimg {
-    width: 81px;
-    height: 81px;
-    /* margin: 5px; */
-  }
-
-  .label{
-    text-align:left;
-    color:#000;
-    font-size: 1em;
-    float:left;
-  }
-
-  .value {
-    color: #696969;
-    font-size: 0.9em;
-    text-align: right;
+  input {
+    font-size: 30rpx;
   }
 
 </style>
@@ -38,17 +20,30 @@
 <template>
   <view  class="container">
     <view class="user-info">
+      <view class="weui-cells__title">反馈内容</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-              <textarea class="weui-textarea" placeholder="请告诉我们你的意见和建议" style="height: 10em" />
+              <textarea class="weui-textarea" placeholder="请告诉我们你的意见和建议，我们会认真看完的哦！" style="height: 10em" />
+          </view>
+        </view>
+      </view>
+
+
+      <view class="weui-cells__title">联系方式</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+              <input class="weui-textarea" placeholder="留下手机号或邮箱，方便我们联系你呦～"  />
           </view>
         </view>
       </view>
 
       <view class="weui-btn-area">
-        <button class="weui-btn" type="primary" @tap="showTopTips">提交</button>
+        <button class="weui-btn" type="primary" @tap="showTopTips">提交反馈</button>
       </view>
+
+      <button class="weui-btn" type="primary" open-type="contact" />
     </view>
   </view>
 </template>

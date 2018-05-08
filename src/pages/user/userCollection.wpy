@@ -38,7 +38,14 @@
   import wepy from 'wepy'
   import SalaryItem  from '../../components/SalaryItem'
 
-  export default class attentionList extends wepy.page{
+  export default class userCollection extends wepy.page{
+    config = {
+      navigationBarTitleText: '我的收藏'
+    }
+
+    components = {
+      SalaryItem
+    }
 
     data = {
       type: '',
@@ -52,6 +59,36 @@
           jingyan: '1-3年',
           xueli: '本科',
           date: '04-24'
+        },
+        {
+          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
+          job: '市场推广',
+          salary: '10K-20K',
+          company:'酷麦',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '一天前发布'
+        },
+        {
+          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
+          job: '市场推广',
+          salary: '10K-20K',
+          company:'酷麦',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '一天前发布'
+        },
+        {
+          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
+          job: '市场推广',
+          salary: '10K-20K',
+          company:'酷麦',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '一天前发布'
         },
       ]
     }
@@ -69,11 +106,6 @@
     }
 
     onLoad(options) {
-      console.log(options)
-      this.type = options.type
-      wepy.setNavigationBarTitle({
-        title: options.title
-      })
     }
   }
 </script>

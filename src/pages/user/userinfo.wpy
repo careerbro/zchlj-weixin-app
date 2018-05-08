@@ -82,7 +82,7 @@
 <script>
   import wepy from 'wepy'
 
-  export default class UserInfo extends wepy.page{
+  export default class userInfo extends wepy.page{
     config = {
       navigationBarTitleText: '个人信息'
     }
