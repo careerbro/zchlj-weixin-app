@@ -1,0 +1,256 @@
+<style scoped>
+  .company-info {
+    width: 100%;
+    padding-top: 20rpx;
+  }
+
+  .job-cell {
+    padding: 20px 15px;
+    color: #6f95ff;
+  }
+
+  .job-share-icon {
+    height: 2em;
+    width: 2em;
+  }
+
+  .label{
+    text-align:left;
+    color:#000;
+    font-size: 1em;
+    float:left;
+  }
+
+  .value {
+    color: #696969;
+    font-size: 0.9em;
+    text-align: right;
+  }
+
+  .footer-option-cell {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100rpx;
+    background-color: #ffffff;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .option-zantong {
+    width: 220rpx;
+    padding-top: 10rpx;
+    padding-left: 15rpx;
+  }
+
+  .option-zantong-label {
+    font-size: 28rpx;
+    padding: 20rpx 5rpx;
+  }
+
+  .option-buzantong {
+    width: 70rpx;
+    padding-top: 10rpx;
+  }
+
+  .zantong-box {
+    display: flex;
+  }
+
+  .option-other {
+    width: 115rpx;
+    font-size: 22rpx;
+  }
+
+  .option-other-icon {
+    height: 60rpx;
+    width: 60rpx;
+    padding-top: 10rpx;
+  }
+
+  .option-other-label {
+    height: 30rpx;
+    margin-top: -10rpx;
+  }
+</style>
+
+
+<template>
+  <view class="container">
+    <view class="company-info">
+      <view class="weui-panel weui-panel_access ">
+        <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <image class="weui-media-box__thumb" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525702730448&di=844c3e7e3fb2a0c9e7038bfd7d0d4ef4&imgtype=0&src=http%3A%2F%2Fimg.yzmg.com%2F201605%2F20160502%2F2016050210575134.jpg" />
+          </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view class="weui-media-box__title">腾讯科技</view>
+              <view class="weui-media-box__desc">互联网</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-panel">
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <!-- <view class="weui-cells weui-cells_in-small-appmsg"> -->
+          <view class="weui-cell weui-cell_access job-cell" hover-class="weui-cell_active">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view>Web前端高级开发工程师</view>
+            </view>
+            <view class="job-share" @tap="shareThisItemToOther">
+              <image class="job-share-icon" src="../../images/fenxiang1.png" />
+            </view>
+          </view>
+        <!-- </view> -->
+      </view>
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+          <view class="weui-cell__bd weui-cell_primary">
+              <view class="label">薪资</view>
+              <view class="value">20x16/年</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+          <view class="weui-cell__bd weui-cell_primary">
+              <view class="label">学习背景</view>
+              <view class="value">985高校</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+          <view class="weui-cell__bd weui-cell_primary">
+              <view class="label">工作经验</view>
+              <view class="value">1年</view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+          <view class="weui-cell__bd weui-cell_primary">
+              <view class="label">地点</view>
+              <view class="value">深圳</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+          <view class="weui-cell__bd weui-cell_primary">
+              <view class="label">福利信息</view>
+              <view class="value">
+                <view>包食宿</view>
+                <view>交通补贴</view>
+                <view>解决户口</view>
+              </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+          <view class="weui-cell__bd weui-cell_primary">
+              <view class="label">Offer发放时间</view>
+              <view class="value">2017-08</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-option-cell">
+    <view class="weui-flex">
+      <view class="option-zantong">
+        <view class="zantong-box">
+          <image class="option-other-icon" src="../../images/zantong5.png" />
+          <view class="option-zantong-label">已赞同9999</view>
+        </view>
+      </view>
+      <view class="option-buzantong">
+        <view class="zantong-box">
+          <image class="option-other-icon" src="../../images/zantong6.png" />
+        </view>
+      </view>
+      <view class="option-other">
+        <view>
+          <image class="option-other-icon" src="../../images/ganxie2.png" />
+        </view>
+        <view class="option-other-label">感谢</view>
+      </view>
+      <view class="option-other">
+        <view>
+          <image class="option-other-icon" src="../../images/shoucang2.png" />
+        </view>
+        <view class="option-other-label">收藏</view>
+      </view>
+      <view class="option-other">
+        <view>
+          <image class="option-other-icon" src="../../images/pinglun.png" />
+        </view>
+        <view class="option-other-label">评论</view>
+      </view>
+      <view class="option-other" @tap="reportThisItem">
+        <view>
+          <image class="option-other-icon" src="../../images/import2.png" />
+        </view>
+        <view class="option-other-label">举报</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class salaryInfo extends wepy.page{
+    config = {
+      navigationBarTitleText: '薪资详情',
+    }
+
+    data = {
+      first: true,
+      second: false,
+      school: '',
+      email: '',
+      salaryInfo: null,
+    }
+
+    methods = {
+      goNextOrLast: function () {
+        this.first = !this.first;
+        this.second = !this.second;
+      },
+
+      reportThisItem: function() {
+        wepy.showActionSheet({
+          itemList: ['内容不实','时间太久，已失效','这是个骗子公司，我被骗了','就是看它不爽'],
+          success: function(res) {
+            if (!res.cancel) {
+              console.log(res.tapIndex)
+
+              self.$apply()
+            }
+          }
+        })
+      },
+
+      shareThisItemToOther: function() {
+        wepy.showShareMenu({
+          withShareTicket: true
+        })
+      }
+    }
+
+    onShareAppMessage() {
+      return {
+        title: '哇，这里的薪资待遇好诱人啊，好想去啊！',
+        desc: '',
+        path: '/pages/salary/salaryInfo'
+      }
+    }
+  }
+</script>
+

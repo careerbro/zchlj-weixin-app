@@ -107,9 +107,9 @@
             <view class="weui-cell__bd salary-input">
               <input class="weui-input salary-input-value"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
-              <view style="width: 40rpx;">~</view>
+              <view style="width: 40rpx;">X</view>
               <input class="weui-input salary-input-value"/>
-              <view style="width: 40rpx; paddind-left: -20rpx">K</view>
+              <view style="width: 40rpx; paddind-left: -20rpx">月</view>
             </view>
           </view>
         </radio-group>

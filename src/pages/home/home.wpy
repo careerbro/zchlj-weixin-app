@@ -1,7 +1,7 @@
 <style scoped>
 .home-page-header {
   text-align: center;
-  background-color: #20B2AA;
+  background-color: #6f95ff;
   top: -1px;
   height: 30vh;
 }
@@ -36,7 +36,7 @@
 }
 
 .weui-search-bar {
-  background-color: #20B2AA;
+  background-color: #6f95ff;
   padding: 0;
   width: 70vh;
   border-style: none;
@@ -50,7 +50,7 @@
   <view class="container">
     <view class="home-page-header">
       <image class="applogo"
-      src="https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png"/>
+      src="../../images/logo.jpg"/>
       <view class='searchbar'>
         <view class='citybar'>
           <view class='city'>广州</view>
@@ -75,7 +75,7 @@
     </view>
     <view class="weui-panel weui-panel_access all-item-info">
       <repeat for="{{datalist}}" index="index" item="item">
-        <listitem :itemValue.sync="item"></listitem>
+        <SalaryItem :itemValue.sync="item"></SalaryItem>
       </repeat>
     </view>
   </view>
@@ -83,7 +83,7 @@
 
 <script>
   import wepy from 'wepy'
-  import listitem  from '../../components/listitem'
+  import SalaryItem  from '../../components/SalaryItem'
 
   export default class home extends wepy.page{
     config = {
@@ -91,7 +91,7 @@
     }
 
     components = {
-      listitem
+      SalaryItem
     }
 
     data = {

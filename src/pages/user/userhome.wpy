@@ -70,7 +70,7 @@
         <view class="weui-cells weui-cells_in-small-appmsg" @tap="goToPage('../system/feedback')">
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <image src="../../images/feedback.png" class='itemImageIcon' />
+              <image src="../../images/fankui.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>意见反馈</view>
@@ -85,7 +85,7 @@
         <view class="weui-cells weui-cells_in-small-appmsg">
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <image src="../../images/setting.png" class='itemImageIcon' @tap="setting"/>
+              <image src="../../images/shezhi.png" class='itemImageIcon' @tap="setting"/>
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>设置</view>
@@ -124,19 +124,6 @@
       },
       setting: function() {
             console.log('filePath')
-        wepy.downloadFile({
-          url: 'http://example.com/somefile.pdf',
-          success: function (res) {
-            var filePath = res.tempFilePath
-            console.log(filePath)
-            wepy.openDocument({
-              filePath: filePath,
-              success: function (res) {
-                console.log('打开文档成功')
-              }
-            })
-          }
-        })
       }
     }
 

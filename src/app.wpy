@@ -16,9 +16,10 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/login',
-      'pages/home/home',
       // 'pages/login',
+      // 'pages/salary/salaryInfo',
+      'pages/home/home',
+      'pages/login',
       // 'pages/index',
       'pages/user/userHome',
       'pages/user/userInfo',
@@ -26,17 +27,18 @@ export default class extends wepy.app {
       'pages/user/attentionList',
       'pages/system/feedback',
       'pages/salary/addSalary',
+      'pages/salary/salaryInfo',
       'pages/common/searchandselect'
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#20B2AA',
+      navigationBarBackgroundColor: '#6f95ff',
       navigationBarTitleText: ' 职场红领巾',
       navigationBarTextStyle: '#fff'
     },
     tabBar: {
       "color": "#707070",
-      "selectedColor": "#3CB371",
+      "selectedColor": "#6f95ff",
       "list": [
         {
           "pagePath": "pages/home/home",

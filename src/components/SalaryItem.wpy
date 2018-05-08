@@ -52,7 +52,7 @@
 }
 </style>
 <template>
-  <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+  <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active"  @tap="viewSalaryInfo">
     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
         <image class="weui-media-box__thumb" src="https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png" />
     </view>
@@ -80,11 +80,20 @@
 <script>
   import wepy from 'wepy'
 
-  export default class listitem extends wepy.component {
+  export default class SalaryItem extends wepy.component {
     props = {
       itemValue: {
         type: [Object],
         default: null
+      }
+    }
+
+    methods = {
+      viewSalaryInfo: function() {
+        console.log(111111)
+        wepy.navigateTo({
+          url: '../salary/salaryInfo',
+        })
       }
     }
   }
