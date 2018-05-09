@@ -1,9 +1,13 @@
 <style scoped>
 .home-page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
   text-align: center;
   background-color: #6f95ff;
   top: -1px;
-  height: 30vh;
+  height: 150rpx;
+  z-index: 100;
 }
 
 .applogo-box {
@@ -39,7 +43,7 @@
 
 .searchbar {
   display: flex;
-  padding: 0 4vh;
+  padding: 10rpx 10rpx 20rpx 20rpx;
 }
 
 .item-title {
@@ -53,10 +57,30 @@
   margin-top: 0;
 }
 
+.search-bar-city {
+  width: 120rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #fff;
+  line-height: 30px;
+  display: flex;
+}
+
+.search-bar-city-icon-box {
+  height: 30px;
+  width: 30rpx;
+}
+.search-bar-city-icon-image {
+  height: 30rpx;
+  width: 30rpx;
+  margin-left: 10rpx;
+  margin-top: 15rpx;
+}
+
 .weui-search-bar {
   background-color: #6f95ff;
   padding: 0;
-  width: 80vh;
+  width: 600rpx;
   border-style: none;
   border-radius: 50px;
 }
@@ -68,39 +92,103 @@
   border-radius: 50px;
 }
 
+.filter-bar {
+  font-size: 32rpx;
+  padding: 0 20rpx 20rpx 20rpx;
+  color: #fff;
+}
+.filter-bar-item {
+  display: flex;
+  margin:auto;
+  justify-content: center;
+}
+
+.all-item-info {
+  position: relative;
+  top: 160rpx;
+  width: 750rpx;
+}
 </style>
 
 
 <template>
   <view class="container">
     <view class="home-page-header">
-      <view class="applogo-box">
+      <!-- <view class="applogo-box">
         <image class="applogo" src="../../images/logo.jpg"/>
-      </view>
+      </view> -->
       <view class='searchbar'>
+        <view class="search-bar-city">
+          <view>广州</view>
+          <view class="search-bar-city-icon-box">
+            <image  wx:if="{{selectCity}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
+            <image  wx:if="{{!selectCity}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
+          </view>
+        </view>
         <view class="weui-search-bar">
           <view class="weui-search-bar__form">
-              <view class="weui-search-bar__box">
-                  <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                  <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
-                  <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
-                      <icon type="clear" size="14"></icon>
-                  </view>
+            <view class="weui-search-bar__box">
+                <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+                <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                    <icon type="clear" size="14"></icon>
+                </view>
+            </view>
+            <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                <icon class="weui-icon-search" type="search" size="14"></icon>
+                <view class="weui-search-bar__text">搜索公司/职位</view>
+            </label>
+          </view>
+        </view>
+      </view>
+      <view class="filter-bar">
+        <view class="weui-flex">
+          <view class="weui-flex__item">
+            <view class="filter-bar-item">
+              <view>公司</view>
+              <view class="search-bar-city-icon-box">
+                <image  wx:if="{{selectCompany}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
+                <image  wx:if="{{!selectCompany}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
               </view>
-              <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
-                  <icon class="weui-icon-search" type="search" size="14"></icon>
-                  <view class="weui-search-bar__text">搜索公司/职位</view>
-              </label>
+            </view>
+          </view>
+          <view class="weui-flex__item">
+            <view class="filter-bar-item">
+              <view>岗位</view>
+              <view class="search-bar-city-icon-box">
+                <image  wx:if="{{selectJob}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
+                <image  wx:if="{{!selectJob}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
+              </view>
+            </view>
+          </view>
+          <view class="weui-flex__item ">
+            <view class="filter-bar-item">
+              <view>学校</view>
+              <view class="search-bar-city-icon-box">
+                <image  wx:if="{{selectSchool}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
+                <image  wx:if="{{!selectSchool}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
+              </view>
+            </view>
+          </view>
+          <view class="weui-flex__item ">
+            <view class="filter-bar-item">
+              <view>排序</view>
+              <view class="search-bar-city-icon-box">
+                <image  wx:if="{{selectOrder}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
+                <image  wx:if="{{!selectOrder}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
+              </view>
+            </view>
           </view>
         </view>
       </view>
     </view>
-    <view class="item-title"> —— 猜你喜欢 ——</view>
+    <!-- <view class="item-title"> —— 猜你喜欢 ——</view> -->
     <view class="weui-panel weui-panel_access all-item-info">
       <repeat for="{{datalist}}" index="index" item="item">
         <SalaryItem :itemValue.sync="item"></SalaryItem>
       </repeat>
     </view>
+    <view wx:if="{{loadingMore}}">正在加载，请稍等...</view>
   </view>
 </template>
 
@@ -110,7 +198,6 @@
 
   export default class home extends wepy.page{
     config = {
-      navigationBarTitleText: ''
     }
 
     components = {
@@ -118,6 +205,12 @@
     }
 
     data = {
+      selectCity: false,
+      selectCompany: false,
+      selectJob: false,
+      selectSchool: false,
+      selectOrder: false,
+      loadingMore: false,
       datalist: [
         {
           job: 'Web前端高级开发工程师学习学习学习学习',
@@ -164,62 +257,34 @@
           xueli: '本科',
           date: '04-24'
         },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '1K-4K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '0-1年',
-          xueli: '本科',
-          date: '04-24'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '13K-15K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '04-24'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '1K-4K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '0-1年',
-          xueli: '本科',
-          date: '04-24'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '13K-15K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '04-24'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '1K-4K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '0-1年',
-          xueli: '本科',
-          date: '04-24'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '13K-15K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '04-24'
-        }
       ]
     }
+
+    onReachBottom() {
+      this.loadingMore = true;
+        this.$apply()
+      console.log(22222)
+      let temp = this.datalist;
+      for(let i of ['','','','','','']) {
+        temp.push({
+          job: 'Web前端高级开发工程师',
+          salary: '13K-15K',
+          company:'腾讯-运营开发',
+          city: '广州',
+          jingyan: '3-5年',
+          xueli: '本科',
+          date: '04-24'
+        })
+      }
+      setTimeout(() => {
+
+        this.datalist = temp;
+        this.loadingMore = false;
+        this.$apply()
+      }, 3000);
+    }
+
+
 
     onLoad() {
       // wepy.navigateTo({

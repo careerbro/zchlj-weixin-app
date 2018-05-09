@@ -20,10 +20,10 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/login',
+      // 'pages/login',
       // 'pages/salary/salaryInfo',
       'pages/home/home',
-      // 'pages/login',
+      'pages/login',
       // 'pages/index',
       'pages/user/userHome',
       'pages/user/userInfo',
@@ -39,6 +39,7 @@ export default class extends wepy.app {
     ],
     window: {
       backgroundTextStyle: 'light',
+      backgroundColor: '#6f95ff',
       navigationBarBackgroundColor: '#6f95ff',
       navigationBarTitleText: ' 职场红领巾',
       navigationBarTextStyle: '#fff'
