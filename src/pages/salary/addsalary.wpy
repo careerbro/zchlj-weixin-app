@@ -2,6 +2,11 @@
 /* .select-input-value {
   text-align: right;
 } */
+.page {
+  padding-top: 20rpx;
+  margin-top: -20rpx;
+}
+
 .weui-cells {
   font-size: 32rpx;
 }
@@ -43,10 +48,6 @@
 <template>
   <view class="container weui-mask">
     <view class='page'>
-    <view class="page__hd">
-        <view class="page__title"></view>
-        <!-- <view class="page__desc">面板</view> -->
-    </view>
     <view class="page__bd">
       <view class="weui-cells__title">公司信息</view>
       <view class="weui-cells weui-cells_after-title">
