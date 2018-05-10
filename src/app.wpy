@@ -16,14 +16,13 @@ button[type = primary] {
 import wepy from 'wepy'
 import 'wepy-async-function'
 
-
 export default class extends wepy.app {
   config = {
     pages: [
       // 'pages/login',
       // 'pages/salary/salaryInfo',
       'pages/home/home',
-      'pages/login',
+      // 'pages/login',
       // 'pages/index',
       'pages/user/userHome',
       'pages/user/userInfo',
@@ -76,11 +75,12 @@ export default class extends wepy.app {
 
   constructor () {
     super()
-    this.use('requestfix')
+    this.use('requestfix');
+    this.use('promisify');
   }
 
   onLaunch() {
-    this.testAsync()
+    // this.getUserInfo()
   }
 
   sleep (s) {
@@ -91,10 +91,10 @@ export default class extends wepy.app {
     })
   }
 
-  async testAsync () {
-    const data = await this.sleep(3)
-    console.log(data)
-  }
+  // async testAsync () {
+  //   const data = await this.sleep(3)
+  //   console.log(data)
+  // }
 
   getUserInfo(cb) {
     const that = this

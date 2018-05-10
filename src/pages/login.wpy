@@ -34,6 +34,8 @@
 
 .login-form {
   height: 60vh;
+  width: 550rpx;
+  margin: 0 100rpx;
 }
 
 .input-form {
@@ -51,7 +53,7 @@
 .button-sp-area {
   padding-top: 1em;
   width: 550rpx;
-  margin: 0 100rpx;
+  /* margin: 0 100rpx; */
 }
 
 .note-box {
@@ -74,7 +76,7 @@
       <view class="title">职场红领巾</view>
       <view class="description">一个为你确定方向的平台</view>
     </view>
-    <view class="login-form">
+    <view wx:if="{{noLogin}}" class="login-form">
       <view class="input-form">
         <input class="weui-input" placeholder = "请填写你的学校中/英全称"/>
       </view>
@@ -87,8 +89,8 @@
         </view>
       </view>
       <view class="note-box">
-        <view class="note"> · 学校不会显示在用户所爆料的薪资信息</view>
-        <view class="note"> · 邮箱将会收到每周整理的所关注公司的更新的薪资信息，同样不会显示在用户所爆料的薪资信息中</view>
+        <view class="note"> · 信息不会显示在用户所爆料的薪资信息</view>
+        <view class="note"> · 邮箱将会收到关注公司的更新薪资信息</view>
       </view>
     </view>
     <view class="important-info">本平台坚决保护个人信息，解决你的后顾之忧</view>
@@ -97,6 +99,7 @@
 
 <script>
   import wepy from 'wepy'
+  import Api from '../config/api.js'
 
   export default class login extends wepy.page{
     config = {
@@ -104,11 +107,9 @@
     }
 
     data = {
-      first: true,
-      second: false,
+      noLogin: false,
       school: '',
       email: '',
-
     }
 
     methods = {
@@ -118,14 +119,46 @@
         //  wepy.navigateBack({
         //   delta: 1
         // });
-        wepy.showToast({
-            title: '您是职场红领巾第**位来自**大学的用户',
-            duration: 3000
-        });
+        // wepy.showToast({
+        //     title: '您是职场红领巾第**位来自**大学的用户',
+        //     duration: 3000
+        // });
         wepy.switchTab({
           url: 'home/home'
         })
       },
+    }
+
+    userLogin() {
+
+    }
+
+    checkUserLogin(code) {
+      const url = Api.host + Api.login + '/' + code
+      console.log(url)
+
+      wepy.request({
+        url: url,
+        header: {
+          'content-type': 'application/json;charset=UTF-8'
+        },
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == '101') {
+          this.noLogin = true
+          this.$apply()
+        } else if(res.data.code == '0') {
+          this.goHome()
+        }
+      })
+    }
+
+    onLoad() {
+      let that = this
+      wepy.login().then(res => {
+        console.log(res)
+        that.checkUserLogin(res.code)
+      })
     }
   }
 </script>

@@ -192,7 +192,7 @@
       </view>
     </view>
     <!-- <view class="item-title"> —— 猜你喜欢 ——</view> -->
-    <scroll-view scroll-y  class="scroll-view-box" @scrolltoupper="scrolltoupper" @scrolltolower="scrolltolower">
+    <scroll-view scroll-y upper-threshold="{{10}}" class="scroll-view-box" @scrolltoupper="scrolltoupper" @scrolltolower="scrolltolower">
       <view class="loading-info" wx:if="{{loadingNew}}">
         <image class="loading-image" src="../../images/Rolling-1s-32px.svg" />
         <view>正在加载...</view>
