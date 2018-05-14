@@ -173,7 +173,7 @@
               <view class="weui-label">工作经验</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="请输入工作月份"/>
+              <input class="weui-input" placeholder="请输入工作月数"/>
           </view>
         </view>
         <view class="weui-cell weui-cell_input">
@@ -181,7 +181,9 @@
               <view class="weui-label">Offer时间</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="请输入得到Offer时间" />
+            <picker mode="date" value="{{offerDate}}" fields="month" @change="bindDateChange">
+              <input class="weui-input" value="{{offerDate}}" placeholder="请选择得到Offer时间" disabled/>
+            </picker>
           </view>
         </view>
         <view class="weui-cell weui-cell_input">
@@ -243,7 +245,8 @@
       hangye: '',
       job: '',
       schoolName: '',
-      secectSalary: 'month'
+      secectSalary: 'month',
+      offerDate: ''
     }
 
     methods = {
@@ -318,6 +321,11 @@
 
       changeSelectSalary: function(type) {
         this.secectSalary = type;
+      },
+
+      bindDateChange: function(e) {
+        // console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.offerDate = e.detail.value
       }
     }
   }

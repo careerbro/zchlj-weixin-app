@@ -11,6 +11,12 @@
   width: 750rpx;
 }
 
+button[size = mini] {
+  font-size: 26rpx;
+  line-height: 60rpx;
+  padding: 0;
+}
+
 .applogo-box {
   padding-bottom: 3vh;
   height: 150rpx;
@@ -37,9 +43,9 @@
 }
 
 .item-title {
-  text-align: center;
-  font-size: 30rpx;
-  padding: 10rpx 0 0 0;
+  /* text-align: center; */
+  font-size: 25rpx;
+  padding: 5rpx 0 5rpx 10rpx;
   color: #696969;
 }
 
@@ -84,7 +90,7 @@
 
 .filter-bar {
   font-size: 32rpx;
-  padding: 0 20rpx 20rpx 20rpx;
+  padding: 0 20rpx 10rpx 20rpx;
   color: #fff;
 }
 .filter-bar-item {
@@ -94,9 +100,9 @@
 }
 
 .scroll-view-box {
-  height: 84vh;
+  height: 85vh;
   position: fixed;
-  top: 16vh;
+  top: 15vh;
 }
 .all-item-info {
   /* position: relative; */
@@ -117,6 +123,57 @@
   padding-top: 5rpx;
   padding-left: -4rpx;
 }
+
+.mask{
+  justify-content: space-between;
+  background-color:rgba(0, 0, 0, 0.4);
+  position: fixed;
+  z-index: 10;
+  transition: all 1s ease;
+  overflow: hidden;
+  height: 85vh;
+  top: 15vh;
+  width: 750rpx;
+}
+
+.filter-detail-box-sort {
+  position: fixed;
+  top: 15vh;
+  height: 240rpx;
+  z-index: 20;
+  background-color: #F5F5F5;
+  width: 750rpx;
+  padding: 10rpx;
+}
+.filter-detail-box-other {
+  position: fixed;
+  top: 15vh;
+  height: 800rpx;
+  z-index: 20;
+  background-color: #F5F5F5;
+  width: 750rpx;
+  padding: 10rpx;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.filter-button {
+  margin: 0 10rpx;
+  justify-content: center;
+  text-align: center;
+  height: 60rpx;
+}
+.filter-bottom-btn-box {
+  position:absolute;
+  bottom: 10rpx;
+  width: 730rpx;
+  height: 90rpx;
+}
+.filter-bottom-btn {
+  width: 90%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+}
 </style>
 
 
@@ -127,7 +184,7 @@
         <image class="applogo" src="../../images/logo.jpg"/>
       </view> -->
       <view class='searchbar'>
-        <view class="search-bar-city">
+        <view class="search-bar-city" @tap="selectFilterDetail(0)">
           <view>广州</view>
           <view class="search-bar-city-icon-box">
             <image  wx:if="{{selectCity}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
@@ -138,12 +195,12 @@
           <view class="weui-search-bar__form">
             <view class="weui-search-bar__box">
                 <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
-                <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" />
+                <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" @tap="clearInput">
                     <icon type="clear" size="14"></icon>
                 </view>
             </view>
-            <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+            <label class="weui-search-bar__label" hidden="{{inputShowed}}" @tap="showInput">
                 <icon class="weui-icon-search" type="search" size="14"></icon>
                 <view class="weui-search-bar__text">搜索公司/职位</view>
             </label>
@@ -152,7 +209,7 @@
       </view>
       <view class="filter-bar">
         <view class="weui-flex">
-          <view class="weui-flex__item">
+          <view class="weui-flex__item" @tap="selectFilterDetail(1)">
             <view class="filter-bar-item">
               <view>公司</view>
               <view class="search-bar-city-icon-box">
@@ -161,7 +218,7 @@
               </view>
             </view>
           </view>
-          <view class="weui-flex__item">
+          <view class="weui-flex__item" @tap="selectFilterDetail(2)">
             <view class="filter-bar-item">
               <view>岗位</view>
               <view class="search-bar-city-icon-box">
@@ -170,7 +227,7 @@
               </view>
             </view>
           </view>
-          <view class="weui-flex__item ">
+          <view class="weui-flex__item" @tap="selectFilterDetail(3)">
             <view class="filter-bar-item">
               <view>学校</view>
               <view class="search-bar-city-icon-box">
@@ -179,7 +236,7 @@
               </view>
             </view>
           </view>
-          <view class="weui-flex__item ">
+          <view class="weui-flex__item" @tap="selectFilterDetail(4)">
             <view class="filter-bar-item">
               <view>排序</view>
               <view class="search-bar-city-icon-box">
@@ -204,6 +261,35 @@
       </view>
       <view class="loading-info" wx:if="{{loadingMore}}">正在加载，请稍等...</view>
     </scroll-view>
+
+    <!-- 遮罩层与下拉选择框 -->
+    <view class="mask" wx:if="{{showMask}}" @tap="closeFilterDetail"></view>
+    <view class="filter-detail-box-sort" wx:if="{{showFilterDetailOrder}}">
+      <view class="item-title">排序标准</view>
+      <view>
+        <button style="width: 350rpx" class="weui-btn mini-btn filter-button" type="primary" size="mini">offer时间</button>
+        <button style="width: 350rpx" class="weui-btn mini-btn filter-button" type="default" size="mini">发布时间</button>
+      </view>
+      <view class="item-title">顺序</view>
+      <view>
+        <button style="width: 350rpx" class="weui-btn mini-btn filter-button" type="primary" size="mini">智能排序</button>
+        <button style="width: 350rpx" class="weui-btn mini-btn filter-button" type="default" size="mini">时间排序</button>
+      </view>
+    </view>
+    <view class="filter-detail-box-other" wx:if="{{showFilterDetailOther}}">
+      <repeat for="{{filterList}}" item="item">
+        <view class="item-title">{{item.name}}</view>
+        <view>
+          <repeat for="{{item.value}}" item="item1">
+            <button style="width: 165rpx" class="weui-btn mini-btn filter-button" type="default" size="mini">{{item1}}</button>
+          </repeat>
+        </repeat>
+        </view>
+      </repeat>
+      <view class="filter-bottom-btn-box"  wx:if="{{!selectCity}}">
+        <button class="weui-btn mini-btn filter-bottom-btn" type="primary">确定</button>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -220,6 +306,11 @@
     }
 
     data = {
+      inputShowed: false,
+      inputVal: '',
+      showMask: false,    // 控制显示遮罩层
+      showFilterDetailOrder: false,
+      showFilterDetailOther: false,
       selectCity: false,
       selectCompany: false,
       selectJob: false,
@@ -235,7 +326,7 @@
           city: '广州',
           jingyan: '1-3年',
           xueli: '本科',
-          date: '04-24'
+          date: '2018-05'
         },
         {
           job: 'Web前端高级开发工程师',
@@ -244,7 +335,7 @@
           city: '广州',
           jingyan: '0-1年',
           xueli: '本科',
-          date: '04-24'
+          date: '2018-05'
         },
         {
           job: 'Web前端高级开发工程师',
@@ -253,7 +344,7 @@
           city: '广州',
           jingyan: '3-5年',
           xueli: '本科',
-          date: '04-24'
+          date: '2018-05'
         },
         {
           job: 'Web前端高级开发工程师',
@@ -262,7 +353,7 @@
           city: '广州',
           jingyan: '0-1年',
           xueli: '本科',
-          date: '04-24'
+          date: '2018-05'
         },
         {
           job: 'Web前端高级开发工程师',
@@ -271,8 +362,29 @@
           city: '广州',
           jingyan: '3-5年',
           xueli: '本科',
-          date: '04-24'
+          date: '2018-05'
         },
+      ],
+      filterList: null,
+      cityList: [
+        {name: '热门', value: ['北京','上海','广州','深圳','杭州','成都','南京','武汉','西安','厦门','长沙','苏州']},
+        {name: 'ABCDEF', value: ['北京','上海','广州','深圳','杭州','成都','南京','武汉','西安','厦门','长沙','苏州']},
+        {name: '热门', value: ['北京','上海','广州','深圳','杭州','成都','南京','武汉','西安','厦门','长沙','苏州']},
+        {name: '热门', value: ['北京','上海','广州','深圳','杭州','成都','南京','武汉','西安','厦门','长沙','苏州']},
+      ],
+      jobList: [
+        {name: '月薪范围', value: ['2K以下','2K-5K','5K-10K','10K-15K','15K以上']},
+        {name: '工作经验', value: ['3月以下','3月-6月','6月-9月','9月-1年','1-3年','3年以上']},
+        {name: '学历', value: ['博士','硕士','本科','大专','不限']},
+        {name: '工作性质', value: ['全职','兼职','实习']},
+      ],
+      companyList: [
+        {name: '热门公司', value: ['腾讯','恒大集团','阿里巴巴','工商银行','中国移动','中国石化']},
+        {name: '行业领域', value: ['不限','互联网','电子商务','社交网络','企业服务','O2O','教育','游戏','金融']},
+      ],
+      schoolList: [
+        {name: '排名', value: ['C9','常青藤','985','211','本科']},
+        {name: '国家', value: ['中国','美国','英国','法国','日本']},
       ]
     }
 
@@ -281,9 +393,88 @@
         this.onReachBottom()
       },
       scrolltoupper: function() {
-        this.loadingNew = true;
+        // this.loadingNew = true;
+        // this.$apply()
+      },
+
+      selectFilterDetail: function(e) {
+        if(e == 4) {
+          this.showMask = !this.showFilterDetailOrder
+          this.showFilterDetailOrder = !this.showFilterDetailOrder
+          this.selectOrder = !this.selectOrder
+          this.showFilterDetailOther = false
+          this.selectCity = false;
+          this.selectCompany = false;
+          this.selectJob = false;
+          this.selectSchool = false;
+        } else {
+          // this.showFilterDetailOther = !this.showFilterDetailOther
+          this.showFilterDetailOrder = false
+          this.selectOrder = false
+          if(e == 0) {
+            this.showFilterDetailOther = !this.selectCity
+            this.showMask = !this.selectCity
+            this.selectCity = !this.selectCity
+            this.filterList = this.cityList
+            this.selectCompany = false;
+            this.selectJob = false;
+            this.selectSchool = false;
+          } else if(e == 1) {
+            this.showFilterDetailOther = !this.selectCompany
+            this.showMask = !this.selectCompany
+            this.selectCompany = !this.selectCompany
+            this.filterList = this.companyList
+            this.selectCity = false;
+            this.selectJob = false;
+            this.selectSchool = false;
+          } else if(e == 2) {
+            this.showFilterDetailOther = !this.selectJob
+            this.showMask = !this.selectJob
+            this.selectJob = !this.selectJob
+            this.filterList = this.jobList
+            this.selectCity = false;
+            this.selectCompany = false;
+            this.selectSchool = false;
+          } else if(e == 3) {
+            this.showFilterDetailOther = !this.selectSchool
+            this.showMask = !this.selectSchool
+            this.selectSchool = !this.selectSchool
+            this.filterList = this.schoolList
+            this.selectCity = false;
+            this.selectCompany = false;
+            this.selectJob = false;
+          }
+        }
+        console.log(this.showMask)
         this.$apply()
-      }
+      },
+
+      closeFilterDetail: function() {
+        this.showFilterDetailOrder = false
+        this.showFilterDetailOther = false
+        this.selectCity = false;
+        this.selectCompany = false;
+        this.selectJob = false;
+        this.selectSchool = false;
+        this.showMask =false;
+        this.$apply()
+      },
+
+      inputTyping: function(e) {
+        this.inputVal = e.detail.value
+      },
+      showInput: function() {
+        console.log(11111)
+        this.showInput = true
+        this.showFilterDetailOrder = false
+        this.showFilterDetailOther = false
+        this.selectCity = false;
+        this.selectCompany = false;
+        this.selectJob = false;
+        this.selectSchool = false;
+        this.showMask =false;
+        this.$apply()
+      },
     }
 
     onReachBottom() {
@@ -298,7 +489,7 @@
           city: '广州',
           jingyan: '3-5年',
           xueli: '本科',
-          date: '04-24'
+          date: '2018-05'
         })
       }
       setTimeout(() => {

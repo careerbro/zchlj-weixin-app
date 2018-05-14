@@ -8,7 +8,7 @@
 }
 
 button[type = primary] {
-  background-color: #5C8FCC;
+  background-color: #6f95ff;
 }
 </style>
 

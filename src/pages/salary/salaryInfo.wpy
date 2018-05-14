@@ -38,9 +38,9 @@
   }
 
   .option-zantong {
-    width: 220rpx;
+    width: 300rpx;
     padding-top: 10rpx;
-    padding-left: 15rpx;
+    padding-left: 30rpx;
   }
 
   .option-zantong-label {
@@ -49,7 +49,7 @@
   }
 
   .option-buzantong {
-    width: 70rpx;
+    width: 110rpx;
     padding-top: 10rpx;
   }
 
@@ -192,12 +192,12 @@
         </view>
         <view class="option-other-label">评论</view>
       </view>
-      <view class="option-other" @tap="reportThisItem">
+      <!-- <view class="option-other" @tap="reportThisItem">
         <view>
           <image class="option-other-icon" src="../../images/import2.png" />
         </view>
         <view class="option-other-label">举报</view>
-      </view>
+      </view> -->
     </view>
   </view>
 </template>
