@@ -107,7 +107,7 @@
     }
 
     data = {
-      noLogin: false,
+      noLogin: true,
       school: '',
       email: '',
     }
@@ -116,15 +116,8 @@
 
       goHome: function () {
         console.log('go to home')
-        //  wepy.navigateBack({
-        //   delta: 1
-        // });
-        // wepy.showToast({
-        //     title: '您是职场红领巾第**位来自**大学的用户',
-        //     duration: 3000
-        // });
-        wepy.switchTab({
-          url: 'home/home'
+        wepy.navigateTo({
+          url: 'loading?number=100&school=北京大学'
         })
       },
     }

@@ -3,6 +3,7 @@ export default {
   host: 'http://10.1.2.9:8080',
 
   user: '/careerbro/user/user',
+  getUserSum: '/careerbro/user/sum',
 
   login: '/careerbro/sys/login',
 
