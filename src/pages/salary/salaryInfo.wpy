@@ -1,4 +1,13 @@
 <style scoped>
+  .salary-info {
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 91vh;
+    width: 750rpx;
+  }
   .company-info {
     width: 100%;
     padding-top: 20rpx;
@@ -28,10 +37,10 @@
   }
 
   .footer-option-cell {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
-    height: 100rpx;
+    height: 8vh;
     background-color: #ffffff;
     text-align: center;
     overflow: hidden;
@@ -44,8 +53,8 @@
   }
 
   .option-zantong-label {
-    font-size: 28rpx;
-    padding: 20rpx 5rpx;
+    font-size: 32rpx;
+    padding: 1.5vh 10rpx;
   }
 
   .option-buzantong {
@@ -63,9 +72,9 @@
   }
 
   .option-other-icon {
-    height: 60rpx;
-    width: 60rpx;
-    padding-top: 10rpx;
+    height: 40rpx;
+    width: 40rpx;
+    padding-top: 20rpx;
   }
 
   .option-other-label {
@@ -77,127 +86,139 @@
 
 <template>
   <view class="container">
-    <view class="company-info">
-      <view class="weui-panel weui-panel_access ">
-        <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
-          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <image class="weui-media-box__thumb" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525702730448&di=844c3e7e3fb2a0c9e7038bfd7d0d4ef4&imgtype=0&src=http%3A%2F%2Fimg.yzmg.com%2F201605%2F20160502%2F2016050210575134.jpg" />
-          </view>
-          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-              <view class="weui-media-box__title">腾讯科技</view>
-              <view class="weui-media-box__desc">互联网</view>
-          </view>
-        </view>
-      </view>
-    </view>
-
-    <view class="weui-panel">
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <!-- <view class="weui-cells weui-cells_in-small-appmsg"> -->
-          <view class="weui-cell weui-cell_access job-cell" hover-class="weui-cell_active">
-            <view class="weui-cell__bd weui-cell_primary">
-                <view>Web前端高级开发工程师</view>
+    <view class="salary-info">
+      <view class="company-info">
+        <view class="weui-panel weui-panel_access ">
+          <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                <image class="weui-media-box__thumb" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525702730448&di=844c3e7e3fb2a0c9e7038bfd7d0d4ef4&imgtype=0&src=http%3A%2F%2Fimg.yzmg.com%2F201605%2F20160502%2F2016050210575134.jpg" />
             </view>
-            <view class="job-share" @tap="shareThisItemToOther">
-              <image class="job-share-icon" src="../../images/fenxiang1.png" />
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">腾讯科技</view>
+                <view class="weui-media-box__desc">互联网</view>
             </view>
-          </view>
-        <!-- </view> -->
-      </view>
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
-          <view class="weui-cell__bd weui-cell_primary">
-              <view class="label">薪资</view>
-              <view class="value">20x16/年</view>
-          </view>
-        </view>
-      </view>
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
-          <view class="weui-cell__bd weui-cell_primary">
-              <view class="label">学习背景</view>
-              <view class="value">985高校</view>
-          </view>
-        </view>
-      </view>
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
-          <view class="weui-cell__bd weui-cell_primary">
-              <view class="label">工作经验</view>
-              <view class="value">1年</view>
-          </view>
-        </view>
-      </view>
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
-          <view class="weui-cell__bd weui-cell_primary">
-              <view class="label">地点</view>
-              <view class="value">深圳</view>
           </view>
         </view>
       </view>
 
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
-          <view class="weui-cell__bd weui-cell_primary">
-              <view class="label">福利信息</view>
-              <view class="value">
-                <view>包食宿</view>
-                <view>交通补贴</view>
-                <view>解决户口</view>
+      <view class="weui-panel">
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <!-- <view class="weui-cells weui-cells_in-small-appmsg"> -->
+            <view class="weui-cell weui-cell_access job-cell" hover-class="weui-cell_active">
+              <view class="weui-cell__bd weui-cell_primary">
+                  <view>Web前端高级开发工程师</view>
               </view>
+              <!-- <view class="job-share" @tap="shareThisItemToOther">
+                <image class="job-share-icon" src="../../images/fenxiang1.png" />
+              </view> -->
+            </view>
+          <!-- </view> -->
+        </view>
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">薪资</view>
+                <view class="value">20x16/年</view>
+            </view>
           </view>
         </view>
-      </view>
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">学习背景</view>
+                <view class="value">985高校</view>
+            </view>
+          </view>
+        </view>
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">工作经验</view>
+                <view class="value">1年</view>
+            </view>
+          </view>
+        </view>
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">地点</view>
+                <view class="value">深圳</view>
+            </view>
+          </view>
+        </view>
 
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
-          <view class="weui-cell__bd weui-cell_primary">
-              <view class="label">Offer发放时间</view>
-              <view class="value">2017-08</view>
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">福利信息</view>
+                <view class="value">
+                  <view>包食宿</view>
+                  <view>交通补贴</view>
+                  <view>解决户口</view>
+                </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">Offer发放时间</view>
+                <view class="value">2017-08</view>
+            </view>
           </view>
         </view>
       </view>
     </view>
-  </view>
-
-  <view class="footer-option-cell">
-    <view class="weui-flex">
-      <view class="option-zantong">
-        <view class="zantong-box">
-          <image class="option-other-icon" src="../../images/zantong5.png" />
-          <view class="option-zantong-label">已赞同9999</view>
+    <view class="footer-option-cell">
+      <view class="weui-flex">
+        <view class="option-zantong">
+          <view class="zantong-box">
+            <image wx:if="{{zantong}}" class="option-other-icon" src="../../images/zantong1.png" />
+            <image wx:if="{{!zantong}}" class="option-other-icon" src="../../images/zantong2.png" />
+            <view wx:if="{{zantong}}" class="option-zantong-label">已赞同9999</view>
+            <view wx:if="{{!zantong}}" class="option-zantong-label">赞同9999</view>
+          </view>
         </view>
+        <view class="option-buzantong">
+          <view class="zantong-box">
+            <image wx:if="{{buzantong}}" class="option-other-icon" src="../../images/zantong-no1.png" />
+            <image wx:if="{{!buzantong}}" class="option-other-icon" src="../../images/zantong-no2.png" />
+          </view>
+        </view>
+        <view class="option-other">
+          <view>
+            <image wx:if="{{ganxie}}" class="option-other-icon" src="../../images/ganxie5.png" />
+            <image wx:if="{{!ganxie}}" class="option-other-icon" src="../../images/ganxie4.png" />
+          </view>
+          <view class="option-other-label">感谢</view>
+        </view>
+        <view class="option-other">
+          <view>
+            <image wx:if="{{shoucang}}" class="option-other-icon" src="../../images/shoucang5.png" />
+            <image wx:if="{{!shoucang}}" class="option-other-icon" src="../../images/shoucang4.png" />
+          </view>
+          <view class="option-other-label">收藏</view>
+        </view>
+        <view class="option-other">
+          <view>
+            <image class="option-other-icon" src="../../images/pinglun.png" />
+          </view>
+          <view class="option-other-label">评论</view>
+        </view>
+        <view class="option-other" @tap="reportThisItem">
+          <view>
+            <image class="option-other-icon" src="../../images/fenxiang.png" />
+          </view>
+          <view class="option-other-label">分享</view>
+        </view>
+        <!-- <view class="option-other" @tap="reportThisItem">
+          <view>
+            <image class="option-other-icon" src="../../images/import2.png" />
+          </view>
+          <view class="option-other-label">举报</view>
+        </view> -->
       </view>
-      <view class="option-buzantong">
-        <view class="zantong-box">
-          <image class="option-other-icon" src="../../images/zantong6.png" />
-        </view>
-      </view>
-      <view class="option-other">
-        <view>
-          <image class="option-other-icon" src="../../images/ganxie2.png" />
-        </view>
-        <view class="option-other-label">感谢</view>
-      </view>
-      <view class="option-other">
-        <view>
-          <image class="option-other-icon" src="../../images/shoucang2.png" />
-        </view>
-        <view class="option-other-label">收藏</view>
-      </view>
-      <view class="option-other">
-        <view>
-          <image class="option-other-icon" src="../../images/pinglun.png" />
-        </view>
-        <view class="option-other-label">评论</view>
-      </view>
-      <!-- <view class="option-other" @tap="reportThisItem">
-        <view>
-          <image class="option-other-icon" src="../../images/import2.png" />
-        </view>
-        <view class="option-other-label">举报</view>
-      </view> -->
     </view>
   </view>
 </template>
@@ -216,6 +237,10 @@
       school: '',
       email: '',
       salaryInfo: null,
+      ganxie: false,
+      shoucang: false,
+      zantong: false,
+      buzantong: false,
     }
 
     methods = {

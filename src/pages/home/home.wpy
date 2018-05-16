@@ -464,8 +464,7 @@ button[size = mini] {
         this.inputVal = e.detail.value
       },
       showInput: function() {
-        console.log(11111)
-        this.showInput = true
+        this.inputShowed = true
         this.showFilterDetailOrder = false
         this.showFilterDetailOther = false
         this.selectCity = false;
@@ -474,6 +473,11 @@ button[size = mini] {
         this.selectSchool = false;
         this.showMask =false;
         this.$apply()
+      },
+
+      clearInput: function() {
+        this.inputVal = ''
+        this.inputShowed = false
       },
     }
 

@@ -42,6 +42,18 @@
   text-align: center;
 }
 
+.mask{
+  justify-content: space-between;
+  background-color:rgba(0, 0, 0, 0.4);
+  position: fixed;
+  z-index: 10;
+  transition: all 1s ease;
+  overflow: hidden;
+  height: 100vh;
+  top: 0;
+  width: 750rpx;
+}
+
 </style>
 
 
@@ -215,6 +227,8 @@
   <modal hidden="{{addItemForm}}" title="{{addItemFormTitle}}" confirm-text="提交" cancel-text="取消" bindcancel="cancelAdd" bindconfirm="confirmAdd">
       <input type='text' placeholder="请输入福利信息" bindinput="bindInput"/>
   </modal>
+  <view class="mask" wx:if="{{showMask}}" @tap="closeMask"></view>
+
   </view>
 </template>
 
@@ -227,6 +241,7 @@
     }
 
     data = {
+      showMask: false,
       fuliInfos: [
       { name: '包食宿', value: '包食宿', checked: false },
       { name: '交通补贴', value: '交通补贴', checked: false },
@@ -250,6 +265,10 @@
     }
 
     methods = {
+      closeMask: function() {
+        this.showMask = false
+      },
+
       clickFuliItem: function(e) {
         let fuliitem = e.currentTarget.dataset.fuliitem;
         console.log(fuliitem)

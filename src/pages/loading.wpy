@@ -135,6 +135,10 @@
       const url = Api.host + Api.getUserSum
       console.log(url)
 
+      setTimeout(() => {
+        this.goHome();
+      }, 3000);
+
       wepy.request({
         url: url,
         header: {
@@ -142,9 +146,6 @@
         },
       }).then(res => {
         console.log(res.data)
-        setTimeout(() => {
-          this.goHome();
-        }, 3000);
         if(res.data.code == '0') {
           // this.goHome()
         }
