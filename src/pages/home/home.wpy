@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  text-align: center;
+  /* text-align: center; */
   background-color: #6f95ff;
   top: -1px;
   height: 15vh;
@@ -195,7 +195,7 @@ button[size = mini] {
           <view class="weui-search-bar__form">
             <view class="weui-search-bar__box">
                 <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" />
+                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" @blur="inputOver"/>
                 <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" @tap="clearInput">
                     <icon type="clear" size="14"></icon>
                 </view>
@@ -480,6 +480,12 @@ button[size = mini] {
         this.inputVal = ''
         this.inputShowed = false
       },
+
+      inputOver: function() {
+        if(this.inputVal == '') {
+          this.inputShowed = false
+        }
+      }
     }
 
     onReachBottom() {

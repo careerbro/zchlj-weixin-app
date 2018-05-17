@@ -137,7 +137,7 @@
 
       setTimeout(() => {
         this.goHome();
-      }, 3000);
+      }, 1500);
 
       wepy.request({
         url: url,
