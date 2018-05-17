@@ -16,21 +16,13 @@
     padding-left: 0.5em;
   }
 
-  .kf_button{
-    background-color: rgba(255, 255, 255, 0);
-    border: 0px;
-    height: 100rpx;
-    right: 0;
-    bottom: 20rpx;
-    position: fixed;
-  }
-  .kf_button::after{
-    border: 0px;
-  }
-  .kf_image{
-    z-index: 9999;
-    width: 100rpx;
-    height: 100rpx;
+  button{
+    padding:0;
+    font-size:17px;
+    line-height:17px;
+    text-align:left;
+    position:initial;
+    background-color:inherit;
   }
 
 </style>
@@ -96,16 +88,21 @@
             </view>
           </view>
         </view>
-        <!-- <view class="weui-cells weui-cells_in-small-appmsg">
+      </view>
+    </view>
+
+    <view class="weui-panel">
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cells weui-cells_in-small-appmsg">
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
             <view class="weui-cell__hd">
-              <image src="../../images/fankui.png" class='itemImageIcon' />
+              <image src="../../images/kefu.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
               <button class="contact-button" open-type="contact">我的客服</button>
             </view>
           </view>
-        </view> -->
+        </view>
       </view>
     </view>
 
@@ -123,12 +120,6 @@
         </view>
       </view>
     </view>
-
-
-    <!-- <button class="kf_button" open-type="contact" session-from="weapp">
-        <image class="kf_image" src="../../images/kefu.png"></image>
-    </button> -->
-
 
     <view class="weui-footer weui-footer_fixed-bottom">
         <view class="weui-footer__text">Copyright © 2018-2020 职场红领巾</view>

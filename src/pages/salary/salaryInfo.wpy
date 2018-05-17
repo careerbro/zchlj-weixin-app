@@ -172,33 +172,33 @@
     </view>
     <view class="footer-option-cell">
       <view class="weui-flex">
-        <view class="option-zantong">
+        <view class="option-zantong" @tap="zantongThisItem">
           <view class="zantong-box">
             <image wx:if="{{zantong}}" class="option-other-icon" src="../../images/zantong1.png" />
             <image wx:if="{{!zantong}}" class="option-other-icon" src="../../images/zantong2.png" />
-            <view wx:if="{{zantong}}" class="option-zantong-label">已赞同9999</view>
+            <view wx:if="{{zantong}}" class="option-zantong-label" style="color: #6f95ff">已赞同9999</view>
             <view wx:if="{{!zantong}}" class="option-zantong-label">赞同9999</view>
           </view>
         </view>
-        <view class="option-buzantong">
+        <view class="option-buzantong" @tap="buzantongThisItem">
           <view class="zantong-box">
             <image wx:if="{{buzantong}}" class="option-other-icon" src="../../images/zantong-no1.png" />
             <image wx:if="{{!buzantong}}" class="option-other-icon" src="../../images/zantong-no2.png" />
           </view>
         </view>
-        <view class="option-other">
+        <view class="option-other" @tap="thankThisItem">
           <view>
             <image wx:if="{{ganxie}}" class="option-other-icon" src="../../images/ganxie5.png" />
             <image wx:if="{{!ganxie}}" class="option-other-icon" src="../../images/ganxie4.png" />
           </view>
-          <view class="option-other-label">感谢</view>
+          <view class="option-other-label" style="{{ganxie? 'color: #6f95ff' : ''}}">感谢</view>
         </view>
-        <view class="option-other">
+        <view class="option-other" @tap="shoucangThisItem">
           <view>
             <image wx:if="{{shoucang}}" class="option-other-icon" src="../../images/shoucang5.png" />
             <image wx:if="{{!shoucang}}" class="option-other-icon" src="../../images/shoucang4.png" />
           </view>
-          <view class="option-other-label">收藏</view>
+          <view class="option-other-label" style="{{shoucang? 'color: #6f95ff' : ''}}">收藏</view>
         </view>
         <view class="option-other">
           <view>
@@ -266,7 +266,25 @@
         wepy.showShareMenu({
           withShareTicket: true
         })
-      }
+      },
+
+      thankThisItem: function() {
+        this.ganxie = !this.ganxie;
+      },
+
+      zantongThisItem: function() {
+        this.zantong = !this.zantong;
+        this.buzantong = false;
+      },
+
+      buzantongThisItem: function() {
+        this.buzantong = !this.buzantong;
+        this.zantong = false;
+      },
+
+      shoucangThisItem: function() {
+        this.shoucang = !this.shoucang;
+      },
     }
 
     onShareAppMessage() {

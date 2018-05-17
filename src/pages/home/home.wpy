@@ -456,6 +456,7 @@ button[size = mini] {
         this.selectCompany = false;
         this.selectJob = false;
         this.selectSchool = false;
+        this.selectOrder = false;
         this.showMask =false;
         this.$apply()
       },

@@ -14,8 +14,8 @@
   }
 
   .avatarimg {
-    width: 81px;
-    height: 81px;
+    width: 5em;
+    height: 5em;
     /* margin: 5px; */
   }
 
@@ -42,17 +42,20 @@
         <view class="weui-media-box weui-media-box_small-appmsg">
           <view class="weui-cells weui-cells_in-small-appmsg">
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-              <view class="weui-cell__bd weui-cell_primary">
-                <view class="avatar ">头像</view>
-                <view class="value ">
-                  <image class='avatarimg' src="{{userInfo.avatarUrl}}" />
-                </view>
+              <view class="weui-cell__bd weui-cell_primary" style="display: flex; justify-content:space-between;">
+                <view class="avatar">头像</view>
+                <!-- <view class="value "> -->
+                  <!-- <image class='avatarimg' src="{{userInfo.avatarUrl}}" /> -->
+                <open-data class="avatarimg" type="userAvatarUrl"></open-data>
+                <!-- </view> -->
               </view>
             </view>
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
               <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">昵称</view>
-                <view class="value">{{userInfo.nickName}}</view>
+                <view class="value">
+                  <open-data class="weui-media-box__title" type="userNickName" lang="zh_CN"></open-data>
+                </view>
               </view>
             </view>
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
@@ -98,13 +101,13 @@
       if (this.$parent.globalData.userInfo) {
         this.userInfo = this.$parent.globalData.userInfo
       } else {
-        this.$parent.getUserInfo(function (userInfo) {
-          console.log(userInfo)
-          if (userInfo) {
-            self.userInfo = userInfo
-          }
-          self.$apply()
-        })
+        // this.$parent.getUserInfo(function (userInfo) {
+        //   console.log(userInfo)
+        //   if (userInfo) {
+        //     self.userInfo = userInfo
+        //   }
+        //   self.$apply()
+        // })
       }
     }
   }
