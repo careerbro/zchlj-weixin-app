@@ -184,11 +184,12 @@ button[size = mini] {
         <image class="applogo" src="../../images/logo.jpg"/>
       </view> -->
       <view class='searchbar'>
-        <view class="search-bar-city" @tap="selectFilterDetail(0)">
-          <view>广州</view>
+        <view class="search-bar-city" @tap="selectFilterDetail(3)">
+
+          <view>学校</view>
           <view class="search-bar-city-icon-box">
-            <image  wx:if="{{selectCity}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
-            <image  wx:if="{{!selectCity}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
+            <image  wx:if="{{selectSchool}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
+            <image  wx:if="{{!selectSchool}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
           </view>
         </view>
         <view class="weui-search-bar">
@@ -202,16 +203,25 @@ button[size = mini] {
             </view>
             <label class="weui-search-bar__label" hidden="{{inputShowed}}" @tap="showInput">
                 <icon class="weui-icon-search" type="search" size="14"></icon>
-                <view class="weui-search-bar__text">搜索公司/职位</view>
+                <view class="weui-search-bar__text">搜索公司/岗位/学校/地点</view>
             </label>
           </view>
         </view>
       </view>
       <view class="filter-bar">
         <view class="weui-flex">
+          <view class="weui-flex__item" @tap="selectFilterDetail(0)">
+            <view class="filter-bar-item">
+              <view>地点</view>
+              <view class="search-bar-city-icon-box">
+                <image  wx:if="{{selectCity}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
+                <image  wx:if="{{!selectCity}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
+              </view>
+            </view>
+          </view>
           <view class="weui-flex__item" @tap="selectFilterDetail(1)">
             <view class="filter-bar-item">
-              <view>公司</view>
+              <view>行业</view>
               <view class="search-bar-city-icon-box">
                 <image  wx:if="{{selectCompany}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
                 <image  wx:if="{{!selectCompany}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
@@ -220,19 +230,10 @@ button[size = mini] {
           </view>
           <view class="weui-flex__item" @tap="selectFilterDetail(2)">
             <view class="filter-bar-item">
-              <view>岗位</view>
+              <view>职位</view>
               <view class="search-bar-city-icon-box">
                 <image  wx:if="{{selectJob}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
                 <image  wx:if="{{!selectJob}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
-              </view>
-            </view>
-          </view>
-          <view class="weui-flex__item" @tap="selectFilterDetail(3)">
-            <view class="filter-bar-item">
-              <view>学校</view>
-              <view class="search-bar-city-icon-box">
-                <image  wx:if="{{selectSchool}}" class="search-bar-city-icon-image" src="../../images/up.png"/>
-                <image  wx:if="{{!selectSchool}}" class="search-bar-city-icon-image" src="../../images/down.png"/>
               </view>
             </view>
           </view>
@@ -445,7 +446,7 @@ button[size = mini] {
             this.selectJob = false;
           }
         }
-        console.log(this.showMask)
+        // console.log(this.showMask)
         this.$apply()
       },
 

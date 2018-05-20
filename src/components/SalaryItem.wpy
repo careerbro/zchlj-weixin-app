@@ -50,6 +50,26 @@
     border-style: solid;
     border-width: 1px; */
 }
+
+.weui-media-box__info {
+  display: flex;
+  margin-top:10rpx;
+  padding-bottom: 0;
+  justify-content:flex-end;
+}
+
+.weui-media-box__info__meta {
+  color:#FF4500;
+  font-size:0.9em;
+  border-style:solid;
+  border-color:#FF4500;
+  border-radius:0.9em;
+  text-align:center;
+  border-width:2rpx;
+  padding:8rpx;
+  margin:0 20rpx;
+  min-width:4em;
+}
 </style>
 <template>
   <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active"  @tap="viewSalaryInfo">
@@ -74,23 +94,24 @@
             {{itemValue.date}}
           </view>
         </view>
+        <view wx:if="{{itemValue.join}}" class="weui-media-box__info">
+            <view class="weui-media-box__info__meta">删除</view>
+            <view class="weui-media-box__info__meta">修改</view>
+        </view>
     </view>
-</view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
 
   export default class SalaryItem extends wepy.component {
     props = {
-      itemValue: {
-        type: [Object],
-        default: null
-      }
+      itemValue: Object
     }
 
     methods = {
       viewSalaryInfo: function() {
-        console.log(111111)
+        console.log(this.editable)
         wepy.navigateTo({
           url: '../salary/salaryInfo',
         })

@@ -70,7 +70,8 @@
           city: '广州',
           jingyan: '1-3年',
           xueli: '本科',
-          date: '04-24'
+          date: '04-24',
+          join: true
         },
       ],
       datalist2: [

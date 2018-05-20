@@ -186,13 +186,13 @@
             <image wx:if="{{!buzantong}}" class="option-other-icon" src="../../images/zantong-no2.png" />
           </view>
         </view>
-        <view class="option-other" @tap="thankThisItem">
+        <!-- <view class="option-other" @tap="thankThisItem">
           <view>
             <image wx:if="{{ganxie}}" class="option-other-icon" src="../../images/ganxie5.png" />
             <image wx:if="{{!ganxie}}" class="option-other-icon" src="../../images/ganxie4.png" />
           </view>
           <view class="option-other-label" style="{{ganxie? 'color: #6f95ff' : ''}}">感谢</view>
-        </view>
+        </view> -->
         <view class="option-other" @tap="shoucangThisItem">
           <view>
             <image wx:if="{{shoucang}}" class="option-other-icon" src="../../images/shoucang5.png" />
@@ -206,7 +206,7 @@
           </view>
           <view class="option-other-label">评论</view>
         </view>
-        <view class="option-other" @tap="reportThisItem">
+        <view class="option-other" @tap="shareThisItemToOther">
           <view>
             <image class="option-other-icon" src="../../images/fenxiang.png" />
           </view>
