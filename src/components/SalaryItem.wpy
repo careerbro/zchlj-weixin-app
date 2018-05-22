@@ -63,12 +63,13 @@
   font-size:0.9em;
   border-style:solid;
   border-color:#FF4500;
-  border-radius:0.9em;
+  border-radius:1.5em;
   text-align:center;
   border-width:2rpx;
   padding:8rpx;
   margin:0 20rpx;
-  min-width:4em;
+  min-width: 5em;
+  line-height: 1.5em;
 }
 </style>
 <template>

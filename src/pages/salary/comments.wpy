@@ -1,0 +1,54 @@
+<style scoped>
+.container {
+  text-align: center;
+  width: 750rpx;
+  height: 100vh;
+  background-size: 100% 100%;
+}
+
+
+</style>
+
+
+<template>
+  <view class="container">
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Api from '../config/api.js'
+
+  export default class comments extends wepy.page{
+
+    data = {
+      number: 1000,
+      school: '加州大学'
+    }
+
+    getHotComments() {
+      const url = Api.host + Api.getUserSum
+      console.log(url)
+
+      wepy.request({
+        url: url,
+        header: {
+          'content-type': 'application/json;charset=UTF-8'
+        },
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == '0') {
+
+        }
+      })
+    }
+
+    onLoad(options) {
+      if(options && options.school) {
+        this.school = options.school
+      }
+      this.getHotComments()
+    }
+  }
+</script>
+
