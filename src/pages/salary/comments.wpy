@@ -17,35 +17,31 @@
 
 <script>
   import wepy from 'wepy'
-  import Api from '../config/api.js'
+  import Api from '../../config/api.js'
 
   export default class comments extends wepy.page{
 
     data = {
-      number: 1000,
-      school: '加州大学'
+      salaryId: '',
     }
 
     getHotComments() {
-      const url = Api.host + Api.getUserSum
-      console.log(url)
+      const url = Api.host + Api.comment
+      console.log(this.salaryId)
 
-      wepy.request({
-        url: url,
-        header: {
-          'content-type': 'application/json;charset=UTF-8'
-        },
-      }).then(res => {
-        console.log(res.data)
-        if(res.data.code == '0') {
+      // wepy.request({
+      //   url: url,
+      // }).then(res => {
+      //   console.log(res.data)
+      //   if(res.data.code == '0') {
 
-        }
-      })
+      //   }
+      // })
     }
 
     onLoad(options) {
-      if(options && options.school) {
-        this.school = options.school
+      if(options && options.salaryId) {
+        this.salaryId = options.salaryId
       }
       this.getHotComments()
     }

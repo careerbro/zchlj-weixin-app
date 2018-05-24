@@ -8,13 +8,14 @@
 }
 
 button[type = primary] {
-  background-color: #6f95ff;
+  background-color: #6f95ff !important;
 }
 </style>
 
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
+import Api from './config/api.js'
 
 export default class extends wepy.app {
   config = {
@@ -22,6 +23,7 @@ export default class extends wepy.app {
       // 'pages/user/userHome',
       // 'pages/login',
       // 'pages/salary/salaryInfo',
+      // 'pages/salary/comments',
       'pages/home/home',
       'pages/login',
       'pages/loading',
@@ -33,6 +35,7 @@ export default class extends wepy.app {
       'pages/user/userJoin',
       'pages/salary/addSalary',
       'pages/salary/salaryInfo',
+      'pages/salary/comments',
       'pages/common/searchandselect',
       'pages/system/feedback',
       'pages/system/setting',
@@ -71,62 +74,61 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    userInfo: null
+    userInfo: null,
+    token: ''
   }
 
   constructor () {
     super()
     this.use('requestfix');
     this.use('promisify');
+
+    // 配置拦截器
+    this.intercept('request', {
+      config(p) {
+        console.log("拦截config:", p);
+        p.header = { 'content-type': "application/json;charset=UTF-8"} ;
+        if (p.url.indexOf('token') == -1) {
+          // p.data.token = this.globalData.token;
+          if (p.url.indexOf('?') == -1) {
+            p.url = p.url + `?token=${this.globalData.token}`
+          } else {
+            p.url = p.url + `&token=${this.globalData.token}`
+          }
+        }
+        // console.log(p.url);
+        // console.log("getCurrentPage::", getCurrentPages())
+        return p;
+      },
+      success(p) {
+        //
+        let pages = getCurrentPages();
+        console.log("拦截success:", p);
+        if (p.data && p.data.code === -1) {
+          // token 参数不正确！
+          // 1、移除缓存中的token
+          // 2、重新去登录更新token
+          // 3、重新请求
+          wepy.showToast({
+            title: '服务器发生错误，请稍后重试',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+        return p;
+      },
+      fail(p) {
+        wepy.showToast({
+            title: '网络连接失败，请检查你的网络或联系管理员',
+            icon: 'none',
+            duration: 2000
+        });
+        return p;
+      }
+    })
   }
 
   onLaunch() {
-    // this.getUserInfo()
-  }
-
-  sleep (s) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('promise resolved')
-      }, s * 1000)
-    })
-  }
-
-  // async testAsync () {
-  //   const data = await this.sleep(3)
-  //   console.log(data)
-  // }
-
-  getUserInfo(cb) {
-    const that = this
-    if (this.globalData.userInfo) {
-      return this.globalData.userInfo
-    }
-    wepy.getUserInfo({
-      success (res) {
-        that.globalData.userInfo = res.userInfo
-        cb && cb(res.userInfo)
-      }
-    })
-  }
-
-  getWxCode(cb) {
-    wepy.login().then((res) => {
-      if (res.code) {
-        this.data.code = res.code;
-        console.log("app get code.", res.code);
-        callback && callback(res.code);
-      } else {
-        console.log("not get app code.", res);
-        callback && callback(null);
-      }
-    }, (res) => {
-      console.log("getWxCode failed..", res);
-      callback && callback(null);
-    }).catch((err) => {
-      console.log("getWxCode error..", err);
-      callback && callback(null);
-    });
   }
 }
 </script>

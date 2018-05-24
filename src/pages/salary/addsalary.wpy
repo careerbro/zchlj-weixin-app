@@ -124,7 +124,7 @@
             <view class="weui-cell__bd salary-input">
               <input class="weui-input salary-input-value"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
-              <view style="width: 40rpx;">X</view>
+              <view style="width: 40rpx;">x</view>
               <input class="weui-input salary-input-value"/>
               <view style="width: 40rpx; paddind-left: -20rpx">月</view>
             </view>
@@ -234,6 +234,7 @@
 
 <script>
   import wepy from 'wepy'
+  import Api from '../../config/api.js'
 
   export default class addSalary extends wepy.page{
     config = {
@@ -346,6 +347,22 @@
         // console.log('picker发送选择改变，携带值为', e.detail.value)
         this.offerDate = e.detail.value
       }
+    }
+
+    postAddSalary() {
+      const url = Api.host + Api.addSalary
+
+      wepy.request({
+        url: url,
+        method: 'POST',
+        data: {
+          // token: this.$parent.globalData.token,
+          email: this.email,
+          petName: this.userInfo.nickName,
+          photoPath: this.userInfo.avatarUrl,
+          college: this.schoolId
+        },
+      })
     }
   }
 </script>

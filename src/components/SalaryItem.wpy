@@ -12,7 +12,8 @@
   font-size:0.85em;
   line-height: 2em;
   float:left;
-  max-width: 10em;
+  // max-width: 10em;
+  max-width: 15em;
   overflow: hidden;
 }
 
@@ -74,9 +75,9 @@
 </style>
 <template>
   <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active"  @tap="viewSalaryInfo">
-    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+    <!-- <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
         <image class="weui-media-box__thumb" src="https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png" />
-    </view>
+    </view> -->
     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
         <view class="weui-media-box__title ">
             <view class="job">{{itemValue.job}}</view>

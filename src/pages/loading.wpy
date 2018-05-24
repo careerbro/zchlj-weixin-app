@@ -135,10 +135,6 @@
       const url = Api.host + Api.getUserSum
       console.log(url)
 
-      setTimeout(() => {
-        this.goHome();
-      }, 1500);
-
       wepy.request({
         url: url,
         header: {
@@ -148,15 +144,21 @@
         console.log(res.data)
         if(res.data.code == '0') {
           // this.goHome()
+          this.number = 4
+
         }
       })
     }
 
     onLoad(options) {
-      if(options && options.school) {
+      if(options && options.school && options.number) {
         this.school = options.school
+        this.number = options.number
       }
-      this.getUserSum()
+      // this.getUserSum()
+      setTimeout(() => {
+        this.goHome();
+      }, 1500);
     }
   }
 </script>

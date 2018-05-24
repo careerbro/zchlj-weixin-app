@@ -90,9 +90,9 @@
       <view class="company-info">
         <view class="weui-panel weui-panel_access ">
           <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
-            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+            <!-- <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                 <image class="weui-media-box__thumb" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525702730448&di=844c3e7e3fb2a0c9e7038bfd7d0d4ef4&imgtype=0&src=http%3A%2F%2Fimg.yzmg.com%2F201605%2F20160502%2F2016050210575134.jpg" />
-            </view>
+            </view> -->
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
                 <view class="weui-media-box__title">腾讯科技</view>
                 <view class="weui-media-box__desc">互联网</view>
@@ -200,7 +200,7 @@
           </view>
           <view class="option-other-label" style="{{shoucang? 'color: #6f95ff' : ''}}">收藏</view>
         </view>
-        <view class="option-other">
+        <view class="option-other" @tap="commentThisItem">
           <view>
             <image class="option-other-icon" src="../../images/pinglun.png" />
           </view>
@@ -284,6 +284,12 @@
 
       shoucangThisItem: function() {
         this.shoucang = !this.shoucang;
+      },
+
+      commentThisItem: function() {
+        wepy.navigateTo({
+          url: './comments?salaryId=111'  //+ this.salaryInfo.id
+        })
       },
     }
 

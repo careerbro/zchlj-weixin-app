@@ -7,7 +7,7 @@
 }
 
 .show-info {
-  height: 35vh
+  height: 400rpx;
 }
 
 .title {
@@ -44,10 +44,15 @@
 
 .weui-input {
   background-color: white;
-  height: 1em;
-  width: 100%;
-  /* text-align: left; */
+  height: 80rpx;
+  min-height: 80rpx;
+  /* width: 100%; */
+  text-align: left;
   border-radius: 0.4em;
+  padding-left:0.5em;
+  padding-right: 0.5em;
+  font-size:0.9em;
+  line-height:1em;
 }
 
 .button-sp-area {
@@ -67,33 +72,134 @@
   padding-left: 1em;
 }
 
+.auth-form {
+  height: 100vh;
+  /* background-color: #ffffff; */
+}
+
+.userAvatarUrl {
+  width: 150rpx;
+  height: 150rpx;
+  clip-path: circle(50% at center);
+  position: absolute;
+  top: 250rpx;
+  left: 300rpx;
+  right: 300rpx;
+}
+
+.userNickName {
+  top: 400rpx;
+  left: 300rpx;
+  right: 300rpx;
+  width: 150rpx;
+  position: absolute;
+  text-align: center;
+}
+
+.authButton {
+  top: 550rpx;
+  left: 225rpx;
+  right: 225rpx;
+  width: 300rpx;
+  position: absolute;
+}
+
+.search-select-school-bar {
+  width:530rpx;
+  background-color:#fff;
+  top:492rpx;
+  position:absolute;
+  max-height:10em;
+  z-index:10;
+  left:110rpx;
+  border-radius: 0.4em;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.search-select-email-bar {
+  width:530rpx;
+  background-color:#fff;
+  top:592rpx;
+  position:absolute;
+  max-height:10em;
+  z-index:10;
+  left:110rpx;
+  border-radius: 0.4em;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.weui-cell {
+  padding:10rpx 30rpx;
+  font-size:0.8em;
+  text-align:left;
+  height:1.9em;
+  margin-right:40rpx;
+}
+
 </style>
 
 
 <template>
   <view class="container">
-    <view class="show-info">
-      <view class="title">职场红领巾</view>
-      <view class="description">一个为你确定方向的平台</view>
+    <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips && emailOk}}">{{errorMsg}}</view>
+    <view wx:if="{{canIUse && noLogin}}" class="auth-form">
+      <view class="userAvatarUrl">
+        <open-data  type="userAvatarUrl"></open-data>
+      </view>
+      <view class="userNickName">
+        <open-data type="userNickName"></open-data>
+      </view>
+      <view class="authButton">
+        <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo">授权登录</button>
+      </view>
     </view>
-    <view wx:if="{{noLogin}}" class="login-form">
-      <view class="input-form">
-        <input class="weui-input" placeholder = "请填写你的学校中/英全称"/>
+    <view wx:else>
+      <view class="show-info">
+        <view class="title">职场红领巾</view>
+        <view class="description">一个为你确定方向的平台</view>
       </view>
-      <view class="input-form">
-        <input class="weui-input" placeholder = "请填写你的邮箱"/>
-      </view>
-      <view>
-        <view class="button-sp-area">
-          <button class="weui-btn" type="primary" @tap="goHome">进入</button>
+      <view wx:if="{{noLogin}}" class="login-form">
+        <view class="input-form">
+          <input class="weui-input" value="{{school}}" @input="inputTypingSchool" placeholder = "请填写你的学校中/英全称"/>
+        </view>
+        <view class="input-form">
+          <input class="weui-input" value="{{email}}" @input="inputTypingEmail" @blur="inputOver" placeholder = "请填写你的邮箱"/>
+        </view>
+        <view>
+          <view class="button-sp-area">
+            <button wx:if="{{schoolOk && emailOk}}" class="weui-btn" type="primary" @tap="postUserInfo">进入</button>
+            <button wx:else class="weui-btn" type="primary" disabled="true">进入</button>
+          </view>
+        </view>
+        <view class="note-box">
+          <view class="note"> · 信息不会显示在用户所爆料的薪资信息</view>
+          <view class="note"> · 邮箱将会收到关注公司的更新薪资信息</view>
         </view>
       </view>
-      <view class="note-box">
-        <view class="note"> · 信息不会显示在用户所爆料的薪资信息</view>
-        <view class="note"> · 邮箱将会收到关注公司的更新薪资信息</view>
-      </view>
+      <view class="important-info">本平台坚决保护个人信息，解决你的后顾之忧</view>
     </view>
-    <view class="important-info">本平台坚决保护个人信息，解决你的后顾之忧</view>
+  </view>
+
+
+  <view wx:if="{{showSearch}}" class="search-select-school-bar">
+    <repeat for="{{schoolList}}" item="item">
+      <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisSchool({{item}})">
+        <view class="weui-cell__bd weui-cell_primary">
+            <view>{{item.cName}}</view>
+        </view>
+      </view>
+    </repeat>
+  </view>
+  <view wx:if="{{showSearchEmail}}" class="search-select-email-bar">
+    <repeat for="{{emailList}}" item="item">
+      <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisEmail({{item}})">
+        <view class="weui-cell__bd weui-cell_primary">
+            <view>{{email}}{{item}}</view>
+        </view>
+      </view>
+    </repeat>
   </view>
 </template>
 
@@ -109,49 +215,128 @@
     data = {
       noLogin: true,
       school: '',
+      schoolId: '',
+      schoolOk: false,
       email: '',
+      emailOk: false,
+      canIUse: wx.canIUse('button.open-type.getUserInfo'),
+      userInfo: null,
+      showTopTips: false,
+      errorMsg: '邮箱地址不合法，请重新输入',
+      emailList: ['@qq.com','@163.com','@sina.com','@126.com','@gmail.com','@sohu.com','@hotmail.com','@yahoo.com','@163.net'],
+      schoolList: [],
+      showSearch: false,
+      showSearchEmail: false
     }
 
     methods = {
 
-      goHome: function () {
-        console.log('go to home')
-        wepy.navigateTo({
-          url: 'loading?number=100&school=北京大学'
-        })
+      bindGetUserInfo: function(e) {
+        console.log(e.detail.userInfo)
+        this.userInfo = e.detail.userInfo
+        this.canIUse = false
+        this.$apply()
       },
+      inputTypingSchool: function(e) {
+        console.log(e.detail.value)
+        this.school = e.detail.value
+        if(e.detail.value!= '') {
+          this.searchCollege(e.detail.value)
+          this.schoolOk = true
+        }
+      },
+      inputTypingEmail: function(e) {
+        console.log(e.detail.value)
+        this.email = e.detail.value
+        if(e.detail.value.indexOf('@') == -1) {
+          this.showSearchEmail = true
+        } else {
+          this.showSearchEmail = false
+        }
+        if(e.detail.value!= '') {
+          this.emailOk = true
+        }
+      },
+      inputOver: function() {
+        this.showSearchEmail = false
+      },
+      selectThisSchool: function(item) {
+        this.schoolId = item.id
+        this.school = item.cName
+        this.showSearch = false
+      },
+      selectThisEmail: function(item) {
+        this.email = this.email + item
+        this.showSearchEmail = false
+        this.$apply()
+      },
+      postUserInfo: function() {
+        console.log(this.$parent.globalData.token)
+        let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+        if(!filter.test(this.email)) {
+          this.showTopTips = true
+        } else {
+          const url = Api.host + Api.user
+          console.log(url)
+          wepy.request({
+            url: url,
+            method: 'POST',
+            data: {
+              // token: this.$parent.globalData.token,
+              email: this.email,
+              petName: this.userInfo.nickName,
+              photoPath: this.userInfo.avatarUrl,
+              college: this.schoolId
+            },
+          }).then(res => {
+            console.log(res.data)
+            if(res.data.code == 0 ) {
+              wepy.navigateTo({
+                url: 'loading?school=' + this.school + '&number=' + res.data.body.sum
+              })
+            } else {
+              wepy.showToast({
+                title: '服务器发生错误，请稍后重试',
+                icon: 'none',
+                duration: 2000
+              });
+            }
+          })
+        }
+      }
     }
 
-    userLogin() {
-
-    }
-
-    checkUserLogin(code) {
-      const url = Api.host + Api.login + '/' + code
+    searchCollege(school) {
+      const url = Api.host + Api.searchCollege + '/' + school
       console.log(url)
-
       wepy.request({
         url: url,
-        header: {
-          'content-type': 'application/json;charset=UTF-8'
-        },
       }).then(res => {
         console.log(res.data)
-        if(res.data.code == '101') {
-          this.noLogin = true
+        if(res.data.code == 0 &&res.data.body.data.length > 0) {
+          this.showSearch = true
+          this.schoolList = res.data.body.data
           this.$apply()
-        } else if(res.data.code == '0') {
-          this.goHome()
+        }
+      })
+    }
+
+    checkAuthSetting() {
+      const self = this
+      wx.getSetting({
+        success: function(res){
+          if (res.authSetting['scope.userInfo']) {
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+            console.log('已授权')
+          } else {
+            console.log('未授权')
+          }
         }
       })
     }
 
     onLoad() {
-      let that = this
-      wepy.login().then(res => {
-        console.log(res)
-        that.checkUserLogin(res.code)
-      })
+      this.checkAuthSetting()
     }
   }
 </script>
