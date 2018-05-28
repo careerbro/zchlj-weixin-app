@@ -302,6 +302,7 @@ button[size = mini] {
 <script>
   import wepy from 'wepy'
   import SalaryItem  from '../../components/SalaryItem'
+  import MaskModal from '../../components/MaskModal'
   import Api from '../../config/api.js'
 
   export default class home extends wepy.page{
@@ -309,10 +310,12 @@ button[size = mini] {
     }
 
     components = {
-      SalaryItem
+      SalaryItem,
+      MaskModal
     }
 
     data = {
+      showLogin: this.$parent.globalData.firstLogin,
       inputShowed: false,
       inputVal: '',
       showMask: false,    // 控制显示遮罩层

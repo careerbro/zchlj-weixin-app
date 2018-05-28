@@ -39,6 +39,16 @@
   height: 100rpx;
   position:initial;
 }
+
+.loading-form {
+  width: 400rpx;
+  height: 600rpx;
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  border-style: solid;
+  border-color: #D3D3D3;
+  border-width: 2rpx;
+}
 </style>
 <template>
   <view class="mask">
@@ -54,6 +64,10 @@
           <button @tap="cancel" class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">取消</button>
           <button @tap="confirm" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">确定</button>
         </view>
+      </view>
+    </view>
+    <view wx:else class="loading-form">
+      <view>
       </view>
     </view>
   </view>
