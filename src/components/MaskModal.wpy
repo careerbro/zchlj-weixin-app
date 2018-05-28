@@ -1,0 +1,90 @@
+<style lang="less">
+.mask{
+  justify-content: space-between;
+  background-color:rgba(0, 0, 0, 0.4);
+  position: fixed;
+  z-index: 10;
+  transition: all 1s ease;
+  overflow: hidden;
+  height: 100vh;
+  top: 0;
+  width: 750rpx;
+  padding:300rpx 75rpx;
+}
+
+.input-form {
+  width: 600rpx;
+  height: 300rpx;
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  border-style: solid;
+  border-color: #D3D3D3;
+  border-width: 2rpx;
+  // padding: 10rpx;
+}
+
+.weui-form-preview {
+  position:initial;
+  border-radius: 10rpx;
+}
+.weui-form-preview-title {
+  height: 80rpx;
+}
+.form-title {
+  line-height: 80rpx;
+  height: 80rpx;
+  text-align: center;
+}
+.weui-form-preview__ft {
+  height: 100rpx;
+  position:initial;
+}
+</style>
+<template>
+  <view class="mask">
+    <view wx:if="{{form}}" class="input-form">
+      <view class="weui-form-preview">
+        <view class="weui-form-preview-title">
+          <view class="form-title">{{title}}</view>
+        </view>
+        <view class="weui-form-preview-body">
+            <input @input="inputValue" value="{{value}}" placeholder="{{placeholder}}" style="height: 120rpx; padding: 0 20rpx;" />
+        </view>
+        <view class="weui-form-preview__ft">
+          <button @tap="cancel" class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">取消</button>
+          <button @tap="confirm" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">确定</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class MaskModal extends wepy.component {
+    props = {
+      title: String,
+      placeholder: String,
+      form: {
+        type: Boolean,
+        default: true
+      },
+      value: {
+        type: String
+      }
+    }
+
+    methods = {
+      inputValue: function (e) {
+        console.log(e.detail)
+        this.value = e.detail.value
+      },
+      cancel: function () {
+        this.$emit('cancel')
+      },
+      confirm: function () {
+        this.$emit('confirm', this.value)
+      }
+    }
+  }
+</script>

@@ -42,23 +42,12 @@
   text-align: center;
 }
 
-.mask{
-  justify-content: space-between;
-  background-color:rgba(0, 0, 0, 0.4);
-  position: fixed;
-  z-index: 10;
-  transition: all 1s ease;
-  overflow: hidden;
-  height: 100vh;
-  top: 0;
-  width: 750rpx;
-}
 
 </style>
 
 
 <template>
-  <view class="container weui-mask">
+  <view class="container weui-mask"  style="{{showMask?'height:100vh;overflow:hidden':''}}">
     <view class='page'>
     <view class="page__bd">
       <view class="weui-cells__title">公司信息</view>
@@ -223,22 +212,22 @@
       <button class="weui-btn" type="primary" bindtap="showTopTips">确定</button>
     </view>
   </view>
-
-  <modal hidden="{{addItemForm}}" title="{{addItemFormTitle}}" confirm-text="提交" cancel-text="取消" bindcancel="cancelAdd" bindconfirm="confirmAdd">
-      <input type='text' placeholder="请输入福利信息" bindinput="bindInput"/>
-  </modal>
-  <view class="mask" wx:if="{{showMask}}" @tap="closeMask"></view>
-
   </view>
+  <MaskModal wx:if="{{showMask}}" :title.sync="addItemFormTitle" :placeholder.sync="addItemFormPlace"
+    :value.sync="addItemInfo" @cancel.user="cancelAdd" @confirm.user="confirmAdd"></MaskModal>
 </template>
 
 <script>
   import wepy from 'wepy'
   import Api from '../../config/api.js'
+  import MaskModal from '../../components/MaskModal'
 
   export default class addSalary extends wepy.page{
     config = {
       navigationBarTitleText: '爆料'
+    }
+    components = {
+      MaskModal
     }
 
     data = {
@@ -254,8 +243,8 @@
       schools: ['211','985','C9','海外高校','其他'],
       education: '本科',
       school: '211',
-      addItemForm: true,
       addItemFormTitle: '添加福利',
+      addItemFormPlace: '请输入福利信息',
       addItemInfo: '',
       company: '',
       hangye: '',
@@ -307,23 +296,21 @@
       },
 
       addItem: function(e) {
-        this.addItemFormTitle = '添加福利'
-        this.addItemForm = false
+        this.showMask = true
       },
 
       cancelAdd: function(e){
-        this.addItemForm = true
+        this.showMask = false
         this.$apply()
       },
 
-      confirmAdd: function(e) {
-        this.addItemForm = true
-        console.log(this.addItemInfo)
-        if (this.addItemInfo != null && this.addItemInfo != '') {
+      confirmAdd: function(value, e) {
+        this.showMask = false
+        console.log(value)
+        if (value != null && value != '') {
           this.fuliInfos.push({
-            name: this.addItemInfo, value: this.addItemInfo, checked: true
+            name: value, value: value, checked: true
           })
-          this.addItemInfo = ''
         }
         this.$apply()
       },

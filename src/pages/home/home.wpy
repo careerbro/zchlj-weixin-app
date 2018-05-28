@@ -54,12 +54,13 @@ button[size = mini] {
 }
 
 .search-bar-city {
-  width: 120rpx;
+  width: 188rpx;
   text-align: center;
   font-size: 32rpx;
   color: #fff;
   line-height: 30px;
   display: flex;
+  justify-content:center;
 }
 
 .search-bar-city-icon-box {
@@ -291,6 +292,10 @@ button[size = mini] {
         <button class="weui-btn mini-btn filter-bottom-btn" type="primary">确定</button>
       </view>
     </view>
+  </view>
+
+  <view wx:if="" class="loading-icon-form">
+
   </view>
 </template>
 

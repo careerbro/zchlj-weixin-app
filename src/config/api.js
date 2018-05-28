@@ -1,6 +1,7 @@
 export default {
-  host: 'http://10.1.2.201:8080',
+  // host: 'http://10.1.2.201:8080',
   // host: 'http://10.1.2.9:8080',
+  host: 'http://39.108.63.38:8080',
 
   user: '/careerbro/user/user',
   getUserSum: '/careerbro/user/sum',
