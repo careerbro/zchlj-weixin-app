@@ -112,11 +112,14 @@ button[size = mini] {
 }
 
 .loading-info {
-  text-align: center;
+  /* text-align: center;
   font-size: 32rpx;
-  color: #696969;
+  color: #696969; */
   display: flex;
   justify-content: center;
+}
+.weui-loadmore {
+  margin: 10rpx auto;
 }
 .loading-image {
   height: 32rpx;
@@ -253,15 +256,22 @@ button[size = mini] {
     <!-- <view class="item-title"> —— 猜你喜欢 ——</view> -->
     <scroll-view scroll-y upper-threshold="{{10}}" class="scroll-view-box" @scrolltoupper="scrolltoupper" @scrolltolower="scrolltolower">
       <view class="loading-info" wx:if="{{loadingNew}}">
-        <image class="loading-image" src="../../images/Rolling-1s-32px.svg" />
-        <view>正在加载...</view>
+        <view class="weui-loadmore">
+          <view class="weui-loading"></view>
+          <view class="weui-loadmore__tips">正在加载</view>
+        </view>
       </view>
       <view class="weui-panel weui-panel_access all-item-info">
         <repeat for="{{datalist}}" index="index" item="item">
           <SalaryItem :itemValue.sync="item"></SalaryItem>
         </repeat>
       </view>
-      <view class="loading-info" wx:if="{{loadingMore}}">正在加载，请稍等...</view>
+      <view class="loading-info" wx:if="{{loadingMore}}">
+        <view class="weui-loadmore">
+          <view class="weui-loading"></view>
+          <view class="weui-loadmore__tips">正在加载，请稍等...</view>
+        </view>
+      </view>
     </scroll-view>
 
     <!-- 遮罩层与下拉选择框 -->
@@ -294,9 +304,7 @@ button[size = mini] {
     </view>
   </view>
 
-  <view wx:if="" class="loading-icon-form">
-
-  </view>
+  <!-- <MaskModal wx:if="{{showLogin}}" ></MaskModal> -->
 </template>
 
 <script>
@@ -315,7 +323,7 @@ button[size = mini] {
     }
 
     data = {
-      showLogin: this.$parent.globalData.firstLogin,
+      showLogin: false,
       inputShowed: false,
       inputVal: '',
       showMask: false,    // 控制显示遮罩层
@@ -529,6 +537,7 @@ button[size = mini] {
         url: url,
       }).then(res => {
         console.log(res.data)
+        wepy.hideLoading()
         const token = res.data.body.token
         this.$parent.globalData.token = token
         console.log(this.$parent.globalData.token)
@@ -545,6 +554,11 @@ button[size = mini] {
 
 
     onLoad() {
+      if(this.$parent.globalData.firstLogin) {
+        wepy.showLoading({
+          title: '加载中',
+        })
+      }
       wepy.login().then(res => {
         console.log(res)
         this.checkUserLogin(res.code)

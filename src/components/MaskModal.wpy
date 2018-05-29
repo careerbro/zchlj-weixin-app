@@ -66,10 +66,6 @@
         </view>
       </view>
     </view>
-    <view wx:else class="loading-form">
-      <view>
-      </view>
-    </view>
   </view>
 </template>
 <script>
