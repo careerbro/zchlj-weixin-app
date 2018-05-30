@@ -2,8 +2,12 @@
 
   .user-info {
     width: 100%;
-    padding-top: 20rpx;
-    margin-top: -20rpx;
+    padding-top: 0rpx;
+  }
+
+  .weui-cells__title {
+    margin-top: 0;
+    padding-top:20rpx;
   }
 
   textarea {
@@ -19,13 +23,13 @@
 
 <template>
   <view  class="container">
+    <form @submit="bindFormSubmit">
     <view class="user-info">
       <view class="weui-cells__title">反馈类型</view>
       <view class="weui-cells weui-cells_after-title">
-        <radio-group>
+        <radio-group name="category">
           <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value" @tap="selectType({{index}})">
               <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
-
               <view class="weui-cell__bd">{{item.name}}</view>
               <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
                   <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
@@ -38,7 +42,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-              <textarea class="weui-textarea" placeholder="请告诉我们你的意见和建议，我们会认真看完的哦！" style="height: 10em" />
+              <textarea  name="contend" class="weui-textarea" placeholder="请告诉我们你的意见和建议，我们会认真看完的哦！" style="height: 10em" />
           </view>
         </view>
       </view>
@@ -47,22 +51,24 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-              <input class="weui-textarea" placeholder="留下手机号或邮箱，方便我们联系你呦～"  />
+              <input name="contact" class="weui-textarea" placeholder="留下手机号或邮箱，方便我们联系你呦～"  />
           </view>
         </view>
       </view>
 
       <view class="weui-btn-area">
-        <button class="weui-btn" type="primary" @tap="showTopTips">提交反馈</button>
+        <button form-type="submit" class="weui-btn" type="primary">提交反馈</button>
       </view>
 
       <button class="weui-btn" type="primary" open-type="contact" />
     </view>
+    </form>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import Api from '../../config/api.js'
 
   export default class feedback extends wepy.page{
     config = {
@@ -72,9 +78,9 @@
     data = {
       userInfo: null,
       radioItems: [
-          {name: '建议', value: '0', checked: true},
-          {name: '信息有误', value: '1', checked: false},
-          {name: '其它', value: '2', checked: false}
+        {name: '建议', value: '1', checked: true},
+        {name: '信息有误', value: '2', checked: false},
+        {name: '其它', value: '3', checked: false}
       ],
     }
 
@@ -89,7 +95,37 @@
           }
         }
         this.radioItems = tempRadio
+      },
+      bindFormSubmit: function(e) {
+        console.log(e.detail.value)
+        this.postUserFeedback(e.detail.value)
       }
+    }
+
+    postUserFeedback(data) {
+      const url = Api.host + Api.addFeedback
+
+      data.userId = this.$parent.globalData.userInfo.id
+      wepy.request({
+        url: url,
+        method: 'POST',
+        data: data
+      }).then(res => {
+        console.log(res)
+        if(res.data.code == 0) {
+          wepy.showToast({
+            title: '提交成功！谢谢你的意见',
+            icon: 'success',
+            duration: 2000
+          });
+        } else {
+          wepy.showToast({
+            title: '服务器发生错误了，请稍后重试',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      })
     }
 
     onLoad() {

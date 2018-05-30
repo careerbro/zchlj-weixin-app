@@ -8,7 +8,7 @@
 }
 
 .weui-cells {
-  font-size: 32rpx;
+  /* font-size: 32rpx; */
 }
 
 .salary-title {
@@ -31,10 +31,10 @@
 }
 
 .salary-input-value {
-  margin: 0.4em 1em ;
+  margin: 4px 6px;
   width: 100rpx;
-  height: 2em;
-  min-height: 2em;
+  height: 34px;
+  min-height: 34px;
   border-style: solid;
   border-color: #DCDCDC	;
   border-width: 1px;
@@ -42,6 +42,22 @@
   text-align: center;
 }
 
+.search-select-bar {
+  background-color:#eeeeee;
+  left: 220rpx;
+  right: 0;
+  position:absolute;
+  max-height:10em;
+  z-index:10;
+  border-radius: 0.4em;
+  overflow: hidden;
+  overflow-y: auto;
+  font-size: 32rpx;
+}
+
+.search-select-bar > .weui-cell {
+  padding: 3px 10px;
+}
 
 </style>
 
@@ -57,16 +73,15 @@
               <view class="weui-label">公司名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{company}}"  placeholder="请输入公司名称"/>
+              <input class="weui-input select-input-value" value="{{company}}"  placeholder="请输入公司名称" @input="findCompany"/>
           </view>
-          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
               <view class="weui-label">公司行业</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{hangye}}"  placeholder="请输入公司行业"/>
+              <input class="weui-input select-input-value" value="{{hangye}}"  placeholder="请输入公司行业"  @input="findHangye"/>
           </view>
           <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
@@ -79,9 +94,8 @@
               <view class="weui-label">岗位名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{job}}"  placeholder="请输入岗位名称"/>
+              <input class="weui-input select-input-value" value="{{job}}"  placeholder="请输入岗位名称"  @input="findJob"/>
           </view>
-          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
       </view>
 
@@ -96,10 +110,10 @@
               <view class="weui-label salary-title-label">年薪</view>
             </view>
             <view class="weui-cell__bd salary-input">
-              <input class="weui-input salary-input-value"/>
+              <input class="weui-input salary-input-value" type="number"  @input="inputYearSalaryMax"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
               <view style="width: 40rpx;">~</view>
-              <input class="weui-input salary-input-value"/>
+              <input class="weui-input salary-input-value" type="number" @input="inputYearSalaryMin"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
             </view>
           </view>
@@ -111,10 +125,10 @@
               <view class="weui-label salary-title-label">月薪</view>
             </view>
             <view class="weui-cell__bd salary-input">
-              <input class="weui-input salary-input-value"/>
+              <input class="weui-input salary-input-value" type="number" @input="inputMonthSalary"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
               <view style="width: 40rpx;">x</view>
-              <input class="weui-input salary-input-value"/>
+              <input class="weui-input salary-input-value" type="number" @input="inputMonthNum"/>
               <view style="width: 40rpx; paddind-left: -20rpx">月</view>
             </view>
           </view>
@@ -161,7 +175,7 @@
               <view class="weui-label">学校名称</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{schoolName}}" placeholder="请输入学校名称"/>
+              <input class="weui-input select-input-value" value="{{schoolName}}" placeholder="请输入学校名称" @input="findSchool"/>
           </view>
           <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
@@ -174,7 +188,7 @@
               <view class="weui-label">工作经验</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="请输入工作月数"/>
+              <input class="weui-input"  type="number" placeholder="请输入工作月数" @input="inputExperienceMonthNum"/>
           </view>
         </view>
         <view class="weui-cell weui-cell_input">
@@ -192,29 +206,76 @@
               <view class="weui-label">工作地点</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="请选择工作地点" />
+              <input class="weui-input" placeholder="请选择工作地点" @input="findCity"/>
           </view>
         </view>
       </view>
 
-      <view class="weui-cells__title">备注信息</view>
+      <!-- <view class="weui-cells__title">备注信息</view>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
                 <view class="weui-cell__bd">
                     <textarea class="weui-textarea" placeholder="意犹未尽？畅所欲言！" style="height: 5em" />
                 </view>
             </view>
-        </view>
+        </view> -->
     </view>
 
 
     <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" bindtap="showTopTips">确定</button>
+      <button class="weui-btn" type="primary" @tap="postAddSalary">确定</button>
     </view>
   </view>
   </view>
   <MaskModal wx:if="{{showMask}}" :title.sync="addItemFormTitle" :placeholder.sync="addItemFormPlace"
     :value.sync="addItemInfo" @cancel.user="cancelAdd" @confirm.user="confirmAdd"></MaskModal>
+
+  <view wx:if="{{showCompanySearch}}" class="search-select-bar" style="top: 86px;">
+    <repeat for="{{companyList}}" item="item">
+      <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisCompany({{item}})">
+        <view class="weui-cell__bd weui-cell_primary">
+            <view>{{item.cName}}</view>
+        </view>
+      </view>
+    </repeat>
+  </view>
+  <view wx:if="{{showHangyeSearch}}" class="search-select-bar" style="top: 130px;">
+    <repeat for="{{hangyeList}}" item="item">
+      <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisHangye({{item}})">
+        <view class="weui-cell__bd weui-cell_primary">
+            <view>{{item.cName}}</view>
+        </view>
+      </view>
+    </repeat>
+  </view>
+  <view wx:if="{{showJobSearch}}" class="search-select-bar" style="top: 196px;">
+    <repeat for="{{jobList}}" item="item">
+      <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisJob({{item}})">
+        <view class="weui-cell__bd weui-cell_primary">
+            <view>{{item.cName}}</view>
+        </view>
+      </view>
+    </repeat>
+  </view>
+
+  <view wx:if="{{showSchoolSearch}}" class="search-select-bar" style="top: 710px;">
+    <repeat for="{{schoolList}}" item="item">
+      <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisSchool({{item}})">
+        <view class="weui-cell__bd weui-cell_primary">
+            <view>{{item.cName}}</view>
+        </view>
+      </view>
+    </repeat>
+  </view>
+  <view wx:if="{{showCitySearch}}" class="search-select-bar" style="top: 766px;">
+    <repeat for="{{cityList}}" item="item">
+      <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisCity({{item}})">
+        <view class="weui-cell__bd weui-cell_primary">
+            <view>{{item.cName}}</view>
+        </view>
+      </view>
+    </repeat>
+  </view>
 </template>
 
 <script>
@@ -247,11 +308,33 @@
       addItemFormPlace: '请输入福利信息',
       addItemInfo: '',
       company: '',
+      companyId: '',
       hangye: '',
+      hangyeId: '',
       job: '',
+      jobId: '',
       schoolName: '',
-      secectSalary: 'month',
-      offerDate: ''
+      schoolId: '',
+      secectSalary: 'year',
+      offerDate: '',
+      yearSalaryMax: 0,
+      yearSalaryMin: 0,
+      monthSalary: 0,
+      monthNum: 0,
+      experienceMonthNum: 0,
+      cityId: '',
+      cityName: '',
+
+      showCompanySearch: false,
+      companyList: [],
+      showJobSearch: false,
+      jobList: [],
+      showHangyeSearch: false,
+      hangyeList: [],
+      showCitySearch: false,
+      cityList: [],
+      showSchoolSearch: false,
+      schoolList: [],
     }
 
     methods = {
@@ -279,9 +362,10 @@
         let itemList = e == 0 ? this.educations : this.schools
         let self = this
 
-        wepy.showActionSheet({
+        wx.showActionSheet({
           itemList: itemList,
           success: function(res) {
+            // console.log(res)
             if (!res.cancel) {
               console.log(res.tapIndex)
               if(e == 1) {
@@ -291,6 +375,9 @@
               }
               self.$apply()
             }
+          },
+          fail: function(res) {
+            console.log(res.errMsg)
           }
         })
       },
@@ -316,7 +403,6 @@
       },
 
       bindInput: function(e) {
-        // console.log(e)
         this.addItemInfo = e.detail.value
       },
 
@@ -333,23 +419,167 @@
       bindDateChange: function(e) {
         // console.log('picker发送选择改变，携带值为', e.detail.value)
         this.offerDate = e.detail.value
+      },
+      inputExperienceMonthNum: function(e) {
+        this.experienceMonthNum = e.detail.value
+      },
+      inputYearSalaryMax: function(e) {
+        this.yearSalaryMax = e.detail.value
+      },
+      inputYearSalaryMin: function(e) {
+        this.yearSalaryMin = e.detail.value
+      },
+      inputMonthSalary: function(e) {
+        this.monthSalary = e.detail.value
+      },
+      inputMonthNum: function(e) {
+        this.monthNum = e.detail.value
+      },
+      inputExperienceMonthNum: function(e) {
+        this.experienceMonthNum = e.detail.value
+      },
+
+      findCompany: function(e) {
+        this.findMatchInfoByName('company', e.detail.value)
+      },
+
+      findHangye: function(e) {
+        this.findMatchInfoByName('hangye', e.detail.value)
+      },
+
+      findJob: function(e) {
+        this.findMatchInfoByName('job', e.detail.value)
+      },
+
+      findCity: function(e) {
+        this.findMatchInfoByName('city', e.detail.value)
+      },
+
+      findSchool: function(e) {
+        this.findMatchInfoByName('school', e.detail.value)
+      },
+
+      selectThisCompany: function(e) {
+        this.company = e.cName
+        this.companyId = e.id
+        this.companyList = []
+        this.showCompanySearch = false
+      },
+      selectThisHangye: function(e) {
+        console.log(e)
+        this.hangye = e.cName
+        this.hangyeId = e.id
+        this.hangyeList = []
+        this.showHangyeSearch = false
+        this.$apply()
+      },
+      selectThisJob: function(e) {
+        console.log(e)
+        this.job = e.cName
+        this.jobId = e.id
+        this.jobList = []
+        this.showJobSearch = false
+      },
+      selectThisCity: function(e) {
+        console.log(e)
+        this.city = e.cName
+        this.cityId = e.id
+        this.cityList = []
+        this.showCitySearch = false
+      },
+      selectThisSchool: function(e) {
+        console.log(e)
+        this.schoolName = e.cName
+        this.schoolId = e.id
+        this.schoolList = []
+        this.showSchoolSearch = false
+      },
+    }
+
+    findMatchInfoByName(type, name) {
+      let self = this
+      let url = Api.host
+      if(type == 'company') {
+        url += Api.searchCorperation
+      } else if(type == 'job') {
+        url += Api.searchJob
+      } else if(type == 'hangye') {
+        url += Api.searchIndustry
+      } else if(type == 'city') {
+        url += Api.searchDistrict
+      } else if(type == 'school') {
+        url += Api.searchCollege
       }
+
+      url += '/' + name
+
+      wepy.request({
+        url: url,
+      }).then(res => {
+        console.log(res)
+        if(res.data.code == 0 &&res.data.body.data.length > 0) {
+          let result = res.data.body.data
+          if(type == 'company') {
+            self.companyList = result
+            self.showCompanySearch = true
+          } else if(type == 'job') {
+            self.jobList = result
+            self.showJobSearch = true
+          } else if(type == 'hangye') {
+            self.hangyeList = result
+            self.showHangyeSearch = true
+          } else if(type == 'city') {
+            self.cityList = result
+            self.showCitySearch = true
+          } else if(type == 'school') {
+            self.schoolList = result
+            self.showSchoolSearch = true
+          }
+          self.$apply()
+        } else {
+          self.showCompanySearch = false
+          self.showJobSearch = false
+          self.showHangyeSearch = false
+          self.showCitySearch = false
+          self.showSchoolSearch = false
+          self.$apply()
+        }
+      })
     }
 
     postAddSalary() {
       const url = Api.host + Api.addSalary
-
+      let welfare = ''
+      for(let fuli of this.fuliInfos) {
+        if(fuli.checked) {
+          welfare += fuli.value
+        }
+      }
       wepy.request({
         url: url,
         method: 'POST',
         data: {
-          // token: this.$parent.globalData.token,
-          email: this.email,
-          petName: this.userInfo.nickName,
-          photoPath: this.userInfo.avatarUrl,
-          college: this.schoolId
+          cityId: this.cityId,
+          jobId: this.jobId,
+          userId: this.$parent.globalData.userInfo.id,
+          collegeId: this.schoolId,
+          industryId: this.hangyeId,
+          corId: this.companyId,
+          yearSalaryMax: this.yearSalaryMax,
+          yearSalaryMin: this.yearSalaryMin,
+          monthSalary: this.monthSalary,
+          monthNum: this.monthNum,
+          welfare: welfare,
+          collegeLevel: this.school,
+          eduBackground: this.education,
+          offerTime: this.offerDate,
+          experienceMonthNum: 0,
         },
-      })
+      }).then(res => {
+        console.log(res.data)
+      }).catch(
+        console.log('erro')
+      )
     }
   }
 </script>

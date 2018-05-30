@@ -54,20 +54,20 @@
               <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">昵称</view>
                 <view class="value">
-                  <open-data class="weui-media-box__title" type="userNickName" lang="zh_CN"></open-data>
+                  {{userInfo.petName}}
                 </view>
               </view>
             </view>
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
               <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">学校</view>
-                <view class="value">华南理工大学</view>
+                <view class="value">{{userInfo.college}}</view>
               </view>
             </view>
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
               <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">邮箱</view>
-                <view class="value">1032158854@qq.com</view>
+                <view class="value">{{userInfo.email}}</view>
               </view>
             </view>
           </view>
@@ -95,19 +95,10 @@
     }
 
     onLoad() {
-      let self = this
-      console.log('enter userinfo')
-      console.log(this.$parent.globalData.userInfo)
       if (this.$parent.globalData.userInfo) {
         this.userInfo = this.$parent.globalData.userInfo
       } else {
-        // this.$parent.getUserInfo(function (userInfo) {
-        //   console.log(userInfo)
-        //   if (userInfo) {
-        //     self.userInfo = userInfo
-        //   }
-        //   self.$apply()
-        // })
+
       }
     }
   }

@@ -40,7 +40,7 @@
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <!-- <view class="weui-media-box__title">{{userInfo.nickName}}</view> -->
               <open-data class="weui-media-box__title" type="userNickName" lang="zh_CN"></open-data>
-              <view class="weui-media-box__desc">华南理工大学</view>
+              <view class="weui-media-box__desc">{{userInfo.college}}</view>
           </view>
         </view>
       </view>
@@ -154,19 +154,7 @@
 
     onLoad() {
       let self = this
-      // this.$parent.getUserInfo(function (userInfo) {
-      //   console.log(userInfo)
-      //   if (userInfo) {
-      //     self.userInfo = userInfo
-      //   }
-      //   self.$apply()
-      // })
-
-      wepy.login({
-        success (res) {
-          console.log(res)
-        }
-      })
+      this.userInfo = this.$parent.globalData.userInfo;
     }
   }
 </script>
