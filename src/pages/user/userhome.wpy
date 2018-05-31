@@ -39,7 +39,7 @@
           </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <!-- <view class="weui-media-box__title">{{userInfo.nickName}}</view> -->
-              <open-data class="weui-media-box__title" type="userNickName" lang="zh_CN"></open-data>
+              <view class="weui-media-box__title">{{userInfo.petName}}</view>
               <view class="weui-media-box__desc">{{userInfo.college}}</view>
           </view>
         </view>

@@ -84,16 +84,16 @@
             <view class="salary">{{itemValue.salary}}</view>
         </view>
         <view class="weui-media-box__desc detail">
-          {{itemValue.company}}
+          {{itemValue.corporation}}
         </view>
         <view class="weui-media-box__desc detail">
           <view class='tags'>
             <view class="tag">{{itemValue.city}}</view>
-            <view class="tag">{{itemValue.xueli}}</view>
-            <view class="tag">{{itemValue.jingyan}}</view>
+            <view class="tag">{{itemValue.collegeLevel}}</view>
+            <view class="tag">{{itemValue.experienceMonthNum}}月</view>
           </view>
           <view class='date'>
-            {{itemValue.date}}
+            {{itemValue.offerTime}}
           </view>
         </view>
         <view wx:if="{{itemValue.join}}" class="weui-media-box__info">
@@ -113,9 +113,9 @@
 
     methods = {
       viewSalaryInfo: function() {
-        console.log(this.editable)
+        console.log(this.itemValue.id)
         wepy.navigateTo({
-          url: '../salary/salaryInfo',
+          url: '../salary/salaryInfo?id=' + this.itemValue.id,
         })
       }
     }

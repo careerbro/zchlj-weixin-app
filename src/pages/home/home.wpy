@@ -336,53 +336,7 @@ button[size = mini] {
       selectOrder: false,
       loadingMore: false,
       loadingNew: false,
-      datalist: [
-        {
-          job: 'Web前端高级开发工程师学习学习学习学习',
-          salary: '10K-14K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '1-3年',
-          xueli: '本科',
-          date: '2018-05'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '1K-4K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '0-1年',
-          xueli: '本科',
-          date: '2018-05'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '13K-15K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '2018-05'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '1K-4K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '0-1年',
-          xueli: '本科',
-          date: '2018-05'
-        },
-        {
-          job: 'Web前端高级开发工程师',
-          salary: '13K-15K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '2018-05'
-        },
-      ],
+      datalist: [],
       filterList: null,
       cityList: [
         {name: '热门', value: ['北京','上海','广州','深圳','杭州','成都','南京','武汉','西安','厦门','长沙','苏州']},
@@ -510,23 +464,23 @@ button[size = mini] {
       this.loadingMore = true;
       this.$apply()
       let temp = this.datalist;
-      for(let i of ['','','','','','']) {
-        temp.push({
-          job: 'Web前端高级开发工程师',
-          salary: '13K-15K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '2018-05'
-        })
-      }
-      setTimeout(() => {
+      // for(let i of ['','','','','','']) {
+      //   temp.push({
+      //     job: 'Web前端高级开发工程师',
+      //     salary: '13K-15K',
+      //     company:'腾讯-运营开发',
+      //     city: '广州',
+      //     jingyan: '3-5年',
+      //     xueli: '本科',
+      //     date: '2018-05'
+      //   })
+      // }
+      // setTimeout(() => {
 
-        this.datalist = temp;
-        this.loadingMore = false;
-        this.$apply()
-      }, 3000);
+      //   this.datalist = temp;
+      //   this.loadingMore = false;
+      //   this.$apply()
+      // }, 3000);
     }
 
     checkUserLogin(code) {
@@ -547,11 +501,32 @@ button[size = mini] {
           })
         } else if(res.data.code == 0) {
           this.$parent.globalData.userInfo = res.data.body.data
+          this.getSalary()
         }
       })
     }
 
+    getSalary(){
+      const url = Api.host + Api.salary
 
+      wepy.request({
+        url: url,
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == 0 ) {
+          let result = res.data.body.data
+          for(let salary of result){
+            salary.join = false
+            salary.salary = salary.yearSalaryMin + 'K-' + salary.yearSalaryMax + 'K'
+            if(salary.offerTime!=null && salary.offerTime!='') {
+              salary.offerTime = salary.offerTime.slice(0,7)
+            }
+          }
+          this.datalist = result
+          this.$apply()
+        }
+      })
+    }
 
     onLoad() {
       if(this.$parent.globalData.firstLogin) {
@@ -562,6 +537,7 @@ button[size = mini] {
       wepy.login().then(res => {
         console.log(res)
         this.checkUserLogin(res.code)
+
       })
     }
   }

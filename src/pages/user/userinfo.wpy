@@ -50,7 +50,7 @@
                 <!-- </view> -->
               </view>
             </view>
-            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="updateUserInfo('petName')">
               <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">昵称</view>
                 <view class="value">
@@ -58,16 +58,16 @@
                 </view>
               </view>
             </view>
-            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-              <view class="weui-cell__bd weui-cell_primary">
-                <view class="label">学校</view>
-                <view class="value">{{userInfo.college}}</view>
-              </view>
-            </view>
-            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="updateUserInfo('email')">
               <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">邮箱</view>
                 <view class="value">{{userInfo.email}}</view>
+              </view>
+            </view>
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="updateUserInfo('college')">
+              <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">学校</view>
+                <view class="value">{{userInfo.college}}</view>
               </view>
             </view>
           </view>
@@ -76,29 +76,81 @@
     </view>
   </view>
 
-  <!-- <modal hidden="{{addItemForm}}" title="{{addItemFormTitle}}" confirm-text="提交" cancel-text="取消" bindcancel="cancelAdd" bindconfirm="confirmAdd">
-    <input type='text' placeholder="请输入福利信息" bindinput="bindInput"/>
-  </modal> -->
+  <MaskModal1 wx:if="{{showPetNameMask}}" :title.sync="maskTitle1" :placeholder.sync="maskPlace1"
+    :value.sync="petNameValue" @cancel.user="cancel" @confirm.user="confirmName"></MaskModal1>
+  <MaskModal2 wx:if="{{showEmailMask}}" :title.sync="maskTitle2" :placeholder.sync="maskPlace3"
+    :value.sync="emailValue" @cancel.user="cancel" @confirm.user="confirmEmail"></MaskModal2>
 
 </template>
 
 <script>
   import wepy from 'wepy'
+  import Api from '../../config/api.js'
+  import MaskModal from '../../components/MaskModal'
 
   export default class userInfo extends wepy.page{
     config = {
       navigationBarTitleText: '个人信息'
     }
 
+    components = {
+      MaskModal1 : MaskModal,
+      MaskModal2 : MaskModal
+    }
+
     data = {
-      userInfo: null
+      userInfo: null,
+      showPetNameMask: false,
+      showEmailMask: false,
+      maskTitle1: '修改用户名',
+      maskPlace1: '请输入新的用户名',
+      maskTitle2: '修改邮箱',
+      maskPlace2: '请输入新的邮箱地址',
+      petNameValue: '',
+      emailValue: ''
+    }
+
+    methods = {
+      updateUserInfo: function (key) {
+        console.log(key)
+        if(key == 'petName') {
+          this.petNameValue = this.userInfo.petName
+          this.showPetNameMask = true
+        } else if(key == 'college') {
+          this.maskTitle = '修改用户名'
+          this.maskPlace = '请输入新的用户名'
+        } else if(key == 'email') {
+          this.emailValue = this.userInfo.email
+          this.showEmailMask = true
+        }
+        this.$apply()
+      },
+
+      cancel: function(e) {
+        this.showPetNameMask = false
+        this.showEmailMask = false
+      },
+      confirmName: function(value, e) {
+        console.log(value)
+        if(value != this.userInfo.petName) {
+
+        } else {
+          this.showPetNameMask = false
+        }
+      },
+      confirmEmail: function(value, e) {
+        console.log(value)
+        if(value != this.userInfo.email) {
+
+        } else {
+          this.showEmailMask = false
+        }
+      }
     }
 
     onLoad() {
       if (this.$parent.globalData.userInfo) {
         this.userInfo = this.$parent.globalData.userInfo
-      } else {
-
       }
     }
   }

@@ -51,7 +51,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-              <input name="contact" class="weui-textarea" placeholder="留下手机号或邮箱，方便我们联系你呦～"  />
+              <input  value="{{email}}" name="contact" class="weui-textarea" placeholder="留下手机号或邮箱，方便我们联系你呦～"  />
           </view>
         </view>
       </view>
@@ -82,6 +82,7 @@
         {name: '信息有误', value: '2', checked: false},
         {name: '其它', value: '3', checked: false}
       ],
+      email: ''
     }
 
     methods = {
@@ -130,6 +131,7 @@
 
     onLoad() {
       let self = this
+      this.email = this.$parent.globalData.userInfo.email
       console.log('enter feedback')
     }
   }

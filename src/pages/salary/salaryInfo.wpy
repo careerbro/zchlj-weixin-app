@@ -94,8 +94,8 @@
                 <image class="weui-media-box__thumb" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525702730448&di=844c3e7e3fb2a0c9e7038bfd7d0d4ef4&imgtype=0&src=http%3A%2F%2Fimg.yzmg.com%2F201605%2F20160502%2F2016050210575134.jpg" />
             </view> -->
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                <view class="weui-media-box__title">腾讯科技</view>
-                <view class="weui-media-box__desc">互联网</view>
+                <view class="weui-media-box__title">{{salaryInfo.corporation}}</view>
+                <view class="weui-media-box__desc">{{salaryInfo.industry}}</view>
             </view>
           </view>
         </view>
@@ -106,7 +106,7 @@
           <!-- <view class="weui-cells weui-cells_in-small-appmsg"> -->
             <view class="weui-cell weui-cell_access job-cell" hover-class="weui-cell_active">
               <view class="weui-cell__bd weui-cell_primary">
-                  <view>Web前端高级开发工程师</view>
+                  <view>{{salaryInfo.job}}</view>
               </view>
               <!-- <view class="job-share" @tap="shareThisItemToOther">
                 <image class="job-share-icon" src="../../images/fenxiang1.png" />
@@ -118,7 +118,7 @@
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">薪资</view>
-                <view class="value">20x16/年</view>
+                <view class="value">{{salaryInfo.salary}}</view>
             </view>
           </view>
         </view>
@@ -126,7 +126,7 @@
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">学习背景</view>
-                <view class="value">985高校</view>
+                <view class="value">{{salaryInfo.eduBackGround}}--{{salaryInfo.collegeLevel}}</view>
             </view>
           </view>
         </view>
@@ -134,7 +134,7 @@
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">工作经验</view>
-                <view class="value">1年</view>
+                <view class="value">{{salaryInfo.experienceMonthNum}}月</view>
             </view>
           </view>
         </view>
@@ -142,7 +142,7 @@
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">地点</view>
-                <view class="value">深圳</view>
+                <view class="value">{{salaryInfo.city}}</view>
             </view>
           </view>
         </view>
@@ -152,9 +152,9 @@
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">福利信息</view>
                 <view class="value">
-                  <view>包食宿</view>
-                  <view>交通补贴</view>
-                  <view>解决户口</view>
+                <repeat for="{{salaryInfo.fuli}}" index="index" item="item">
+                  <view>{{item}}</view>
+                </repeat>
                 </view>
             </view>
           </view>
@@ -164,7 +164,7 @@
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">Offer发放时间</view>
-                <view class="value">2017-08</view>
+                <view class="value">{{salaryInfo.offtime}}</view>
             </view>
           </view>
         </view>
@@ -176,8 +176,8 @@
           <view class="zantong-box">
             <image wx:if="{{zantong}}" class="option-other-icon" src="../../images/zantong1.png" />
             <image wx:if="{{!zantong}}" class="option-other-icon" src="../../images/zantong2.png" />
-            <view wx:if="{{zantong}}" class="option-zantong-label" style="color: #6f95ff">已赞同9999</view>
-            <view wx:if="{{!zantong}}" class="option-zantong-label">赞同9999</view>
+            <view wx:if="{{zantong}}" class="option-zantong-label" style="color: #6f95ff">已赞同{{salaryInfo.agreeNum}}</view>
+            <view wx:if="{{!zantong}}" class="option-zantong-label">赞同{{salaryInfo.agreeNum}}</view>
           </view>
         </view>
         <view class="option-buzantong" @tap="buzantongThisItem">
@@ -225,6 +225,7 @@
 
 <script>
   import wepy from 'wepy'
+  import Api from '../../config/api.js'
 
   export default class salaryInfo extends wepy.page{
     config = {
@@ -298,6 +299,31 @@
         title: '哇，这里的薪资待遇好诱人啊，好想去啊！',
         desc: '',
         path: '/pages/salary/salaryInfo'
+      }
+    }
+
+    getSalaryInfo(id) {
+      const url = Api.host + Api.salary + '/' + id
+
+      wepy.request({
+        url: url,
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == 0) {
+          let result = res.data.body.data
+          result.salary = result.yearSalaryMin + 'K-' + result.yearSalaryMax + 'K'
+          result.fuli = result.welfare.split(",")
+          result.offtime = result.offerTime.substring(0,10)
+          this.salaryInfo = result
+          this.$apply()
+        }
+      })
+    }
+
+    onLoad(options) {
+      if(options && options.id) {
+        console.log(options.id)
+        this.getSalaryInfo(options.id)
       }
     }
   }

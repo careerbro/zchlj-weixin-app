@@ -1,6 +1,6 @@
 export default {
-  // host: 'http://10.1.2.201:8080',
-  host: 'http://10.1.2.9:8080',
+  host: 'http://10.1.2.201:8080',
+  // host: 'http://10.1.2.9:8080',
   // host: 'http://39.108.63.38:8080',
 
   user: '/careerbro/user/user',
@@ -29,7 +29,7 @@ export default {
   searchIndustry: '/careerbro/industry/industry', // 行业模糊搜索
   searchCorperation: '/careerbro/corporation/corporation', // 公司模糊搜索
 
-  addSalary: '/careerbro/salary/salary', // post
+  salary: '/careerbro/salary/salary', // post
 
   comment: '/careerbro/comment/comment', // post 评论
 

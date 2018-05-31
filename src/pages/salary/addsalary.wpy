@@ -5,6 +5,7 @@
 .page {
   padding-top: 20rpx;
   margin-top: -20rpx;
+  padding-bottom:40px;
 }
 
 .weui-cells {
@@ -52,11 +53,14 @@
   border-radius: 0.4em;
   overflow: hidden;
   overflow-y: auto;
-  font-size: 32rpx;
 }
 
 .search-select-bar > .weui-cell {
   padding: 3px 10px;
+}
+
+.import-item-color {
+  /* color: #FF7F50 */
 }
 
 </style>
@@ -70,7 +74,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label">公司名称</view>
+              <view class="weui-label import-item-color">公司名称</view>
           </view>
           <view class="weui-cell__bd">
               <input class="weui-input select-input-value" value="{{company}}"  placeholder="请输入公司名称" @input="findCompany"/>
@@ -91,7 +95,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label">岗位名称</view>
+              <view class="weui-label import-item-color">岗位名称</view>
           </view>
           <view class="weui-cell__bd">
               <input class="weui-input select-input-value" value="{{job}}"  placeholder="请输入岗位名称"  @input="findJob"/>
@@ -99,7 +103,7 @@
         </view>
       </view>
 
-      <view class="weui-cells__title">薪资数据</view>
+      <view class="weui-cells__title" >薪资数据</view>
       <view class="weui-cells weui-cells_after-title">
         <radio-group bindchange="radioChange">
           <view class="weui-cell weui-cell_input">
@@ -107,7 +111,8 @@
               <view class="salary-title-icon">
                 <icon  wx:if="{{secectSalary == 'year'}}" class="weui-icon-radio" type="success_no_circle"></icon>
               </view>
-              <view class="weui-label salary-title-label">年薪</view>
+              <view wx:if="{{secectSalary == 'year'}}" class="weui-label salary-title-label import-item-color">年薪</view>
+              <view wx:if="{{secectSalary == 'month'}}" class="weui-label salary-title-label" >年薪</view>
             </view>
             <view class="weui-cell__bd salary-input">
               <input class="weui-input salary-input-value" type="number"  @input="inputYearSalaryMax"/>
@@ -122,7 +127,8 @@
               <view class="salary-title-icon">
                 <icon  wx:if="{{secectSalary == 'month'}}" class="weui-icon-radio" type="success_no_circle"></icon>
               </view>
-              <view class="weui-label salary-title-label">月薪</view>
+              <view wx:if="{{secectSalary == 'month'}}" class="weui-label salary-title-label import-item-color">月薪</view>
+              <view wx:if="{{secectSalary == 'year'}}" class="weui-label salary-title-label" >月薪</view>
             </view>
             <view class="weui-cell__bd salary-input">
               <input class="weui-input salary-input-value" type="number" @input="inputMonthSalary"/>
@@ -185,7 +191,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label">工作经验</view>
+              <view class="weui-label import-item-color">工作经验</view>
           </view>
           <view class="weui-cell__bd">
               <input class="weui-input"  type="number" placeholder="请输入工作月数" @input="inputExperienceMonthNum"/>
@@ -196,7 +202,7 @@
               <view class="weui-label">Offer时间</view>
           </view>
           <view class="weui-cell__bd">
-            <picker mode="date" value="{{offerDate}}" fields="month" @change="bindDateChange">
+            <picker mode="date" value="{{offerDate}}" @change="bindDateChange">
               <input class="weui-input" value="{{offerDate}}" placeholder="请选择得到Offer时间" disabled/>
             </picker>
           </view>
@@ -219,6 +225,16 @@
                 </view>
             </view>
         </view> -->
+
+      <label class="weui-agree" for="weuiAgree">
+        <view class="weui-agree__text">
+          <!-- <view class="weui-agree__checkbox-icon">
+              <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9"></icon>
+          </view> -->
+          <!-- 阅读并同意<navigator url="" class="weui-agree__link">《相关条款》</navigator> -->
+          <view style="display:flex;">注意：使用<view class="import-item-color">颜色</view>标注项目为必填项，请填写</view>
+        </view>
+      </label>
     </view>
 
 
@@ -230,7 +246,7 @@
   <MaskModal wx:if="{{showMask}}" :title.sync="addItemFormTitle" :placeholder.sync="addItemFormPlace"
     :value.sync="addItemInfo" @cancel.user="cancelAdd" @confirm.user="confirmAdd"></MaskModal>
 
-  <view wx:if="{{showCompanySearch}}" class="search-select-bar" style="top: 86px;">
+  <view wx:if="{{showCompanySearch}}" class="search-select-bar" style="top: 82px;">
     <repeat for="{{companyList}}" item="item">
       <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisCompany({{item}})">
         <view class="weui-cell__bd weui-cell_primary">
@@ -317,11 +333,11 @@
       schoolId: '',
       secectSalary: 'year',
       offerDate: '',
-      yearSalaryMax: 0,
-      yearSalaryMin: 0,
-      monthSalary: 0,
-      monthNum: 0,
-      experienceMonthNum: 0,
+      yearSalaryMax: '',
+      yearSalaryMin: '',
+      monthSalary: '',
+      monthNum: '',
+      experienceMonthNum: '',
       cityId: '',
       cityName: '',
 
@@ -548,35 +564,86 @@
     }
 
     postAddSalary() {
-      const url = Api.host + Api.addSalary
+      const url = Api.host + Api.salary
       let welfare = ''
       for(let fuli of this.fuliInfos) {
         if(fuli.checked) {
-          welfare += fuli.value
+          welfare += fuli.value + ','
         }
+      }
+      welfare = welfare.substring(0,welfare.length-1)
+      if(this.jobId ==null || this.jobId == '' ) {
+        wepy.showToast({
+          title: '岗位信息不完整，请填写',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+      if(this.companyId ==null || this.companyId == '' ) {
+        wepy.showToast({
+          title: '公司信息不完整，请填写',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+      console.log(this.yearSalaryMax)
+      console.log(this.yearSalaryMin)
+      console.log(this.monthSalary)
+      console.log(this.monthNum)
+      if((this.yearSalaryMax != '' || this.yearSalaryMin != '') && (this.monthSalary != '' || this.monthNum != '') ) {
+        wepy.showToast({
+          title: '薪资信息不完整，请填写',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+      console.log(this.experienceMonthNum)
+      if(this.experienceMonthNum == null || this.experienceMonthNum == '' ) {
+        wepy.showToast({
+          title: '工作经验信息不完整，请填写',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
       }
       wepy.request({
         url: url,
         method: 'POST',
         data: {
-          cityId: this.cityId,
-          jobId: this.jobId,
-          userId: this.$parent.globalData.userInfo.id,
-          collegeId: this.schoolId,
-          industryId: this.hangyeId,
-          corId: this.companyId,
-          yearSalaryMax: this.yearSalaryMax,
-          yearSalaryMin: this.yearSalaryMin,
-          monthSalary: this.monthSalary,
-          monthNum: this.monthNum,
+          city: this.cityId,
+          job: this.jobId,
+          user: this.$parent.globalData.userInfo.id,
+          college: this.schoolId,
+          industry: this.hangyeId,
+          corporation: this.companyId,
+          yearSalaryMax: this.yearSalaryMax != '' ? this.yearSalaryMax : 0,
+          yearSalaryMin: this.yearSalaryMin != '' ? this.yearSalaryMin : 0,
+          monthSalary: this.monthSalary != '' ? this.monthSalary : 0,
+          monthNum: this.monthNum != '' ? this.monthNum : 0,
           welfare: welfare,
           collegeLevel: this.school,
-          eduBackground: this.education,
+          eduBackGround: this.education,
           offerTime: this.offerDate,
-          experienceMonthNum: 0,
+          experienceMonthNum:  this.experienceMonthNum != '' ? this.experienceMonthNum : 0,
         },
       }).then(res => {
         console.log(res.data)
+        if(res.data.code == 0) {
+          wepy.showToast({
+            title: '提交成功！感谢你的参与和奉献，愿你工作顺利',
+            icon: 'success',
+            duration: 2000
+          });
+        } else {
+          wepy.showToast({
+            title: '抱歉，服务器发生错误了，请稍后重试',
+            icon: 'none',
+            duration: 2000
+          });
+        }
       }).catch(
         console.log('erro')
       )
