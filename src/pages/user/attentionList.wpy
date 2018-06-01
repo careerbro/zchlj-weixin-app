@@ -22,50 +22,55 @@
 <template>
   <view  class="container">
     <view class="attention-info">
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-panel weui-panel_access all-item-info">
-            <repeat for="{{datalist}}" index="index" item="item">
-              <SalaryItem :itemValue.sync="item"></SalaryItem>
-            </repeat>
+      <!-- <view class="weui-media-box weui-media-box_small-appmsg"> -->
+        <repeat for="{{datalist}}" index="index" item="item">
+          <view class="weui-panel">
+            <view class="weui-media-box weui-media-box_small-appmsg">
+              <view class="weui-cells weui-cells_in-small-appmsg">
+                <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                  <view class="weui-cell__bd weui-cell_primary">
+                      <view>{{item.attend}}</view>
+                  </view>
+                </view>
+              </view>
+            </view>
           </view>
-        </view>
-      </view>
+        </repeat>
+      <!-- </view> -->
     </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import SalaryItem  from '../../components/SalaryItem'
+  import Api from '../../config/api.js'
 
   export default class attentionList extends wepy.page{
 
     data = {
       type: '',
-      datalist: [
-        {
-          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
-          job: 'Web前端高级开发',
-          salary: '10K-14K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '1-3年',
-          xueli: '本科',
-          date: '04-24'
-        },
-      ]
-    }
-
-    components = {
-      SalaryItem
+      datalist: []
     }
 
     methods = {
-      goToPage: (url) => {
-        wepy.navigateTo({
-          url: url,
-        })
-      }
+    }
+
+    getAttentionList() {
+      let url = Api.host + Api.attention
+
+      wepy.request({
+        url: url,
+        data: {
+          uid: this.$parent.globalData.userInfo.id,
+          category: this.type
+        }
+      }).then(res=> {
+        console.log(res.data)
+        if(res.data.code == 0) {
+          this.datalist = res.data.body.data
+          this.$apply()
+        }
+      })
     }
 
     onLoad(options) {
@@ -74,6 +79,7 @@
       wepy.setNavigationBarTitle({
         title: options.title
       })
+      this.getAttentionList()
     }
   }
 </script>

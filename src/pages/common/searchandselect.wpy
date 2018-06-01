@@ -18,17 +18,19 @@
               </view>
               <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
                   <icon class="weui-icon-search" type="search" size="14"></icon>
-                  <view class="weui-search-bar__text">搜索</view>
+                  <view class="weui-search-bar__text">输入并选择新的学校</view>
               </label>
           </view>
           <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
         </view>
         <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
-          <view class="weui-cell" hover-class="weui-cell_active" @tap="selectItem('')">
+          <repeat for="{{schoolList}}" item="item">
+          <view class="weui-cell" hover-class="weui-cell_active" @tap="selectItem({{item}})">
               <view class="weui-cell__bd">
-                  <view>实时搜索文本</view>
+                  <view>{{item.cName}}</view>
               </view>
           </view>
+          </repeat>
         </view>
       </view>
     </view>
@@ -37,13 +39,15 @@
 
 <script>
   import wepy from 'wepy'
+  import Api from '../../config/api.js'
 
   export default class searchandselect extends wepy.page{
 
     data = {
       inputShowed: false,
       inputVal: "",
-      type: ''
+      type: '',
+      schoolList: []
     }
 
     methods = {
@@ -58,34 +62,83 @@
       },
       inputTyping: function (e) {
         this.inputVal= e.detail.value
+        if(e.detail.value!= '') {
+          this.searchCollege(e.detail.value)
+        }
       },
 
       selectItem: function(item) {
         console.log("selectItem..", item);
-        // 更新上一页
-        item = '测试返回'
-        let pages = getCurrentPages();
-        let prePage = pages[pages.length - 2];
-        if(this.type == 'company') {
-          this.$parent.$pages[`/${prePage.route}`].company = item;
-        } else if (this.type == 'hangye') {
-          this.$parent.$pages[`/${prePage.route}`].hangye = item;
-        } else if (this.type == 'job') {
-          this.$parent.$pages[`/${prePage.route}`].job = item;
-        } else if (this.type == 'schoolName') {
-          this.$parent.$pages[`/${prePage.route}`].schoolName = item;
-        }
-        this.$parent.$pages[`/${prePage.route}`].$apply();
-
-        wepy.navigateBack({
-          delta: 1
+        const self = this
+        wx.showModal({
+          title: '确定修改学校信息',
+          confirmText: "确认",
+          cancelText: "取消",
+          success: function (res) {
+            console.log(res)
+            if (res.confirm) {
+              // 更新上一页
+              self.changeSchool(item)
+            }else{
+              console.log('取消')
+            }
+          }
         });
       }
     }
 
+    changeSchool(item) {
+      const url = Api.host + Api.user
+      console.log(url)
+      wepy.request({
+        url: url,
+        method: 'PUT',
+        data: {
+          college: item.id,
+          id: this.$parent.globalData.userInfo.id
+        }
+      }).then(res => {
+        console.log(res)
+        if(res.data.code == 0) {
+          wepy.showToast({
+            title: '修改成功！页面将自动返回！',
+            icon: 'none',
+            duration: 2000
+          });
+          let pages = getCurrentPages();
+          let prePage = pages[pages.length - 2];
+          this.$parent.$pages[`/${prePage.route}`].college = item.cName;
+          this.$parent.$pages[`/${prePage.route}`].$apply();
+          this.$parent.globalData.userInfo.college = item.cName;
+
+          wepy.navigateBack({
+            delta: 1
+          });
+        } else {
+          wepy.showToast({
+            title: '修改失败！请重试！',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      })
+    }
+
+    searchCollege(school) {
+      const url = Api.host + Api.searchCollege + '/' + school
+      console.log(url)
+      wepy.request({
+        url: url,
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == 0 &&res.data.body.data.length > 0) {
+          this.schoolList = res.data.body.data
+          this.$apply()
+        }
+      })
+    }
+
     onLoad(options) {
-      console.log(options)
-      this.type = options.type
       wepy.setNavigationBarTitle({
         title: options.title
       })

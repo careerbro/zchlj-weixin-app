@@ -9,15 +9,10 @@ export default {
   login: '/careerbro/sys/login',
 
   /**
-   * GET /:uid  关注公司
+   * GET /:uid  关注
    * POST  取消关注
    */
-  attentionCompany: '/careerbro/attention/corperation' ,
-  /**
-   * GET /:uid  关注岗位
-   * POST  取消关注
-   */
-  attentionJob: '/careerbro/attention/industry' ,
+  attention: '/careerbro/attention/attention' ,
 
   userJoin: '/careerbro/salary/user', // :uid 用户发布薪资信息
 
@@ -30,6 +25,9 @@ export default {
   searchCorperation: '/careerbro/corporation/corporation', // 公司模糊搜索
 
   salary: '/careerbro/salary/salary', // post
+  salaryUser: '/careerbro/salary/user/', // get 根据用户ID查询用户发布的薪资信息
+  salaryShoucang: '/careerbro/salary/eva_system/', // get 获取用户关注（收藏）的薪资
+  salaryComment: '/careerbro/salary/comment/',  // get 获取用户评论赞同的薪资
 
   comment: '/careerbro/comment/comment', // post 评论
 

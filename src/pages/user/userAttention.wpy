@@ -24,15 +24,7 @@
     <view class="attention-info">
       <view class="weui-media-box weui-media-box_small-appmsg">
         <view class="weui-cells weui-cells_in-small-appmsg">
-          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToAttentionList('school', '关注学校')">
-            <view class="weui-cell__hd">
-              <image src="../../images/canyu.png" class='itemImageIcon' />
-            </view>
-            <view class="weui-cell__bd weui-cell_primary">
-                <view>关注学校</view>
-            </view>
-          </view>
-          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToAttentionList('company', '关注公司')">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToAttentionList(1, '关注公司')">
             <view class="weui-cell__hd">
               <image src="../../images/shoucang.png" class='itemImageIcon' />
             </view>
@@ -40,7 +32,7 @@
                 <view>关注公司</view>
             </view>
           </view>
-          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToAttentionList('job', '关注岗位')">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToAttentionList(2, '关注岗位')">
             <view class="weui-cell__hd">
               <image src="../../images/xihuan.png" class='itemImageIcon' />
             </view>
@@ -48,12 +40,20 @@
                 <view>关注岗位</view>
             </view>
           </view>
-          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToAttentionList('city', '关注城市')">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToAttentionList(3, '关注城市')">
             <view class="weui-cell__hd">
               <image src="../../images/canyu.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>关注城市</view>
+            </view>
+          </view>
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="goToAttentionList(4, '关注学校')">
+            <view class="weui-cell__hd">
+              <image src="../../images/canyu.png" class='itemImageIcon' />
+            </view>
+            <view class="weui-cell__bd weui-cell_primary">
+                <view>关注学校</view>
             </view>
           </view>
         </view>

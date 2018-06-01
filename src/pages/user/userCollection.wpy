@@ -36,6 +36,7 @@
 
 <script>
   import wepy from 'wepy'
+  import Api from '../../config/api.js'
   import SalaryItem  from '../../components/SalaryItem'
 
   export default class userCollection extends wepy.page{
@@ -49,63 +50,39 @@
 
     data = {
       type: '',
-      datalist: [
-        {
-          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
-          job: 'Web前端高级开发',
-          salary: '10K-14K',
-          company:'腾讯-运营开发',
-          city: '广州',
-          jingyan: '1-3年',
-          xueli: '本科',
-          date: '04-24'
-        },
-        {
-          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
-          job: '市场推广',
-          salary: '10K-20K',
-          company:'酷麦',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '一天前发布'
-        },
-        {
-          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
-          job: '市场推广',
-          salary: '10K-20K',
-          company:'酷麦',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '一天前发布'
-        },
-        {
-          picUrl: 'https://www.lgstatic.com/lp/static/images/common/three-7_b60c56d.png',
-          job: '市场推广',
-          salary: '10K-20K',
-          company:'酷麦',
-          city: '广州',
-          jingyan: '3-5年',
-          xueli: '本科',
-          date: '一天前发布'
-        },
-      ]
+      datalist: [],
     }
 
     components = {
       SalaryItem
     }
 
-    methods = {
-      goToPage: (url) => {
-        wepy.navigateTo({
-          url: url,
-        })
-      }
+    getSalaryByUserId() {
+      const url = Api.host + Api.salaryShoucang + this.userInfo.id
+
+      wepy.request({
+        url: url
+      }).then(res=> {
+        console.log(res)
+        if(res.data.code == 0) {
+          let result = res.data.body.data
+          for(let salary of result){
+            salary.join = false
+            if(salary.offerTime!=null && salary.offerTime!='') {
+              salary.offerTime = salary.offerTime.slice(0,7)
+            }
+          }
+          this.datalist = result
+          this.$apply()
+        }
+      })
     }
 
-    onLoad(options) {
+    onLoad() {
+      if(this.$parent.globalData.userInfo) {
+        this.userInfo = this.$parent.globalData.userInfo
+        this.getSalaryByUserId()
+      }
     }
   }
 </script>

@@ -115,10 +115,10 @@
               <view wx:if="{{secectSalary == 'month'}}" class="weui-label salary-title-label" >年薪</view>
             </view>
             <view class="weui-cell__bd salary-input">
-              <input class="weui-input salary-input-value" type="number"  @input="inputYearSalaryMax"/>
+              <input class="weui-input salary-input-value" type="number"  @input="inputYearSalaryMin"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
               <view style="width: 40rpx;">~</view>
-              <input class="weui-input salary-input-value" type="number" @input="inputYearSalaryMin"/>
+              <input class="weui-input salary-input-value" type="number" @input="inputYearSalaryMax"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
             </view>
           </view>
@@ -634,7 +634,7 @@
         if(res.data.code == 0) {
           wepy.showToast({
             title: '提交成功！感谢你的参与和奉献，愿你工作顺利',
-            icon: 'success',
+            icon: 'none',
             duration: 2000
           });
         } else {

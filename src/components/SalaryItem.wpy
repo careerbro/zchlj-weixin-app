@@ -81,7 +81,7 @@
     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
         <view class="weui-media-box__title ">
             <view class="job">{{itemValue.job}}</view>
-            <view class="salary">{{itemValue.salary}}</view>
+            <view class="salary">{{itemValue.yearSalaryMin}}K-{{itemValue.yearSalaryMax}}K</view>
         </view>
         <view class="weui-media-box__desc detail">
           {{itemValue.corporation}}
@@ -113,7 +113,7 @@
 
     methods = {
       viewSalaryInfo: function() {
-        console.log(this.itemValue.id)
+        console.log(this.itemValue)
         wepy.navigateTo({
           url: '../salary/salaryInfo?id=' + this.itemValue.id,
         })

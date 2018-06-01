@@ -64,7 +64,7 @@
                 <view class="value">{{userInfo.email}}</view>
               </view>
             </view>
-            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="updateUserInfo('college')">
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="changeSchool">
               <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">学校</view>
                 <view class="value">{{userInfo.college}}</view>
@@ -133,7 +133,7 @@
       confirmName: function(value, e) {
         console.log(value)
         if(value != this.userInfo.petName) {
-
+          this.confirmUpdateUserInfo(value, 'petName')
         } else {
           this.showPetNameMask = false
         }
@@ -141,11 +141,58 @@
       confirmEmail: function(value, e) {
         console.log(value)
         if(value != this.userInfo.email) {
-
+          this.confirmUpdateUserInfo(value, 'email')
         } else {
           this.showEmailMask = false
         }
+      },
+      changeSchool: function(e) {
+        wepy.navigateTo({
+          url: '../common/searchandselect?title=修改学校'
+        })
       }
+    }
+
+    confirmUpdateUserInfo(value, type) {
+      const url = Api.host + Api.user
+      console.log(url)
+      let data = {}
+      if(type == 'email') {
+        data = {email: value}
+      } else {
+        data = {petName: value}
+      }
+      data.id = this.$parent.globalData.userInfo.id
+      wepy.request({
+        url: url,
+        method: 'PUT',
+        data: data
+      }).then(res => {
+        console.log(res)
+        if(res.data.code == 0) {
+          wepy.showToast({
+            title: '修改成功！',
+            icon: 'none',
+            duration: 2000
+          });
+          this.showEmailMask = false
+          this.showPetNameMask = false
+          this.userInfo = res.data.body.user;
+          this.$parent.globalData.userInfo = res.data.body.user;
+
+          let pages = getCurrentPages();
+          let prePage = pages[pages.length - 2];
+          this.$parent.$pages[`/${prePage.route}`].userInfo = res.data.body.user;
+          this.$parent.$pages[`/${prePage.route}`].$apply();
+          this.$apply()
+        } else {
+          wepy.showToast({
+            title: '修改失败！请重试！',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      })
     }
 
     onLoad() {

@@ -116,7 +116,7 @@
         if(res.data.code == 0) {
           wepy.showToast({
             title: '提交成功！谢谢你的意见',
-            icon: 'success',
+            icon: 'none',
             duration: 2000
           });
         } else {

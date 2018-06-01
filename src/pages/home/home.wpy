@@ -517,7 +517,6 @@ button[size = mini] {
           let result = res.data.body.data
           for(let salary of result){
             salary.join = false
-            salary.salary = salary.yearSalaryMin + 'K-' + salary.yearSalaryMax + 'K'
             if(salary.offerTime!=null && salary.offerTime!='') {
               salary.offerTime = salary.offerTime.slice(0,7)
             }
