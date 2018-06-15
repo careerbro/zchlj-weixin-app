@@ -31,7 +31,9 @@ export default {
 
   comment: '/careerbro/comment/comment', // post 评论
 
-  addFeedback : '/careerbro/feedback/feedback', // post 反馈
+  salaryOption : '/careerbro/salary/eva_system', // post 对薪资信息的同意、感谢、反对、收藏、分享
 
   addSalary2: '/careerbro/salary/salary', // post
+
+
 }

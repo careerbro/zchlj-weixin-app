@@ -36,6 +36,7 @@ export default class extends wepy.app {
       'pages/salary/addSalary',
       'pages/salary/salaryInfo',
       'pages/salary/comments',
+      'pages/salary/moreSalary',
       'pages/common/searchandselect',
       'pages/system/feedback',
       'pages/system/setting',

@@ -90,10 +90,7 @@
       <view class="company-info">
         <view class="weui-panel weui-panel_access ">
           <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
-            <!-- <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                <image class="weui-media-box__thumb" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525702730448&di=844c3e7e3fb2a0c9e7038bfd7d0d4ef4&imgtype=0&src=http%3A%2F%2Fimg.yzmg.com%2F201605%2F20160502%2F2016050210575134.jpg" />
-            </view> -->
-            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" @tap="getMoreSalary(1)">
                 <view class="weui-media-box__title">{{salaryInfo.corporation}}</view>
                 <view class="weui-media-box__desc">{{salaryInfo.industry}}</view>
             </view>
@@ -102,7 +99,7 @@
       </view>
 
       <view class="weui-panel">
-        <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(2)">
           <!-- <view class="weui-cells weui-cells_in-small-appmsg"> -->
             <view class="weui-cell weui-cell_access job-cell" hover-class="weui-cell_active">
               <view class="weui-cell__bd weui-cell_primary">
@@ -138,7 +135,7 @@
             </view>
           </view>
         </view>
-        <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(3)">
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">地点</view>
@@ -270,21 +267,25 @@
       },
 
       thankThisItem: function() {
-        this.ganxie = !this.ganxie;
+        // this.ganxie = !this.ganxie;
+        this.postSalaryOptionByUser('thank')
       },
 
       zantongThisItem: function() {
-        this.zantong = !this.zantong;
-        this.buzantong = false;
+        // this.zantong = !this.zantong;
+        // this.buzantong = false;
+        this.postSalaryOptionByUser('zantong')
       },
 
       buzantongThisItem: function() {
-        this.buzantong = !this.buzantong;
-        this.zantong = false;
+        // this.buzantong = !this.buzantong;
+        // this.zantong = false;
+        this.postSalaryOptionByUser('buzantong')
       },
 
       shoucangThisItem: function() {
-        this.shoucang = !this.shoucang;
+        // this.shoucang = !this.shoucang;
+        this.postSalaryOptionByUser('shoucang')
       },
 
       commentThisItem: function() {
@@ -292,6 +293,25 @@
           url: './comments?salaryId=111'  //+ this.salaryInfo.id
         })
       },
+
+      getMoreSalary: function(category) {
+        console.log(category)
+        let id = ''
+        let name = ''
+        if(category == 1) {
+          id = this.salaryInfo.corporationId
+          name = this.salaryInfo.corporation
+        } else if(category == 2) {
+          id = this.salaryInfo.jobId
+          name = this.salaryInfo.college
+        } else {
+          id = this.salaryInfo.cityId
+          name = this.salaryInfo.college
+        }
+        wepy.navigateTo({
+          url: './moreSalary?id='+ id + '&name=' + name + '&category=' + category
+        })
+      }
     }
 
     onShareAppMessage() {
@@ -314,7 +334,57 @@
           result.salary = result.yearSalaryMin + 'K-' + result.yearSalaryMax + 'K'
           result.fuli = result.welfare.split(",")
           result.offtime = result.offerTime.substring(0,10)
+          if(res.data.body.extendData && res.data.body.extendData != {}) {
+            this.thank = res.data.body.extendData.gra == '1'
+            this.zantong = res.data.body.extendData.agree == '1'
+            this.buzantong = res.data.body.extendData.opp == '1'
+            this.shoucang = res.data.body.extendData.reserve == '1'
+          }
           this.salaryInfo = result
+          this.$apply()
+        }
+      })
+    }
+
+
+    postSalaryOptionByUser(option) {
+      const url = Api.host + Api.salaryOption
+
+      let data = {
+        userId: this.$parent.globalData.userInfo.id,
+        salaryId: this.salaryInfo.id,
+      }
+
+      if(option == 'thank') {
+        data.gra = this.thank ? 0 : 1
+      } else if(option == 'shoucang') {
+        data.reserve = this.shoucang ? 0 : 1
+      } else if(option == 'zantong'){
+        data.agree = this.zantong ? 0 : 1
+        data.opp = 0
+      } else if(option == 'buzantong'){
+        data.agree = 0
+        data.opp = this.buzantong ? 0 : 1
+      }
+
+      wepy.request({
+        url: url,
+        method: 'POST',
+        data: data
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == 0) {
+          if(option == 'thank') {
+            this.ganxie = !this.ganxie;
+          } else if(option == 'shoucang') {
+            this.shoucang = !this.shoucang;
+          } else if(option == 'zantong'){
+            this.zantong = !this.zantong;
+            this.buzantong = false;
+          } else if(option == 'buzantong'){
+            this.buzantong = !this.buzantong;
+            this.zantong = false;
+          }
           this.$apply()
         }
       })

@@ -1,0 +1,91 @@
+<style scoped>
+  .salary-info {
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 91vh;
+    width: 750rpx;
+  }
+  .company-info {
+    width: 100%;
+    padding-top: 20rpx;
+  }
+
+
+</style>
+
+
+<template>
+  <view class="container">
+    <view class="salary-info">
+      <view class="company-info">
+        <view class="weui-panel weui-panel_access ">
+          <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view class="weui-media-box__title">{{name}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-panel weui-panel_access all-item-info">
+        <repeat for="{{salarys}}" index="index" item="item">
+          <SalaryItem :itemValue.sync="item"></SalaryItem>
+        </repeat>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import SalaryItem  from '../../components/SalaryItem'
+  import Api from '../../config/api.js'
+
+  export default class moreSalary extends wepy.page{
+    config = {
+      navigationBarTitleText: '薪资详情',
+    }
+
+    data = {
+      name: '',
+      category: '',
+      salarys: [],
+      id: '',
+
+    }
+
+    components = {
+      SalaryItem
+    }
+
+    methods = {
+
+    }
+
+    getSalaryInfo(id) {
+      const url = Api.host + Api.salary + '/' + id
+
+      wepy.request({
+        url: url,
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == 0) {
+          this.$apply()
+        }
+      })
+    }
+
+    onLoad(options) {
+      console.log(options)
+      if(options && options.id && options.category && options.name) {
+        // this.getSalaryInfo(options.id)
+        this.id = options.id
+        this.category = options.category
+        this.name = options.name
+      }
+    }
+  }
+</script>
+
