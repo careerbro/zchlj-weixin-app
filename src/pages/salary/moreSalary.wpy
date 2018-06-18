@@ -10,9 +10,10 @@
   }
   .company-info {
     width: 100%;
-    padding-top: 20rpx;
   }
-
+  .attention {
+    color: #000;
+  }
 
 </style>
 
@@ -22,10 +23,12 @@
     <view class="salary-info">
       <view class="company-info">
         <view class="weui-panel weui-panel_access ">
-          <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
+          <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" @tap="attentionThis">
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <view class="weui-media-box__title">{{name}}</view>
             </view>
+            <view wx:if="{{!attened}}" class="weui-cell__ft attention">➕关注</view>
+            <view wx:if="{{attened}}" class="weui-cell__ft">已关注</view>
           </view>
         </view>
       </view>
@@ -53,7 +56,7 @@
       category: '',
       salarys: [],
       id: '',
-
+      attened: false,
     }
 
     components = {
@@ -61,17 +64,51 @@
     }
 
     methods = {
+      attentionThis: function () {
+        const url = Api.host + Api.attention
 
+        wepy.request({
+          url: url,
+          method: 'POST',
+          data: {
+            userId: this.$parent.globalData.userInfo.id,
+            attendId: this.id,
+            category: this.category
+          }
+        }).then(res => {
+          console.log(res.data)
+          if(res.data.code == 0) {
+            this.attened = true
+            this.$apply()
+          }
+        })
+      }
     }
 
-    getSalaryInfo(id) {
-      const url = Api.host + Api.salary + '/' + id
-
+    getSalarys() {
+      const url = Api.host + Api.salary
+      let data = {}
+      if(this.category == '1') {
+        data.corporationId = this.id
+      } else if(this.category == '2'){
+        data.jobID = this.id
+      } else {
+        data.cityId = this.id
+      }
       wepy.request({
         url: url,
+        data: data
       }).then(res => {
         console.log(res.data)
         if(res.data.code == 0) {
+          let result = res.data.body.data
+          for(let salary of result){
+            salary.join = false
+            if(salary.offerTime!=null && salary.offerTime!='') {
+              salary.offerTime = salary.offerTime.slice(0,7)
+            }
+          }
+          this.salarys = result
           this.$apply()
         }
       })
@@ -80,10 +117,10 @@
     onLoad(options) {
       console.log(options)
       if(options && options.id && options.category && options.name) {
-        // this.getSalaryInfo(options.id)
         this.id = options.id
         this.category = options.category
         this.name = options.name
+        this.getSalarys()
       }
     }
   }

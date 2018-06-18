@@ -1,17 +1,49 @@
 <style scoped>
 .container {
-  text-align: center;
   width: 750rpx;
   height: 100vh;
   background-size: 100% 100%;
 }
 
+.write-comment {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 750rpx;
+  z-index: 100;
+  background-color: #fff;
+  padding-left: 20rpx;
+  padding-right: 10rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  display: flex;
+}
 
+textarea {
+  border-bottom: 1px solid #6f95ff;
+  width: 650rpx;
+}
+.publish-box {
+  width: 70rpx;
+}
+.publish {
+  width: 60rpx;
+  height: 60rpx;
+  position:fixed;
+  bottom:25rpx;
+  right:15rpx;
+}
 </style>
 
 
 <template>
   <view class="container">
+    <view class="write-comment">
+      <textarea auto-height="{{true}}" cursor-spacing="5" show-confirm-bar="{{false}}" style="height:40px"/>
+      <view class="publish-box" @tap="submitComment">
+        <image class="publish" src="../../images/publish.png" />
+      </view>
+    </view>
   </view>
 </template>
 
@@ -20,9 +52,18 @@
   import Api from '../../config/api.js'
 
   export default class comments extends wepy.page{
+    config = {
+      navigationBarTitleText: '评论',
+    }
 
     data = {
       salaryId: '',
+    }
+
+    methods = {
+      submitComment: function () {
+
+      }
     }
 
     getHotComments() {

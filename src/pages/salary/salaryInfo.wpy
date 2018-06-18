@@ -94,6 +94,7 @@
                 <view class="weui-media-box__title">{{salaryInfo.corporation}}</view>
                 <view class="weui-media-box__desc">{{salaryInfo.industry}}</view>
             </view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
           </view>
         </view>
       </view>
@@ -105,6 +106,7 @@
               <view class="weui-cell__bd weui-cell_primary">
                   <view>{{salaryInfo.job}}</view>
               </view>
+              <view class="weui-cell__ft weui-cell__ft_in-access"></view>
               <!-- <view class="job-share" @tap="shareThisItemToOther">
                 <image class="job-share-icon" src="../../images/fenxiang1.png" />
               </view> -->
@@ -141,6 +143,7 @@
                 <view class="label">地点</view>
                 <view class="value">{{salaryInfo.city}}</view>
             </view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
           </view>
         </view>
 
@@ -303,10 +306,10 @@
           name = this.salaryInfo.corporation
         } else if(category == 2) {
           id = this.salaryInfo.jobId
-          name = this.salaryInfo.college
+          name = this.salaryInfo.job
         } else {
           id = this.salaryInfo.cityId
-          name = this.salaryInfo.college
+          name = this.salaryInfo.city
         }
         wepy.navigateTo({
           url: './moreSalary?id='+ id + '&name=' + name + '&category=' + category
