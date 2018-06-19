@@ -1,0 +1,180 @@
+<style scoped>
+.container-wrap{
+width: 100%;
+overflow: auto;
+box-sizing: border-box;
+padding-bottom: 20rpx;
+}
+.panel-item-li {
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  margin-top: 22rpx;
+}
+.item-li{
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  /* margin-top: 2rpx; */
+}
+.item-li .item-title{
+width: 100%;
+height: 80rpx;
+/* padding-left: 58rpx; */
+box-sizing: border-box;
+}
+/* .item-li .item-content {
+margin-left: 60rpx;
+padding: 35rpx 50rpx;
+box-sizing: border-box;
+border-top: 1rpx solid #f0f0f0;
+text-align: center;
+} */
+.item-li .item-content text{
+color: #4e4e4e;
+font-size: 28rpx;
+text-align: center;
+}
+.item-li .item-title text{
+color: #000;
+line-height: 100rpx;
+font-size: 32rpx;
+}
+
+.panel-item-title {
+  width: 100%;
+  height: 70rpx;
+  padding-left: 20rpx;
+  box-sizing: border-box;
+  color:  #BA525D;
+}
+.panel-item-content {
+padding: 35rpx 50rpx;
+box-sizing: border-box;
+border-top: 1rpx solid #f0f0f0;
+}
+.panel-item-li .item-content {
+padding: 35rpx 50rpx;
+box-sizing: border-box;
+border-top: 1rpx solid #f0f0f0;
+  text-align: center;
+}
+.panel-item-li .item-content text{
+  color: #4e4e4e;
+  font-size: 28rpx;
+}
+</style>
+
+
+<template>
+  <view  class="container">
+    <view class='container-wrap'>
+      <view class="panel-item-li">
+        <view class="panel-item-title">诚聘英才</view>
+        <view class="panel-item-content">
+          <repeat for="{{infos}}" item="item">
+            <view class="item-li" @tap="showHide({{item}})">
+              <view class="item-title">
+                <text>{{item.title}}</text>
+                <text></text>
+              </view>
+              <view class="item-content" wx:if="{{item.show}}">
+                <text>{{item.detail}}</text>
+              </view>
+            </view>
+          </repeat>
+        </view>
+      </view>
+      <view class="panel-item-li">
+        <view class="panel-item-title">岗位要求</view>
+        <view class="item-content">
+            <text>{{jobInfo}}</text>
+        </view>
+      </view>
+      <view class="panel-item-li">
+        <view class="panel-item-title">投递方式</view>
+        <view class="item-content">
+            <text>{{joinWay}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class joinUs extends wepy.page{
+
+    config = {
+      navigationBarTitleText: '加入职场红领巾'
+    }
+
+    data = {
+      infos: [
+        {
+          id: 1,
+          title: '新媒体运营',
+          detail: '参与微信、微博及知乎的矩阵运营\n参与微信、微博及知乎的矩阵运营',
+          show: false
+        },
+        {
+          id: 2,
+          title: '社群运营',
+          detail: '负责红领巾部分社群的运营\n#薪资爆料群#\n#实习/全职信息群#\n'
+            + '#行业交流群#\n#北上深杭、武汉南京长沙西安等城市群#\n'
+            + '保证社群能不断为社群内用户提供高质量内容\n'
+            + '理解用户诉求，并整理分析至内容及产品团队',
+          show: false
+        },
+        {
+          id: 3,
+          title: '市场',
+          detail: '负责提升职场红领巾的内容曝光量\n'
+            + '让更多学校与城市的大学生了解职场红领巾\n'
+            + '会组织对应城市或学校的市场活动\n'
+            + '维护与拓展职场红领巾与各高校的合作',
+          show: false
+        },
+        {
+          id: 4,
+          title: '设计师',
+          detail: '参与职场红领巾小程序的界面及UI设计\n'
+            + '参与新媒体内容的排版设计',
+          show: false
+        },
+        {
+          id: 5,
+          title: '开发工程师',
+          detail: '参与职场红领巾小程序的开发及维护迭代',
+          show: false
+        },
+      ],
+      jobInfo: '聪明'
+        + '\n团队合作精神'
+        + '\n沟通能力强'
+        + '\n有相应的工作经验',
+      joinWay: '请添加大师兄微信brocareer'
+        + '\n备注 姓名-加入团队-岗位名称'
+        + '\n后续事宜大师兄会来进行沟通执行'
+        + '\n或'
+        + '\n发送简历至careerbro@gmail.com'
+        + '\n邮件主题，及简历名称'
+        + '\n请拟为，姓名-加入团队-岗位名称',
+    }
+
+    methods = {
+      showHide: function(select) {
+        for(let item of this.infos) {
+          if(select.id == item.id) {
+            item.show = !item.show
+          } else {
+            item.show = false
+          }
+        }
+      }
+    }
+
+  }
+</script>
+

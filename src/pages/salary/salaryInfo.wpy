@@ -238,6 +238,7 @@
       school: '',
       email: '',
       salaryInfo: null,
+      extendData: null,
       ganxie: false,
       shoucang: false,
       zantong: false,
@@ -293,7 +294,7 @@
 
       commentThisItem: function() {
         wepy.navigateTo({
-          url: './comments?salaryId=111'  //+ this.salaryInfo.id
+          url: './comments?salaryId=' + this.salaryInfo.id
         })
       },
 
@@ -343,6 +344,7 @@
             this.buzantong = res.data.body.extendData.opp == '1'
             this.shoucang = res.data.body.extendData.reserve == '1'
           }
+          this.extendData = res.data.body.extendData
           this.salaryInfo = result
           this.$apply()
         }
@@ -356,6 +358,10 @@
       let data = {
         userId: this.$parent.globalData.userInfo.id,
         salaryId: this.salaryInfo.id,
+      }
+
+      if(this.extendData) {
+        data.id = this.extendData.id
       }
 
       if(option == 'thank') {

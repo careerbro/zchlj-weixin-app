@@ -1,7 +1,7 @@
 export default {
-  host: 'http://192.168.1.45:8080',
+  // host: 'http://192.168.1.45:8080',
   // host: 'http://10.1.2.201:8080',
-  // host: 'http://10.1.2.9:8080',
+  host: 'http://10.1.2.9:8080',
   // host: 'http://39.108.63.38:8080',
 
   user: '/careerbro/user/user',
@@ -31,10 +31,12 @@ export default {
   salaryComment: '/careerbro/salary/comment/',  // get 获取用户评论赞同的薪资
 
   comment: '/careerbro/comment/comment', // post 评论
+  commentSalary: '/careerbro/comment/salary', // post 评论
 
   salaryOption : '/careerbro/salary/eva_system', // post 对薪资信息的同意、感谢、反对、收藏、分享
 
-  addSalary2: '/careerbro/salary/salary', // post
+  agreeComment: '/careerbro/comment/agree/', // post
+
 
 
 }

@@ -22,7 +22,7 @@
 <template>
   <view  class="container">
     <view class="attention-info">
-      <view class="weui-panel">
+      <view class="weui-panel" @tap="goToPage('./aboutUs')">
         <view class="weui-media-box weui-media-box_small-appmsg">
           <view class="weui-cells weui-cells_in-small-appmsg">
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
@@ -37,7 +37,7 @@
         </view>
       </view>
 
-      <view class="weui-panel">
+      <view class="weui-panel" @tap="goToPage('./joinUs')">
         <view class="weui-media-box weui-media-box_small-appmsg">
           <view class="weui-cells weui-cells_in-small-appmsg">
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
@@ -45,7 +45,7 @@
                 <image src="../../images/lianxiwomen.png" class='itemImageIcon' />
               </view>
               <view class="weui-cell__bd weui-cell_primary">
-                  <view>联系我们</view>
+                  <view>加入我们</view>
               </view>
             </view>
           </view>
@@ -90,10 +90,14 @@
     }
 
     methods = {
-
+      goToPage: (url) => {
+        wepy.navigateTo({
+          url: url,
+        })
+      },
     }
 
-    onLoad(options) {
+    onLoad() {
 
     }
   }

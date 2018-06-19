@@ -6,7 +6,7 @@
 }
 
 .write-comment {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 750rpx;
@@ -17,6 +17,7 @@
   padding-top: 20rpx;
   padding-bottom: 20rpx;
   display: flex;
+  border-top:1px solid #D3D3D3;
 }
 
 textarea {
@@ -33,13 +34,70 @@ textarea {
   bottom:25rpx;
   right:15rpx;
 }
+
+.comments {
+  margin-bottom: 100rpx;
+}
+
+.weui-media-box {
+  padding: 10rpx;
+}
+.comment-contend {
+  font-size: 28rpx;
+  word-wrap:break-word;
+}
+.weui-media-box__info {
+  margin-top: 20rpx;
+  padding-bottom: 0;
+}
+.photoPath {
+  width:60px;
+  height:60px;
+  display:inline-block;
+  overflow:hidden;
+  border-radius:60px;
+}
+.agree-box{
+  float: right;
+  display: flex;
+}
+.agree-icon {
+  width: 32rpx;
+  height: 32rpx;
+  padding-right: 10rpx;
+}
 </style>
 
 
 <template>
   <view class="container">
+    <view class="comments">
+      <view class="weui-panel weui-panel_access ">
+      <repeat for="{{hasComments}}" index="index" item="item">
+        <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+            <image  class="photoPath" src="{{item.photoPath}}" />
+          </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title weui-media-box__title_in-text">{{item.name}}</view>
+            <view style="line-height: 34rpx;">
+              <text class="comment-contend">{{item.contend}}</text>
+            </view>
+            <view class="weui-media-box__info">
+                <view class="weui-media-box__info__meta">{{item.dateDay}}</view>
+                <view class="weui-media-box__info__meta agree-box" @tap="agreeThisComment({{index}})">
+                  <image wx:if="{{!item.isAgree}}" class="agree-icon" src="../../images/agree_no.png"/>
+                  <image wx:if="{{item.isAgree}}" class="agree-icon" src="../../images/agree_yes.png"/>
+                  <view>{{item.agreeNum}}</view>
+                </view>
+            </view>
+          </view>
+        </view>
+      </repeat>
+      </view>
+    </view>
     <view class="write-comment">
-      <textarea auto-height="{{true}}" cursor-spacing="5" show-confirm-bar="{{false}}" style="height:40px"/>
+      <textarea auto-height="{{true}}" cursor-spacing="5" show-confirm-bar="{{false}}" style="height:40px" @input="inputComment"/>
       <view class="publish-box" @tap="submitComment">
         <image class="publish" src="../../images/publish.png" />
       </view>
@@ -58,26 +116,72 @@ textarea {
 
     data = {
       salaryId: '',
+      comment: '',
+      hasComments: []
     }
 
     methods = {
-      submitComment: function () {
+      inputComment: function(e) {
+        this.comment = e.detail.value
+        console.log(this.comment)
+      },
+      submitComment: function (item) {
+        const url = Api.host + Api.comment + item.id
 
+        wepy.request({
+          url: url,
+          method: 'POST',
+          data: {
+            userId: this.$parent.globalData.userInfo.id,
+            salaryId: this.salaryId,
+            contend: this.comment.replace(/\n|\r\n/g,"<br>")
+          }
+        }).then(res => {
+          if(res.data.code == '0') {
+            this.getHotComments()
+          }
+        })
+      },
+      agreeThisComment: function(index) {
+        if(this.hasComments[index].isAgree) {
+          wepy.showToast({
+            title: '你已经赞过该条评论了',
+            icon: 'none',
+            duration: 2000
+          });
+        } else {
+          const url = Api.host + Api.agreeComment + this.hasComments[index].id
+          wepy.request({
+            url: url
+          }).then(res => {
+            if(res.data.code == '0') {
+              this.hasComments[index].isAgree = true
+              this.hasComments[index].agreeNum ++
+              this.$apply()
+            }
+          })
+        }
       }
     }
 
     getHotComments() {
-      const url = Api.host + Api.comment
+      const url = Api.host + Api.commentSalary + '/' + this.salaryId
       console.log(this.salaryId)
 
-      // wepy.request({
-      //   url: url,
-      // }).then(res => {
-      //   console.log(res.data)
-      //   if(res.data.code == '0') {
-
-      //   }
-      // })
+      wepy.request({
+        url: url,
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == '0') {
+          this.hasComments = res.data.body.data
+          for(let comment of this.hasComments) {
+            comment.dateDay = comment.time.slice(0, 10)
+            comment.contend = comment.contend.replace(/<br>/g,"\n")
+            comment.isAgree = false
+          }
+          this.$apply()
+        }
+      })
     }
 
     onLoad(options) {

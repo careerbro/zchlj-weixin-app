@@ -20,10 +20,6 @@ import Api from './config/api.js'
 export default class extends wepy.app {
   config = {
     pages: [
-      // 'pages/user/userHome',
-      // 'pages/login',
-      // 'pages/salary/salaryInfo',
-      // 'pages/salary/comments',
       'pages/home/home',
       'pages/login',
       'pages/loading',
@@ -40,6 +36,8 @@ export default class extends wepy.app {
       'pages/common/searchandselect',
       'pages/system/feedback',
       'pages/system/setting',
+      'pages/system/aboutUs',
+      'pages/system/joinUs',
     ],
     window: {
       backgroundTextStyle: 'light',

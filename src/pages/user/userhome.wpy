@@ -148,7 +148,7 @@
         })
       },
       setting: function() {
-            console.log('filePath')
+        console.log('filePath')
       }
     }
 

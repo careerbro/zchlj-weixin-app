@@ -1,0 +1,113 @@
+<style scoped>
+.container-wrap{
+width: 100%;
+overflow: auto;
+box-sizing: border-box;
+}
+.item-li{
+width: 100%;
+overflow: hidden;
+background: #fff;
+margin-top: 22rpx;
+}
+.item-li .item-title{
+width: 100%;
+height: 100rpx;
+padding-left: 38rpx;
+box-sizing: border-box;
+}
+.item-li .item-content {
+padding: 35rpx 50rpx;
+box-sizing: border-box;
+border-top: 1rpx solid #f0f0f0;
+text-align: center;
+}
+.item-li .item-content text{
+color: #4e4e4e;
+font-size: 28rpx;
+text-align: center;
+}
+.item-li .item-title text{
+color: #BA525D;
+line-height: 100rpx;
+font-size: 32rpx;
+}
+
+</style>
+
+
+<template>
+  <view  class="container">
+    <view class='container-wrap'>
+      <repeat for="{{infos}}" item="item">
+        <view class="item-li">
+          <view class="item-title" @tap="showHide({{item}})">
+            <text>{{item.title}}</text>
+            <text></text>
+          </view>
+          <view class="item-content" wx:if="{{item.show}}">
+            <text>{{item.detail}}</text>
+          </view>
+        </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class aboutUs extends wepy.page{
+
+    config = {
+      navigationBarTitleText: '关于职场红领巾'
+    }
+
+    data = {
+      infos: [
+        {
+          id: 1,
+          title: '职场红领巾在做什么',
+          detail: '职场红领巾的目标 \n以薪酬爆料为核心 \n依托丰富的招聘信息 \n通过连接资深从业者与在校大学生 \n'
+              + '驱动大学生的职业发展 \n \n 职场红领巾将会为你提供 \n\n'
+              + '薪酬爆料信息 \n实习全职招聘信息 \n来自各行业的资深从业者的意见',
+          show: true
+        },
+        {
+          id: 2,
+          title: '职场红领巾是一群什么人',
+          detail: '团队成员 \n '
+             + '\n主要来自浙江大学\n也有来自武汉大学、华南理工大学及其他高校\n有数位成员在美国、英国及香港念硕士\n '
+             + '\n绝大部分都还处于学生身份\n拥有不同的专业背景\n计算机、金融、建筑、人类学、市场等\n'
+             + '\n拥有不同企业/组织的工作经验\n联合国儿童基金会\n腾讯、阿里、网易'
+             + '\n罗兰贝格、德勤咨询、蔚来汽车等',
+          show: false
+        },
+        {
+          id: 3,
+          title: '联系我们',
+          detail: '邮箱：careerbro@gmail.com \n'
+            + '微信ID：brocareer \n'
+            + '微信公众号：职场红领巾 \n'
+            + '微博：职职场红领巾 \n'
+            + '知乎：职场场红领巾 \n',
+          show: false
+        },
+      ]
+    }
+
+    methods = {
+      showHide: function(select) {
+        for(let item of this.infos) {
+          if(select.id == item.id) {
+            item.show = true
+          } else {
+            item.show = false
+          }
+        }
+      }
+    }
+
+  }
+</script>
+
