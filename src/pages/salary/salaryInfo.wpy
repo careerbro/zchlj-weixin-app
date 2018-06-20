@@ -204,7 +204,7 @@
           <view>
             <image class="option-other-icon" src="../../images/pinglun.png" />
           </view>
-          <view class="option-other-label">评论</view>
+          <view class="option-other-label">{{commentsNum}}</view>
         </view>
         <view class="option-other" @tap="shareThisItemToOther">
           <view>
@@ -243,6 +243,7 @@
       shoucang: false,
       zantong: false,
       buzantong: false,
+      commentsNum: 0
     }
 
     methods = {
@@ -346,6 +347,7 @@
           }
           this.extendData = res.data.body.extendData
           this.salaryInfo = result
+          this.commentsNum = res.data.body.commentsNum
           this.$apply()
         }
       })
