@@ -97,7 +97,7 @@ textarea {
       </view>
     </view>
     <view class="write-comment">
-      <textarea auto-height="{{true}}" cursor-spacing="5" show-confirm-bar="{{false}}" style="height:40px" @input="inputComment"/>
+      <textarea auto-height="{{true}}"  value="{{comment}}" cursor-spacing="5" show-confirm-bar="{{false}}" style="height:40px" @input="inputComment"/>
       <view class="publish-box" @tap="submitComment">
         <image class="publish" src="../../images/publish.png" />
       </view>
@@ -125,8 +125,8 @@ textarea {
         this.comment = e.detail.value
         console.log(this.comment)
       },
-      submitComment: function (item) {
-        const url = Api.host + Api.comment + item.id
+      submitComment: function () {
+        const url = Api.host + Api.comment
 
         wepy.request({
           url: url,
@@ -138,6 +138,11 @@ textarea {
           }
         }).then(res => {
           if(res.data.code == '0') {
+            this.comment = ''
+            let pages = getCurrentPages();
+            let prePage = pages[pages.length - 2];
+            this.$parent.$pages[`/${prePage.route}`].commentsNum ++;
+            this.$parent.$pages[`/${prePage.route}`].$apply();
             this.getHotComments()
           }
         })

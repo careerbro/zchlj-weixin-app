@@ -277,32 +277,32 @@
           this.showTopTips = true
         } else {
           const url = Api.host + Api.user
-          console.log(url)
-          console.log(this.userInfo.nickName)
-          // wepy.request({
-          //   url: url,
-          //   method: 'POST',
-          //   data: {
-          //     // token: this.$parent.globalData.token,
-          //     email: this.email,
-          //     petName: this.userInfo.nickName,
-          //     photoPath: this.userInfo.avatarUrl,
-          //     college: this.schoolId
-          //   },
-          // }).then(res => {
-          //   console.log(res.data)
-          //   if(res.data.code == 0 ) {
-          //     wepy.navigateTo({
-          //       url: 'loading?school=' + this.school + '&number=' + res.data.body.sum
-          //     })
-          //   } else {
-          //     wepy.showToast({
-          //       title: '服务器发生错误，请稍后重试',
-          //       icon: 'none',
-          //       duration: 2000
-          //     });
-          //   }
-          // })
+          // console.log(url)
+          // console.log(this.userInfo.nickName)
+          // console.log(encodeURI(this.userInfo.nickName, 'utf-8'))
+          wepy.request({
+            url: url,
+            method: 'POST',
+            data: {
+              email: this.email,
+              petName: this.userInfo.nickName,
+              photoPath: this.userInfo.avatarUrl,
+              college: this.schoolId
+            },
+          }).then(res => {
+            console.log(res.data)
+            if(res.data.code == 0 ) {
+              wepy.navigateTo({
+                url: 'loading?school=' + this.school + '&number=' + res.data.body.sum
+              })
+            } else {
+              wepy.showToast({
+                title: '服务器发生错误，请稍后重试',
+                icon: 'none',
+                duration: 2000
+              });
+            }
+          })
         }
       }
     }

@@ -17,6 +17,13 @@ import wepy from 'wepy'
 import 'wepy-async-function'
 import Api from './config/api.js'
 
+var env = 'dev';
+// env = 'prod';
+if (env === 'prod') {
+  console.log = () => {};
+  console.info = () => {};
+}
+
 export default class extends wepy.app {
   config = {
     pages: [

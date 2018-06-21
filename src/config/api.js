@@ -1,8 +1,8 @@
 export default {
   // host: 'http://192.168.1.45:8080',
   // host: 'http://10.1.2.201:8080',
-  host: 'http://10.1.2.9:8080',
-  // host: 'http://39.108.63.38:8080',
+  // host: 'http://10.1.2.9:8080',
+  host: 'http://39.108.63.38:8080',
 
   user: '/careerbro/user/user',
   getUserSum: '/careerbro/user/sum',
@@ -14,6 +14,8 @@ export default {
    * POST  取消关注
    */
   attention: '/careerbro/attention/attention' ,
+  isAttention: '/careerbro/attention/isAttend' ,
+  cancelAttention: '/careerbro/attention/cancelAttend' ,
 
   userJoin: '/careerbro/salary/user', // :uid 用户发布薪资信息
 

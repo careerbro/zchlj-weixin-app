@@ -65,6 +65,9 @@
 
     methods = {
       attentionThis: function () {
+        if(this.attened) {
+          return
+        }
         const url = Api.host + Api.attention
 
         wepy.request({
@@ -114,6 +117,25 @@
       })
     }
 
+    checkThisIsAttend() {
+      const url = Api.host + Api.isAttention
+      wepy.request({
+        url: url,
+        data: {
+          userId: this.$parent.globalData.userInfo.id,
+          attendId: this.id
+        }
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == 0) {
+          if(res.data.body.data != null) {
+            this.attened = true
+            this.$apply()
+          }
+        }
+      })
+    }
+
     onLoad(options) {
       console.log(options)
       if(options && options.id && options.category && options.name) {
@@ -121,6 +143,7 @@
         this.category = options.category
         this.name = options.name
         this.getSalarys()
+        this.checkThisIsAttend()
       }
     }
   }

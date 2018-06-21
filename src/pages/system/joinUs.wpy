@@ -43,9 +43,12 @@ font-size: 32rpx;
 
 .panel-item-title {
   width: 100%;
-  height: 70rpx;
+  height: 100rpx;
   padding-left: 20rpx;
   box-sizing: border-box;
+}
+.panel-item-title text{
+  line-height: 100rpx;
   color:  #BA525D;
 }
 .panel-item-content {
@@ -70,7 +73,9 @@ border-top: 1rpx solid #f0f0f0;
   <view  class="container">
     <view class='container-wrap'>
       <view class="panel-item-li">
-        <view class="panel-item-title">诚聘英才</view>
+        <view class="panel-item-title">
+          <text>诚聘英才</text>
+        </view>
         <view class="panel-item-content">
           <repeat for="{{infos}}" item="item">
             <view class="item-li" @tap="showHide({{item}})">
@@ -86,13 +91,17 @@ border-top: 1rpx solid #f0f0f0;
         </view>
       </view>
       <view class="panel-item-li">
-        <view class="panel-item-title">岗位要求</view>
+        <view class="panel-item-title">
+          <text>岗位要求</text>
+        </view>
         <view class="item-content">
             <text>{{jobInfo}}</text>
         </view>
       </view>
       <view class="panel-item-li">
-        <view class="panel-item-title">投递方式</view>
+        <view class="panel-item-title">
+          <text>投递方式</text>
+        </view>
         <view class="item-content">
             <text>{{joinWay}}</text>
         </view>

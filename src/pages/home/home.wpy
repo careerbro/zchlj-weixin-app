@@ -10,6 +10,12 @@
   z-index: 100;
   width: 750rpx;
 }
+.salary-info-box {
+  position: fixed;
+  top: 16vh;
+  left: 0;
+  width: 750rpx;
+}
 
 button[size = mini] {
   font-size: 26rpx;
@@ -254,7 +260,7 @@ button[size = mini] {
       </view>
     </view>
     <!-- <view class="item-title"> —— 猜你喜欢 ——</view> -->
-    <scroll-view scroll-y upper-threshold="{{10}}" class="scroll-view-box" @scrolltoupper="scrolltoupper" @scrolltolower="scrolltolower">
+    <view class="salary-info-box" upper-threshold="{{10}}" class="scroll-view-box" @scrolltoupper="scrolltoupper" @scrolltolower="scrolltolower">
       <view class="loading-info" wx:if="{{loadingNew}}">
         <view class="weui-loadmore">
           <view class="weui-loading"></view>
@@ -272,7 +278,7 @@ button[size = mini] {
           <view class="weui-loadmore__tips">正在加载，请稍等...</view>
         </view>
       </view>
-    </scroll-view>
+    </view>
 
     <!-- 遮罩层与下拉选择框 -->
     <view class="mask" wx:if="{{showMask}}" @tap="closeFilterDetail"></view>
@@ -315,6 +321,7 @@ button[size = mini] {
 
   export default class home extends wepy.page{
     config = {
+      enablePullDownRefresh: true,
     }
 
     components = {
@@ -464,23 +471,6 @@ button[size = mini] {
       this.loadingMore = true;
       this.$apply()
       let temp = this.datalist;
-      // for(let i of ['','','','','','']) {
-      //   temp.push({
-      //     job: 'Web前端高级开发工程师',
-      //     salary: '13K-15K',
-      //     company:'腾讯-运营开发',
-      //     city: '广州',
-      //     jingyan: '3-5年',
-      //     xueli: '本科',
-      //     date: '2018-05'
-      //   })
-      // }
-      // setTimeout(() => {
-
-      //   this.datalist = temp;
-      //   this.loadingMore = false;
-      //   this.$apply()
-      // }, 3000);
     }
 
     checkUserLogin(code) {
@@ -523,8 +513,13 @@ button[size = mini] {
           }
           this.datalist = result
           this.$apply()
+          wepy.stopPullDownRefresh();
         }
       })
+    }
+
+    onPullDownRefresh() {
+      this.getSalary();
     }
 
     onLoad() {
@@ -536,7 +531,6 @@ button[size = mini] {
       wepy.login().then(res => {
         console.log(res)
         this.checkUserLogin(res.code)
-
       })
     }
   }
