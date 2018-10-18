@@ -18,11 +18,15 @@
 }
 
 .salary {
-  color: #FF4500;
+  // color: #FF4500;
   font-size: 0.8em;
   text-align: right;
   margin-top: 5px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.salary-icon {
+  height: 1em;
+  width: 1em;
 }
 
 .detail{
@@ -52,9 +56,16 @@
     border-width: 1px; */
 }
 
+.weui-media-box {
+  padding:6rpx 30rpx;
+  margin-top: 14rpx;
+  background-color: #ffffff;
+}
+
+
 .weui-media-box__info {
   display: flex;
-  margin-top:10rpx;
+  margin:10rpx 0;
   padding-bottom: 0;
   justify-content:flex-end;
 }
@@ -80,25 +91,40 @@
     </view> -->
     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
         <view class="weui-media-box__title ">
-            <view class="job">{{itemValue.job}}</view>
-            <view class="salary">{{itemValue.yearSalaryMin}}K-{{itemValue.yearSalaryMax}}K</view>
-        </view>
-        <view class="weui-media-box__desc detail">
-          {{itemValue.corporation}}
+            <view class="job">{{itemValue.scorporation == '---' ? itemValue.corporation : itemValue.scorporation}}</view>
+            <view class="salary">
+              <image class="salary-icon" src="../images/didian_un.png"/>
+              {{itemValue.city}}
+            </view>
         </view>
         <view class="weui-media-box__desc detail">
           <view class='tags'>
-            <view class="tag">{{itemValue.city}}</view>
-            <view class="tag">{{itemValue.collegeLevel}}</view>
-            <view class="tag">{{itemValue.experienceMonthNum}}月</view>
+            <view class="tag">
+              {{itemValue.job}}
+            </view>
+            <view class="tag">{{itemValue.offerTime}}</view>
           </view>
-          <view class='date'>
-            {{itemValue.offerTime}}
+        </view>
+        <view class="weui-media-box__desc detail">
+          <view class='tags' style="width:60%;">
+            <view class="tag">
+              <image class="salary-icon" src="../images/qian.png"/>
+              {{itemValue.yearSalaryMin}}K-{{itemValue.yearSalaryMax}}K
+            </view>
+            <view class="tag">
+              <image class="salary-icon" src="../images/xueli.png"/>
+              {{xueli[itemValue.eduBackGround]}}
+            </view>
+          </view>
+          <view class='option-num'>
+            <view class='tag'>
+              {{itemValue.agreeNum}} 赞同 · {{itemValue.commentsNum}} 评论
+            </view>
           </view>
         </view>
         <view wx:if="{{itemValue.join}}" class="weui-media-box__info">
             <view class="weui-media-box__info__meta">删除</view>
-            <view class="weui-media-box__info__meta">修改</view>
+            <!-- <view class="weui-media-box__info__meta">修改</view> -->
         </view>
     </view>
   </view>
@@ -111,13 +137,28 @@
       itemValue: Object
     }
 
+    data = {
+      xueli: ['本科','硕士','博士','其他']
+    }
+
     methods = {
       viewSalaryInfo: function() {
         console.log(this.itemValue)
         wepy.navigateTo({
           url: '../salary/salaryInfo?id=' + this.itemValue.id,
         })
+      },
+
+      removeSalary: function() {
+
       }
     }
+
+    events = {
+      loadTimeout(option){
+        console.log(this.itemValue)
+      }
+    }
+
   }
 </script>

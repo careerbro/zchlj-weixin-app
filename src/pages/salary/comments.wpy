@@ -72,7 +72,7 @@ textarea {
 <template>
   <view class="container">
     <view class="comments">
-      <view class="weui-panel weui-panel_access ">
+      <view  wx:if="{{hasComments.length > 0}}" class="weui-panel weui-panel_access ">
       <repeat for="{{hasComments}}" index="index" item="item">
         <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
@@ -95,6 +95,8 @@ textarea {
         </view>
       </repeat>
       </view>
+
+      <EmptyData  wx:if="{{hasComments.length == 0}}"/>
     </view>
     <view class="write-comment">
       <textarea auto-height="{{true}}"  value="{{comment}}" cursor-spacing="5" show-confirm-bar="{{false}}" style="height:40px" @input="inputComment"/>
@@ -108,10 +110,15 @@ textarea {
 <script>
   import wepy from 'wepy'
   import Api from '../../config/api.js'
+  import EmptyData from '../../components/emptyData'
 
   export default class comments extends wepy.page{
     config = {
       navigationBarTitleText: '评论',
+    }
+
+    components = {
+      EmptyData
     }
 
     data = {
@@ -190,6 +197,7 @@ textarea {
     }
 
     onLoad(options) {
+      this.hasComments = []
       if(options && options.salaryId) {
         this.salaryId = options.salaryId
       }

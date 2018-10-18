@@ -22,14 +22,14 @@
 <template>
   <view  class="container">
     <view class="attention-info">
-      <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-panel weui-panel_access all-item-info">
-            <repeat for="{{datalist}}" index="index" item="item">
+      <view wx:if="{{datalist.length > 0}}">
+        <repeat for="{{datalist}}" index="index" item="item">
+          <view class="weui-panel weui-panel_access all-item-info">
               <SalaryItem :itemValue.sync="item"></SalaryItem>
-            </repeat>
           </view>
-        </view>
+        </repeat>
       </view>
+      <EmptyData  wx:if="{{datalist.length == 0}}"/>
     </view>
   </view>
 </template>
@@ -38,6 +38,7 @@
   import wepy from 'wepy'
   import Api from '../../config/api.js'
   import SalaryItem  from '../../components/SalaryItem'
+  import EmptyData from '../../components/emptyData'
 
   export default class userCollection extends wepy.page{
     config = {
@@ -45,7 +46,8 @@
     }
 
     components = {
-      SalaryItem
+      SalaryItem,
+      EmptyData
     }
 
     data = {

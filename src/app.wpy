@@ -27,7 +27,8 @@ if (env === 'prod') {
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/home/home',
+      // 'pages/home/home',
+      'pages/home/newHome',
       'pages/login',
       'pages/loading',
       'pages/user/userHome',
@@ -58,22 +59,22 @@ export default class extends wepy.app {
       "selectedColor": "#6f95ff",
       "list": [
         {
-          "pagePath": "pages/home/home",
+          "pagePath": "pages/home/newHome",
           "text": "首页",
-          "iconPath": "./images/home-un.png",
-          "selectedIconPath": "./images/home.png"
+          "iconPath": "./images/shouye-no.png",
+          "selectedIconPath": "./images/shouye-yes.png"
         },
         {
           "pagePath": "pages/salary/addSalary",
           "text": "爆料",
-          "iconPath": "./images/add-un.png",
-          "selectedIconPath": "./images/add.png"
+          "iconPath": "./images/baoliao-no.png",
+          "selectedIconPath": "./images/baoliao-yes.png"
         },
         {
           "pagePath": "pages/user/userHome",
           "text": "我",
-          "iconPath": "./images/user-un.png",
-          "selectedIconPath": "./images/user.png"
+          "iconPath": "./images/wode-no.png",
+          "selectedIconPath": "./images/wode-yes.png"
         }
       ]
     },
@@ -83,6 +84,7 @@ export default class extends wepy.app {
     userInfo: null,
     token: '',
     firstLogin: true,
+    allIndustrys: []
   }
 
   constructor () {

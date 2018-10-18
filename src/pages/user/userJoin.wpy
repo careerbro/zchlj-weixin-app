@@ -29,18 +29,18 @@
       </view>
       <view class="weui-tab__panel">
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-          <view class="weui-panel weui-panel_access all-item-info">
-            <repeat for="{{datalist1}}" index="index" item="item">
-              <SalaryItem1 :itemValue.sync="item"></SalaryItem1>
-            </repeat>
-          </view>
+          <repeat for="{{datalist1}}" index="index" item="item">
+            <view class="weui-panel weui-panel_access all-item-info">
+                <SalaryItem1 :itemValue.sync="item"></SalaryItem1>
+            </view>
+          </repeat>
         </view>
         <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-          <view class="weui-panel weui-panel_access all-item-info">
-            <repeat for="{{datalist2}}" index="index" item="item">
-              <SalaryItem2 :itemValue.sync="item"></SalaryItem2>
-            </repeat>
-          </view>
+          <repeat for="{{datalist2}}" index="index" item="item">
+            <view class="weui-panel weui-panel_access all-item-info">
+                <SalaryItem2 :itemValue.sync="item"></SalaryItem2>
+            </view>
+          </repeat>
         </view>
       </view>
   </view>
@@ -95,7 +95,7 @@
         if(res.data.code == 0) {
           let result = res.data.body.data
           for(let salary of result){
-            salary.join = true
+            // salary.join = true
             if(salary.offerTime!=null && salary.offerTime!='') {
               salary.offerTime = salary.offerTime.slice(0,7)
             }

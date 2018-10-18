@@ -1,0 +1,34 @@
+<style type="css">
+  .empty-container {
+    height: 100%;
+  }
+  .empty-image {
+    padding-top: 15%;
+    text-align: center;
+  }
+
+  image {
+    width: 150rpx;
+    height: 150rpx;
+  }
+  .empty-info {
+    text-align: center;
+    color: #888;
+  }
+
+</style>
+<template>
+  <view class="empty-container">
+    <view class="empty-image">
+      <image src="../images/empty.png"/>
+    </view>
+    <view class="empty-info">暂无数据！</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class EmptyData extends wepy.component {
+
+  }
+</script>

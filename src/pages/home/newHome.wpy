@@ -1,0 +1,537 @@
+<style scoped>
+.home-page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* text-align: center; */
+  background-color: #6f95ff;
+  /* top: -1px; */
+  height: 40px;
+  z-index: 100;
+  width: 750rpx;
+}
+
+button[size = mini] {
+  font-size: 26rpx;
+  line-height: 60rpx;
+  padding: 0;
+}
+.searchbar {
+  display: flex;
+  padding: 10rpx 10rpx 20rpx 20rpx;
+}
+
+.item-title {
+  /* text-align: center; */
+  font-size: 25rpx;
+  padding: 5rpx 0 5rpx 10rpx;
+  color: #696969;
+}
+
+.weui-panel {
+  margin-top: 0;
+}
+
+.search-bar-xueli {
+  width: 160rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #fff;
+  line-height: 30px;
+  display: flex;
+  justify-content:center;
+  background-color: #4169E1;
+  border-radius: 15px;
+}
+
+.search-bar-xueli-icon-box {
+  height: 30px;
+  width: 30rpx;
+}
+.search-bar-xueli-icon-image {
+  height: 30rpx;
+  width: 30rpx;
+  margin-left: 10rpx;
+  margin-top: 12rpx;
+}
+
+.weui-search-bar {
+  background-color: #6f95ff;
+  padding: 0;
+  width: 600rpx;
+  border-style: none;
+  /* border-radius: 50px; */
+  padding-left: 30rpx;
+}
+
+.weui-search-bar__form {
+  border-radius: 50px;
+}
+.weui-search-bar__label {
+  border-radius: 50px;
+}
+
+.salary-info-box {
+  position: fixed;
+  top: calc(92rpx + 40px);
+  left: 0;
+  width: 750rpx;
+  bottom: 0;
+  overflow-y: scroll;
+}
+.sort-and-select-box {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  width: 750rpx;
+  background-color: #ffffff;
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 32rpx;
+  color: #808080;
+  width: 750rpx;
+  display: flex;
+}
+.sort-or-select-item {
+  width: 375rpx;
+  justify-content:center;
+  display: flex;
+}
+
+.mask{
+  justify-content: space-between;
+  background-color:rgba(0, 0, 0, 0.4);
+  position: fixed;
+  z-index: 10;
+  transition: all 1s ease;
+  overflow: hidden;
+  bottom: 0;
+  top: calc(90rpx + 40px);
+  width: 750rpx;
+}
+.filter-hangye-box {
+  position: fixed;
+  z-index: 20;
+  transition: all 1s ease;
+  top: calc(90rpx + 40px);
+  width: 750rpx;
+  height: 700rpx;
+  background-color: #fff;
+}
+</style>
+
+
+<template>
+  <view class="container">
+    <view class="home-page-header">
+      <view class='searchbar'>
+        <view class="search-bar-xueli" @tap="selectXueli">
+          <view>{{xueliList[selectedXueli]}}</view>
+          <view class="search-bar-xueli-icon-box">
+            <image  wx:if="{{selectXueli}}" class="search-bar-xueli-icon-image" src="../../images/up.png"/>
+            <image  wx:if="{{!selectXueli}}" class="search-bar-xueli-icon-image" src="../../images/down.png"/>
+          </view>
+        </view>
+        <view class="weui-search-bar">
+          <view class="weui-search-bar__form">
+            <view class="weui-search-bar__box">
+                <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" @blur="searchSalary"/>
+                <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" @tap="clearInput">
+                    <icon type="clear" size="14"></icon>
+                </view>
+            </view>
+            <label class="weui-search-bar__label" hidden="{{inputShowed}}" @tap="showInput">
+                <icon class="weui-icon-search" type="search" size="14"></icon>
+                <view class="weui-search-bar__text">搜索公司/岗位/学校/地点</view>
+            </label>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="sort-and-select-box">
+      <view class="sort-or-select-item" @tap="selectHangye">
+        <view>行业类别</view>
+        <view class="search-bar-xueli-icon-box">
+          <image  wx:if="{{selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/up.png"/>
+          <image  wx:if="{{!selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/down.png"/>
+        </view>
+      </view>
+      <view class="sort-or-select-item" @tap="selectOffer">
+        <view>Offer时间</view>
+        <view class="search-bar-xueli-icon-box">
+          <image  wx:if="{{selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/up.png"/>
+          <image  wx:if="{{!selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/down.png"/>
+        </view>
+      </view>
+    </view>
+    <!-- <view class="item-title"> —— 猜你喜欢 ——</view> -->
+    <view class="salary-info-box scroll-view-box" upper-threshold="{{10}}" @scrolltoupper="scrolltoupper" @scrolltolower="scrolltolower">
+      <view class="loading-info" wx:if="{{loadingNew}}">
+        <view class="weui-loadmore">
+          <view class="weui-loading"></view>
+          <view class="weui-loadmore__tips">正在加载</view>
+        </view>
+      </view>
+      <view wx:if="{{datalist.length > 0}}" style="background-color: #eee;">
+        <repeat for="{{datalist}}" index="index" item="item">
+          <view class="weui-panel weui-panel_access all-item-info">
+            <SalaryItem :itemValue.sync="item"></SalaryItem>
+          </view>
+        </repeat>
+      </view>
+      <EmptyData  wx:if="{{datalist.length == 0}}"/>
+      <view class="loading-info" wx:if="{{loadingMore}}">
+        <view class="weui-loadmore">
+          <view class="weui-loading"></view>
+          <view class="weui-loadmore__tips">正在加载，请稍等...</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 遮罩层与下拉选择框 -->
+    <view class="mask" wx:if="{{showMask}}" @tap="closeFilterDetail"></view>
+    <view class="filter-hangye-box" wx:if="{{showHangyeSelectBox}}">
+      <van-tree-select
+        items="{{ hangyeData }}"
+        main-active-index="{{ hangyeMainActiveIndex }}"
+        active-id="{{ hangyeActiveId }}"
+        bind:click-nav="clickHangyeMain"
+        bind:click-item="clickHangyeValue"
+      />
+    </view>
+    <view class="filter-hangye-box" wx:if="{{showOfferSelectBox}}">
+      <van-tree-select
+        items="{{ offerData }}"
+        main-active-index="{{ offerMainActiveIndex }}"
+        active-id="{{ offerActiveId }}"
+        bind:click-nav="clickOfferMain"
+        bind:click-item="clickOfferValue"
+      />
+    </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import SalaryItem  from '../../components/SalaryItem'
+  import MaskModal from '../../components/MaskModal'
+  import EmptyData from '../../components/emptyData'
+  import Api from '../../config/api.js'
+  import Dayjs from '../../config/day.js'
+  import { DateToZhaoPinJi, ZhaoPinJiToDate } from '../../config/util.js'
+
+  export default class home extends wepy.page{
+    config = {
+      enablePullDownRefresh: true,
+      usingComponents: {
+        "van-tree-select": "../../vant/tree-select/index",
+        "van-row": "../../vant/row/index",
+        "van-col": "../../vant/col/index"
+      }
+    }
+
+    components = {
+      SalaryItem,
+      MaskModal,
+      EmptyData
+    }
+
+    data = {
+      showLogin: false,
+      inputShowed: false,
+      inputVal: '',
+      startTime: '',
+      endTime: '',
+      showMask: false,    // 控制显示遮罩层
+      showOfferSelectBox: false,
+      showHangyeSelectBox: false,
+      selectOrder: false,
+      selectXueli: false,
+      loadingMore: false,
+      loadingNew: false,
+      datalist: [],
+      filterList: null,
+      xueliList: ['本科','硕士','博士','其它','全部'],
+      selectedXueli: 4,
+      hangyeMainActiveIndex: 0,
+      hangyeActiveId: 0,
+      hangyeData: [],
+      offerMainActiveIndex: 0,
+      offerActiveId: 0,
+      offerData: [
+        {text: '春秋季招聘', children: [{text:'2019秋招', id: 11},{text:'2018春招', id: 12},{text:'2018秋招', id: 13},{text:'2017春招', id: 14},{text:'2017秋招', id: 15}]},
+        {text: '详细时间段', children: [{text:'三个月以内', id: 21},{text:'六个月以内', id: 22},{text:'一年以内', id: 23},{text:'一年以上', id: 24}]},
+        // {text: '排序选择', children: [{text:'阅读数', id: 31},{text:'点赞数', id: 32},{text:'收藏数', id: 33},{text:'发布时间', id: 34},{text:'发布时间', id: 35}]},
+      ]
+    }
+
+    methods = {
+      scrolltolower: function() {
+        this.onReachBottom()
+      },
+      scrolltoupper: function() {
+        // this.loadingNew = true;
+        // this.$apply()
+      },
+      selectXueli: function() {
+        let self = this
+        self.selectXueli = true
+        wx.showActionSheet({
+          itemList: self.xueliList,
+          success: function(res) {
+            // console.log(res)
+            if (!res.cancel) {
+              console.log(res.tapIndex)
+              self.selectedXueli = res.tapIndex
+              self.$apply()
+              if(self.inputVal != '') {
+                self.searchSalary()
+              } else {
+                self.getSalary()
+              }
+            }
+          },
+          fail: function(res) {
+            console.log(res.errMsg)
+          }
+        })
+        self.selectXueli = false
+      },
+      selectHangye: function() {
+        this.showOfferSelectBox = false
+        if(this.showMask && this.showHangyeSelectBox) {
+          this.showMask = false
+          this.showHangyeSelectBox = false
+        } else {
+          this.showMask = true
+          this.showHangyeSelectBox = true
+        }
+        console.log()
+      },
+      selectOffer: function() {
+        this.showHangyeSelectBox = false
+        if(this.showMask && this.showOfferSelectBox) {
+          this.showMask = false
+          this.showOfferSelectBox = false
+        } else {
+          this.showMask = true
+          this.showOfferSelectBox = true
+        }
+      },
+      clickHangyeMain: function(e) {
+        this.hangyeMainActiveIndex = e.detail.index || 0
+      },
+      clickHangyeValue: function(e) {
+        this.hangyeActiveId = e.detail.id
+        this.showHangyeSelectBox = false
+        this.showOfferSelectBox = false
+        this.showMask = false
+        this.getSalary()
+      },
+      clickOfferMain: function(e) {
+        this.offerMainActiveIndex = e.detail.index || 0
+      },
+      clickOfferValue: function(e) {
+        // console.log(e)
+        this.offerActiveId = e.detail.id
+        this.showHangyeSelectBox = false
+        this.showOfferSelectBox = false
+        this.showMask = false
+        this.getSalary()
+      },
+
+      closeFilterDetail: function() {
+        this.showMask = false
+        this.showHangyeSelectBox = false
+        this.showOfferSelectBox = false
+      },
+
+      inputTyping: function(e) {
+        this.inputVal = e.detail.value
+      },
+      showInput: function() {
+        this.inputShowed = true
+        this.showFilterDetailOrder = false
+        this.showFilterDetailOther = false
+        this.selectCity = false;
+        this.selectCompany = false;
+        this.selectJob = false;
+        this.selectSchool = false;
+        this.showMask =false;
+        this.$apply()
+      },
+
+      clearInput: function() {
+        this.inputVal = ''
+        this.inputShowed = false
+      },
+
+      inputOver: function() {
+        if(this.inputVal == '') {
+          this.inputShowed = false
+        }
+      }
+    }
+
+    onReachBottom() {
+      this.loadingMore = true;
+      this.$apply()
+      let temp = this.datalist;
+    }
+
+    checkUserLogin(code) {
+      const url = Api.host + Api.login + '/' + code
+      console.log(url)
+
+      wepy.request({
+        url: url,
+      }).then(res => {
+        console.log(res.data)
+        wepy.hideLoading()
+        const token = res.data.body.token
+        this.$parent.globalData.token = token
+        console.log(this.$parent.globalData.token)
+        if(res.data.code == '101') {
+          wepy.redirectTo({
+            url: '../login'
+          })
+        } else if(res.data.code == 0) {
+          this.$parent.globalData.userInfo = res.data.body.data
+          this.getAllIndustry()
+          this.getSalary()
+        }
+      })
+    }
+
+    getAllIndustry(){
+      if(this.$parent.globalData.allIndustrys.length == 0) {
+        const url = Api.host + Api.getAllIndustry
+        wepy.request({
+          url: url
+        }).then(res => {
+          console.log(res.data)
+          if(res.data.code == 0 ) {
+            let result = res.data.body.data
+            for(let index in result){
+              result[index].text = result[index].cname
+              result[index].cid = result[index].id
+              result[index].id = ++index
+            }
+            this.$parent.globalData.allIndustrys = result
+            this.hangyeData = [{text: '所有行业', children: result}]
+            this.$apply()
+          }
+        })
+      } else {
+        this.hangyeData = [{text: '所有行业', children: this.$parent.globalData.allIndustrys}]
+        this.$apply()
+      }
+    }
+
+    getSalary(){
+      const url = Api.host + Api.salary
+      let data = {}
+      if(this.selectedXueli != 4) {
+        data.type = this.selectedXueli
+      }
+      if(this.hangyeActiveId != 0) {
+        data.industryId = this.hangyeData[0].children[this.hangyeActiveId - 1].cid
+      }
+      if(this.offerActiveId != 0) {
+        let time = {}
+        if(parseInt(this.offerActiveId / 10) == 1) {
+          time = ZhaoPinJiToDate(this.offerData[0].children[this.offerActiveId % 10 - 1].text)
+        } else {
+          if(this.offerActiveId % 10 == 1) {
+            time.start = Dayjs().subtract(3, 'month').format('YYYY-MM-DD')
+            time.end = Dayjs().format('YYYY-MM-DD')
+          }
+          if(this.offerActiveId % 10 == 2) {
+            time.start = Dayjs().subtract(6, 'month').format('YYYY-MM-DD')
+            time.end = Dayjs().format('YYYY-MM-DD')
+          }
+          if(this.offerActiveId % 10 == 3) {
+            time.start = Dayjs().subtract(1, 'year').format('YYYY-MM-DD')
+            time.end = Dayjs().format('YYYY-MM-DD')
+          }
+          if(this.offerActiveId % 10 == 4) {
+            time.start = '2000-01-01'
+            time.end = Dayjs().subtract(1, 'year').format('YYYY-MM-DD')
+          }
+        }
+        data.startTime = time.start
+        data.endTime = time.end
+      }
+
+      wepy.request({
+        url: url,
+        data: data
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == 0 ) {
+          let result = res.data.body.data
+          for(let salary of result){
+            salary.join = false
+            if(salary.offerTime!=null && salary.offerTime!='') {
+              salary.offerTime = DateToZhaoPinJi(salary.offerTime)
+            }
+          }
+          this.datalist = result
+          this.$apply()
+          wepy.stopPullDownRefresh();
+        }
+      })
+
+    }
+
+    searchSalary() {
+      const url = Api.host + Api.searchAllInfo
+      let data = {}
+      if(this.selectedXueli != 4) {
+        data.type = this.selectedXueli
+      }
+      if(this.inputVal == '') {
+        return;
+      } else {
+        data.temp = this.inputVal
+      }
+
+      wepy.request({
+        url: url,
+        data: data
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == 0 ) {
+          let result = res.data.body.data
+          for(let salary of result){
+            salary.join = false
+            if(salary.offerTime!=null && salary.offerTime!='') {
+              salary.offerTime = salary.offerTime.slice(0,7)
+            }
+          }
+          this.datalist = result
+          this.$apply()
+        }
+      })
+    }
+
+    onPullDownRefresh() {
+      this.getSalary();
+    }
+
+    onLoad() {
+      if(this.$parent.globalData.firstLogin) {
+        wepy.showLoading({
+          title: '加载中',
+        })
+      }
+      wepy.login().then(res => {
+        console.log(res)
+        this.checkUserLogin(res.code)
+      })
+    }
+  }
+</script>
+

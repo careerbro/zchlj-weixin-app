@@ -163,7 +163,7 @@
               <view class="weui-label">学历</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" value="{{education}}" disabled/>
+              <input class="weui-input" value="{{educations[education]}}" disabled/>
           </view>
           <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
@@ -318,7 +318,7 @@
         '本科','硕士','博士','其他'
       ],
       schools: ['211','985','C9','海外高校','其他'],
-      education: '本科',
+      education: 0,
       school: '211',
       addItemFormTitle: '添加福利',
       addItemFormPlace: '请输入福利信息',
@@ -387,7 +387,7 @@
               if(e == 1) {
                 self.school = itemList[res.tapIndex]
               } else {
-                self.education = itemList[res.tapIndex]
+                self.education = res.tapIndex
               }
               self.$apply()
             }
@@ -513,6 +513,9 @@
     }
 
     findMatchInfoByName(type, name) {
+      if(name.replace(/\s*/g,"") == '') {
+        return
+      }
       let self = this
       let url = Api.host
       if(type == 'company') {
@@ -637,6 +640,10 @@
             icon: 'none',
             duration: 2000
           });
+
+          let pages = getCurrentPages();
+          let prevPage = pages[pages.length - 1];
+          prevPage.onLoad()
         } else {
           wepy.showToast({
             title: '抱歉，服务器发生错误了，请稍后重试',
@@ -647,6 +654,10 @@
       }).catch(
         console.log('erro')
       )
+    }
+
+    onLoad() {
+
     }
   }
 </script>

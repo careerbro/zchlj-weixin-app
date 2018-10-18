@@ -22,21 +22,21 @@
 <template>
   <view  class="container">
     <view class="attention-info">
-      <!-- <view class="weui-media-box weui-media-box_small-appmsg"> -->
-        <repeat for="{{datalist}}" index="index" item="item">
-          <view class="weui-panel">
-            <view class="weui-media-box weui-media-box_small-appmsg">
-              <view class="weui-cells weui-cells_in-small-appmsg">
-                <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                  <view class="weui-cell__bd weui-cell_primary">
-                      <view>{{item.attend}}</view>
-                  </view>
+      <repeat wx:if="{{datalist.length > 0}}" for="{{datalist}}" index="index" item="item">
+        <view class="weui-panel">
+          <view class="weui-media-box weui-media-box_small-appmsg">
+            <view class="weui-cells weui-cells_in-small-appmsg">
+              <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" @tap="getMoreSalary({{item}})">
+                <view class="weui-cell__bd weui-cell_primary">
+                    <view>{{item.attend}}</view>
                 </view>
               </view>
             </view>
           </view>
-        </repeat>
-      <!-- </view> -->
+        </view>
+      </repeat>
+
+      <EmptyData  wx:if="{{datalist.length == 0}}"/>
     </view>
   </view>
 </template>
@@ -44,6 +44,7 @@
 <script>
   import wepy from 'wepy'
   import Api from '../../config/api.js'
+  import EmptyData from '../../components/emptyData'
 
   export default class attentionList extends wepy.page{
 
@@ -52,7 +53,17 @@
       datalist: []
     }
 
+    components = {
+      EmptyData
+    }
+
     methods = {
+      getMoreSalary(item) {
+        console.log(item)
+        wepy.navigateTo({
+          url: '../salary/moreSalary?id='+ item.attendId + '&name=' + item.attend + '&category=' + this.type
+        })
+      }
     }
 
     getAttentionList() {

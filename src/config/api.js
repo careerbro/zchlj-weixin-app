@@ -1,8 +1,9 @@
 export default {
-  // host: 'http://192.168.1.45:8080',
-  // host: 'http://10.1.2.201:8080',
+  // host: 'http://127.0.0.1:8080',
+  // host: 'http://10.30.4.119:8080',
   // host: 'http://10.1.2.9:8080',
-  host: 'http://39.108.63.38:8080',
+  // host: 'http://47.94.255.76:8080',
+  host: 'https://api.brocareer.com',
 
   user: '/careerbro/user/user',
   getUserSum: '/careerbro/user/sum',
@@ -39,6 +40,10 @@ export default {
 
   agreeComment: '/careerbro/comment/agree/', // post
 
+  getHotCompany: '/careerbro/salary/getMostCor', //热门公司
+  getHotCity: '/careerbro/salary/getMostCity', //热门城市
 
+  searchAllInfo: '/careerbro/salary/getSearch',
 
+  getAllIndustry: '/careerbro/industry/industry'
 }

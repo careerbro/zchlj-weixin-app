@@ -67,7 +67,7 @@
   }
 
   .option-other {
-    width: 115rpx;
+    width: 250rpx;
     font-size: 22rpx;
   }
 
@@ -75,6 +75,12 @@
     height: 40rpx;
     width: 40rpx;
     padding-top: 20rpx;
+  }
+
+  .big-icon {
+    height: 60rpx;
+    width: 60rpx;
+    padding-top: 0;
   }
 
   .option-other-label {
@@ -89,30 +95,56 @@
     <view class="salary-info">
       <view class="company-info">
         <view class="weui-panel weui-panel_access ">
-          <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
+          <!-- <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" @tap="getMoreSalary(1)">
                 <view class="weui-media-box__title">{{salaryInfo.corporation}}</view>
-                <view class="weui-media-box__desc">{{salaryInfo.industry}}</view>
             </view>
             <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </view> -->
+          <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(1)">
+              <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd weui-cell_primary">
+                    <view>{{salaryInfo.corporation}} </view>
+                </view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+              </view>
+          </view>
+          <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(2)">
+            <!-- <view class="weui-cells weui-cells_in-small-appmsg"> -->
+              <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd weui-cell_primary">
+                    <view>{{salaryInfo.job}} </view>
+                </view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                <!-- <view class="job-share" @tap="shareThisItemToOther">
+                  <image class="job-share-icon" src="../../images/fenxiang1.png" />
+                </view> -->
+              </view>
+            <!-- </view> -->
+          </view>
+          <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(3)">
+            <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+              <view class="weui-cell__bd weui-cell_primary">
+                  <view class="label">地点</view>
+                  <view class="value">{{salaryInfo.city}}</view>
+              </view>
+              <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+            </view>
+          </view>
+
+          <view class="weui-media-box weui-media-box_small-appmsg">
+            <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+              <view class="weui-cell__bd weui-cell_primary">
+                  <view class="label">学习背景</view>
+                  <view class="value">{{salaryInfo.collegeLevel}}--{{xueli[salaryInfo.eduBackGround]}}</view>
+              </view>
+            </view>
           </view>
         </view>
       </view>
 
       <view class="weui-panel">
-        <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(2)">
-          <!-- <view class="weui-cells weui-cells_in-small-appmsg"> -->
-            <view class="weui-cell weui-cell_access job-cell" hover-class="weui-cell_active">
-              <view class="weui-cell__bd weui-cell_primary">
-                  <view>{{salaryInfo.job}}</view>
-              </view>
-              <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-              <!-- <view class="job-share" @tap="shareThisItemToOther">
-                <image class="job-share-icon" src="../../images/fenxiang1.png" />
-              </view> -->
-            </view>
-          <!-- </view> -->
-        </view>
+
         <view class="weui-media-box weui-media-box_small-appmsg">
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
@@ -124,26 +156,9 @@
         <view class="weui-media-box weui-media-box_small-appmsg">
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
-                <view class="label">学习背景</view>
-                <view class="value">{{salaryInfo.eduBackGround}}--{{salaryInfo.collegeLevel}}</view>
-            </view>
-          </view>
-        </view>
-        <view class="weui-media-box weui-media-box_small-appmsg">
-          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
-            <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">工作经验</view>
                 <view class="value">{{salaryInfo.experienceMonthNum}}月</view>
             </view>
-          </view>
-        </view>
-        <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(3)">
-          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
-            <view class="weui-cell__bd weui-cell_primary">
-                <view class="label">地点</view>
-                <view class="value">{{salaryInfo.city}}</view>
-            </view>
-            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
           </view>
         </view>
 
@@ -172,7 +187,7 @@
     </view>
     <view class="footer-option-cell">
       <view class="weui-flex">
-        <view class="option-zantong" @tap="zantongThisItem">
+        <!-- <view class="option-zantong" @tap="zantongThisItem">
           <view class="zantong-box">
             <image wx:if="{{zantong}}" class="option-other-icon" src="../../images/zantong1.png" />
             <image wx:if="{{!zantong}}" class="option-other-icon" src="../../images/zantong2.png" />
@@ -185,7 +200,7 @@
             <image wx:if="{{buzantong}}" class="option-other-icon" src="../../images/zantong-no1.png" />
             <image wx:if="{{!buzantong}}" class="option-other-icon" src="../../images/zantong-no2.png" />
           </view>
-        </view>
+        </view> -->
         <!-- <view class="option-other" @tap="thankThisItem">
           <view>
             <image wx:if="{{ganxie}}" class="option-other-icon" src="../../images/ganxie5.png" />
@@ -193,6 +208,13 @@
           </view>
           <view class="option-other-label" style="{{ganxie? 'color: #6f95ff' : ''}}">感谢</view>
         </view> -->
+
+        <view class="option-other" @tap="shareThisItemToOther">
+          <view>
+            <image class="option-other-icon" src="../../images/fenxiang.png" />
+          </view>
+          <view class="option-other-label">分享</view>
+        </view>
         <view class="option-other" @tap="shoucangThisItem">
           <view>
             <image wx:if="{{shoucang}}" class="option-other-icon" src="../../images/shoucang5.png" />
@@ -200,17 +222,25 @@
           </view>
           <view class="option-other-label" style="{{shoucang? 'color: #6f95ff' : ''}}">收藏</view>
         </view>
+        <view class="option-other" @tap="zantongThisItem">
+          <view>
+            <image wx:if="{{zantong}}" class="option-other-icon big-icon" src="../../images/tongyi-yes.png" />
+            <image wx:if="{{!zantong}}" class="option-other-icon big-icon" src="../../images/tongyi-no.png" />
+          </view>
+          <view class="option-other-label" style="{{zantong? 'color: #6f95ff' : ''}}">同意</view>
+        </view>
+        <view class="option-other" @tap="buzantongThisItem">
+          <view>
+            <image wx:if="{{buzantong}}" class="option-other-icon big-icon" src="../../images/fandui-yes.png" />
+            <image wx:if="{{!buzantong}}" class="option-other-icon big-icon" src="../../images/fandui-no.png" />
+          </view>
+          <view class="option-other-label" style="{{buzantong? 'color: #6f95ff' : ''}}">反对</view>
+        </view>
         <view class="option-other" @tap="commentThisItem">
           <view>
-            <image class="option-other-icon" src="../../images/pinglun.png" />
+            <image class="option-other-icon" src="../../images/taolun.png" />
           </view>
           <view class="option-other-label">{{commentsNum}}</view>
-        </view>
-        <view class="option-other" @tap="shareThisItemToOther">
-          <view>
-            <image class="option-other-icon" src="../../images/fenxiang.png" />
-          </view>
-          <view class="option-other-label">分享</view>
         </view>
         <!-- <view class="option-other" @tap="reportThisItem">
           <view>
@@ -237,13 +267,23 @@
       second: false,
       school: '',
       email: '',
-      salaryInfo: null,
+      salaryInfo: {
+        corporation: '',
+        job: '',
+        city: '',
+        collegeLevel: '',
+        salary: '',
+        experienceMonthNum: '',
+        fuli: [],
+        offtime: ''
+      },
       extendData: null,
       ganxie: false,
       shoucang: false,
       zantong: false,
       buzantong: false,
-      commentsNum: 0
+      commentsNum: 0,
+      xueli: ['本科','硕士','博士','其他']
     }
 
     methods = {
@@ -266,9 +306,10 @@
       },
 
       shareThisItemToOther: function() {
-        wepy.showShareMenu({
-          withShareTicket: true
-        })
+        // wepy.showShareMenu({
+        //   withShareTicket: true
+        // })
+        this.onShareAppMessage()
       },
 
       thankThisItem: function() {
@@ -279,12 +320,18 @@
       zantongThisItem: function() {
         // this.zantong = !this.zantong;
         // this.buzantong = false;
+        if(this.zantong) {
+          return
+        }
         this.postSalaryOptionByUser('zantong')
       },
 
       buzantongThisItem: function() {
         // this.buzantong = !this.buzantong;
         // this.zantong = false;
+        if(!this.zantong) {
+          return
+        }
         this.postSalaryOptionByUser('buzantong')
       },
 
@@ -348,6 +395,7 @@
           this.extendData = res.data.body.extendData
           this.salaryInfo = result
           this.commentsNum = res.data.body.commentsNum
+          wepy.hideLoading()
           this.$apply()
         }
       })
@@ -385,23 +433,36 @@
       }).then(res => {
         console.log(res.data)
         if(res.data.code == 0) {
+          let msg = ''
           if(option == 'thank') {
             this.ganxie = !this.ganxie;
+            msg = '感谢成功'
           } else if(option == 'shoucang') {
             this.shoucang = !this.shoucang;
+            msg = '收藏成功，可在我的收藏中查看'
           } else if(option == 'zantong'){
             this.zantong = !this.zantong;
+            msg = '赞同成功'
             this.buzantong = false;
           } else if(option == 'buzantong'){
             this.buzantong = !this.buzantong;
             this.zantong = false;
+            msg = '反对成功'
           }
           this.$apply()
+          wepy.showToast({
+            title: msg,
+            icon: 'none',
+            duration: 2000
+          })
         }
       })
     }
 
     onLoad(options) {
+      wepy.showLoading({
+        title: '加载中，请稍等',
+      })
       if(options && options.id) {
         console.log(options.id)
         this.getSalaryInfo(options.id)
