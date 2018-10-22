@@ -23,12 +23,12 @@
     <view class="salary-info">
       <view class="company-info">
         <view class="weui-panel weui-panel_access ">
-          <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" @tap="attentionThis">
+          <view class="weui-panel__bd weui-media-box weui-media-box_appmsg">
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <view class="weui-media-box__title">{{name}}</view>
             </view>
-            <view wx:if="{{!attened}}" class="weui-cell__ft attention">➕关注</view>
-            <view wx:if="{{attened}}" class="weui-cell__ft">已关注</view>
+            <view wx:if="{{!attened}}" class="weui-cell__ft attention"  @tap="attentionThis">➕关注</view>
+            <view wx:if="{{attened}}" class="weui-cell__ft attention" @tap="cancelAttentionThis">➖取消关注</view>
           </view>
         </view>
       </view>
@@ -48,7 +48,7 @@
 
   export default class moreSalary extends wepy.page{
     config = {
-      navigationBarTitleText: '薪资详情',
+      navigationBarTitleText: '更多薪资',
     }
 
     data = {
@@ -57,6 +57,7 @@
       salarys: [],
       id: '',
       attened: false,
+      attenedId: ''
     }
 
     components = {
@@ -81,11 +82,52 @@
         }).then(res => {
           console.log(res.data)
           if(res.data.code == 0) {
+            wepy.showToast({
+              title: '关注成功！',
+              icon: 'none',
+              duration: 2000
+            });
             this.attened = true
+            this.checkThisIsAttend()
             this.$apply()
           }
         })
-      }
+      },
+      cancelAttentionThis:function () {
+        if(!this.attened) {
+          return
+        }
+        let self = this
+        wx.showModal({
+          title: '确定取消关注',
+          confirmText: "确认",
+          cancelText: "取消",
+          success: function (res) {
+            console.log(res)
+            if (res.confirm) {
+              const url = Api.host + Api.cancelAttention + '?id=' + self.attenedId
+              wepy.request({
+                url: url,
+                method: 'PUT'
+              }).then(result => {
+                console.log(result.data)
+                if(result.data.code == 0) {
+                  wepy.showToast({
+                    title: '取消关注成功！',
+                    icon: 'none',
+                    duration: 2000
+                  });
+                  self.attened = false
+                  self.attenedId = ''
+                  self.$apply()
+                }
+              })
+            }else{
+              return
+            }
+          }
+        });
+      },
     }
 
     getSalarys() {
@@ -94,7 +136,7 @@
       if(this.category == '1') {
         data.corporationId = this.id
       } else if(this.category == '2'){
-        data.jobID = this.id
+        data.jobId = this.id
       } else {
         data.cityId = this.id
       }
@@ -130,6 +172,7 @@
         if(res.data.code == 0) {
           if(res.data.body.data != null) {
             this.attened = true
+            this.attenedId = res.data.body.data
             this.$apply()
           }
         }

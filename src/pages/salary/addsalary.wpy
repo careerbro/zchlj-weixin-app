@@ -70,7 +70,7 @@
   <view class="container weui-mask"  style="{{showMask?'height:100vh;overflow:hidden':''}}">
     <view class='page'>
     <view class="page__bd">
-      <view class="weui-cells__title">公司信息</view>
+      <view class="weui-cells__title">岗位信息</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
@@ -82,26 +82,35 @@
         </view>
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label">公司行业</view>
-          </view>
-          <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{hangye}}"  placeholder="请输入公司行业"  @input="findHangye"/>
-          </view>
-          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
-        </view>
-      </view>
-
-      <view class="weui-cells__title">岗位信息</view>
-      <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input">
-          <view class="weui-cell__hd">
               <view class="weui-label import-item-color">岗位名称</view>
           </view>
           <view class="weui-cell__bd">
               <input class="weui-input select-input-value" value="{{job}}"  placeholder="请输入岗位名称"  @input="findJob"/>
           </view>
         </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">工作地点</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" placeholder="请选择工作地点" @input="findCity"/>
+          </view>
+        </view>
+        <!-- <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">公司行业</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input select-input-value" value="{{hangye}}"  placeholder="请输入公司行业"  @input="findHangye"/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view> -->
       </view>
+
+      <!-- <view class="weui-cells__title">岗位信息</view>
+      <view class="weui-cells weui-cells_after-title">
+
+      </view> -->
 
       <view class="weui-cells__title" >薪资数据</view>
       <view class="weui-cells weui-cells_after-title">
@@ -115,10 +124,7 @@
               <view wx:if="{{secectSalary == 'month'}}" class="weui-label salary-title-label" >年薪</view>
             </view>
             <view class="weui-cell__bd salary-input">
-              <input class="weui-input salary-input-value" type="number"  @input="inputYearSalaryMin"/>
-              <view style="width: 40rpx; paddind-left: -20rpx">K</view>
-              <view style="width: 40rpx;">~</view>
-              <input class="weui-input salary-input-value" type="number" @input="inputYearSalaryMax"/>
+              <input class="weui-input salary-input-value" type="number" style="width: 310rpx" @input="inputYearSalaryMin"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
             </view>
           </view>
@@ -139,21 +145,6 @@
             </view>
           </view>
         </radio-group>
-      </view>
-
-      <view class="weui-cells__title">福利信息</view>
-      <view class="weui-cells weui-cells_after-title">
-        <label class="weui-cell weui-check__label" wx:for="{{fuliInfos}}" wx:key="value" bindtap='clickFuliItem' data-fuliitem="{{item.value}}">
-          <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
-          <view class="weui-cell__hd weui-check__hd_in-checkbox">
-              <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
-              <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
-          </view>
-          <view class="weui-cell__bd">{{item.name}}</view>
-        </label>
-        <view class="weui-cell weui-cell_link">
-            <view class="weui-cell__bd" bindtap='addItem'>添加更多</view>
-        </view>
       </view>
 
       <view class="weui-cells__title">学历背景</view>
@@ -187,11 +178,26 @@
         </view>
       </view>
 
+      <view class="weui-cells__title">福利信息</view>
+      <view class="weui-cells weui-cells_after-title">
+        <label class="weui-cell weui-check__label" wx:for="{{fuliInfos}}" wx:key="value" bindtap='clickFuliItem' data-fuliitem="{{item.value}}">
+          <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+          <view class="weui-cell__hd weui-check__hd_in-checkbox">
+              <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
+              <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
+          </view>
+          <view class="weui-cell__bd">{{item.name}}</view>
+        </label>
+        <view class="weui-cell weui-cell_link">
+            <view class="weui-cell__bd" bindtap='addItem'>添加更多</view>
+        </view>
+      </view>
+
       <view class="weui-cells__title">其它信息</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label import-item-color">工作经验</view>
+              <view class="weui-label import-item-color">实习/全职</view>
           </view>
           <view class="weui-cell__bd">
               <input class="weui-input"  type="number" placeholder="请输入工作月数" @input="inputExperienceMonthNum"/>
@@ -207,14 +213,7 @@
             </picker>
           </view>
         </view>
-        <view class="weui-cell weui-cell_input">
-          <view class="weui-cell__hd">
-              <view class="weui-label">工作地点</view>
-          </view>
-          <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="请选择工作地点" @input="findCity"/>
-          </view>
-        </view>
+
       </view>
 
       <!-- <view class="weui-cells__title">备注信息</view>
@@ -264,7 +263,7 @@
       </view>
     </repeat>
   </view>
-  <view wx:if="{{showJobSearch}}" class="search-select-bar" style="top: 196px;">
+  <view wx:if="{{showJobSearch}}" class="search-select-bar" style="top: 125px;">
     <repeat for="{{jobList}}" item="item">
       <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisJob({{item}})">
         <view class="weui-cell__bd weui-cell_primary">
@@ -274,7 +273,7 @@
     </repeat>
   </view>
 
-  <view wx:if="{{showSchoolSearch}}" class="search-select-bar" style="top: 710px;">
+  <view wx:if="{{showSchoolSearch}}" class="search-select-bar" style="top: 460px;">
     <repeat for="{{schoolList}}" item="item">
       <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisSchool({{item}})">
         <view class="weui-cell__bd weui-cell_primary">
@@ -283,7 +282,7 @@
       </view>
     </repeat>
   </view>
-  <view wx:if="{{showCitySearch}}" class="search-select-bar" style="top: 766px;">
+  <view wx:if="{{showCitySearch}}" class="search-select-bar" style="top: 166px;">
     <repeat for="{{cityList}}" item="item">
       <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisCity({{item}})">
         <view class="weui-cell__bd weui-cell_primary">
@@ -591,10 +590,7 @@
         });
         return;
       }
-      console.log(this.yearSalaryMax)
-      console.log(this.yearSalaryMin)
-      console.log(this.monthSalary)
-      console.log(this.monthNum)
+
       if((this.yearSalaryMax != '' || this.yearSalaryMin != '') && (this.monthSalary != '' || this.monthNum != '') ) {
         wepy.showToast({
           title: '薪资信息不完整，请填写',
@@ -620,9 +616,9 @@
           job: this.jobId,
           user: this.$parent.globalData.userInfo.id,
           college: this.schoolId,
-          industry: this.hangyeId,
+          // industry: this.hangyeId,
           corporation: this.companyId,
-          yearSalaryMax: this.yearSalaryMax != '' ? this.yearSalaryMax : 0,
+          yearSalaryMax: this.yearSalaryMin != '' ? this.yearSalaryMin : 0,
           yearSalaryMin: this.yearSalaryMin != '' ? this.yearSalaryMin : 0,
           monthSalary: this.monthSalary != '' ? this.monthSalary : 0,
           monthNum: this.monthNum != '' ? this.monthNum : 0,

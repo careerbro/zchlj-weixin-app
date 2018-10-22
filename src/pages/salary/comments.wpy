@@ -75,11 +75,11 @@ textarea {
       <view  wx:if="{{hasComments.length > 0}}" class="weui-panel weui-panel_access ">
       <repeat for="{{hasComments}}" index="index" item="item">
         <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
-          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+          <!-- <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
             <image  class="photoPath" src="{{item.photoPath}}" />
-          </view>
+          </view> -->
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-            <view class="weui-media-box__title weui-media-box__title_in-text">{{item.name}}</view>
+            <!-- <view class="weui-media-box__title weui-media-box__title_in-text">{{item.name}}</view> -->
             <view style="line-height: 34rpx;">
               <text class="comment-contend">{{item.contend}}</text>
             </view>

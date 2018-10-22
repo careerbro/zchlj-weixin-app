@@ -6,7 +6,7 @@
   /* text-align: center; */
   background-color: #6f95ff;
   /* top: -1px; */
-  height: 40px;
+  height: 45px;
   z-index: 100;
   width: 750rpx;
 }
@@ -73,7 +73,7 @@ button[size = mini] {
 
 .salary-info-box {
   position: fixed;
-  top: calc(92rpx + 40px);
+  top: calc(92rpx + 45px);
   left: 0;
   width: 750rpx;
   bottom: 0;
@@ -81,7 +81,7 @@ button[size = mini] {
 }
 .sort-and-select-box {
   position: fixed;
-  top: 40px;
+  top: 45px;
   left: 0;
   width: 750rpx;
   background-color: #ffffff;
@@ -96,6 +96,7 @@ button[size = mini] {
   width: 375rpx;
   justify-content:center;
   display: flex;
+  border: #eeeeee solid .0625rem;
 }
 
 .mask{
@@ -106,17 +107,31 @@ button[size = mini] {
   transition: all 1s ease;
   overflow: hidden;
   bottom: 0;
-  top: calc(90rpx + 40px);
+  top: calc(90rpx + 45px);
   width: 750rpx;
 }
 .filter-hangye-box {
   position: fixed;
   z-index: 20;
   transition: all 1s ease;
-  top: calc(90rpx + 40px);
+  top: calc(90rpx + 45px);
   width: 750rpx;
   height: 700rpx;
   background-color: #fff;
+}
+.filter-xueli-box {
+  padding: 20px 0;
+  position: fixed;
+  z-index: 20;
+  transition: all 1s ease;
+  top: 90rpx;
+  width: 750rpx;
+  height: 500rpx;
+  background-color: #fff;
+}
+.filter-item-title {
+  padding-left: 20px;
+  font-size: 32rpx;
 }
 </style>
 
@@ -153,20 +168,20 @@ button[size = mini] {
       <view class="sort-or-select-item" @tap="selectHangye">
         <view>行业类别</view>
         <view class="search-bar-xueli-icon-box">
-          <image  wx:if="{{selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/up.png"/>
-          <image  wx:if="{{!selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/down.png"/>
+          <image  wx:if="{{selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/cc-up-sel.png"/>
+          <image  wx:if="{{!selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/cc-down.png"/>
         </view>
       </view>
       <view class="sort-or-select-item" @tap="selectOffer">
         <view>Offer时间</view>
         <view class="search-bar-xueli-icon-box">
-          <image  wx:if="{{selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/up.png"/>
-          <image  wx:if="{{!selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/down.png"/>
+          <image  wx:if="{{selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/cc-up-sel.png"/>
+          <image  wx:if="{{!selectSchool}}" class="search-bar-xueli-icon-image" src="../../images/cc-down.png"/>
         </view>
       </view>
     </view>
     <!-- <view class="item-title"> —— 猜你喜欢 ——</view> -->
-    <view class="salary-info-box scroll-view-box" upper-threshold="{{10}}" @scrolltoupper="scrolltoupper" @scrolltolower="scrolltolower">
+    <view scroll-y style="height: calc(100vh - 92rpx - 45px)" class="salary-info-box scroll-view-box" upper-threshold="{{10}}" @scroll="scrolltoupper" bindscrolltoupper="scrolltoupper" bindscrolltolower="scrolltolower">
       <view class="loading-info" wx:if="{{loadingNew}}">
         <view class="weui-loadmore">
           <view class="weui-loading"></view>
@@ -191,6 +206,26 @@ button[size = mini] {
 
     <!-- 遮罩层与下拉选择框 -->
     <view class="mask" wx:if="{{showMask}}" @tap="closeFilterDetail"></view>
+    <view class="filter-xueli-box" wx:if="{{showXueliSelectBox}}">
+      <view class="filter-item-title">学历背景</view>
+      <van-row gutter="20" style="text-align:center;line-height:100rpx;">
+        <repeat for="{{xueliList}}" index="index" item="item">
+          <van-col span="8" @tap="clickXueliBtn({{index}})">
+            <van-button wx:if="{{selectedXueli == index}}" plain size="small" type="primary">{{item}}</van-button>
+            <van-button wx:else plain size="small">{{item}}</van-button>
+          </van-col>
+        </repeat>
+      </van-row>
+      <view class="filter-item-title">学校背景</view>
+      <van-row gutter="20" style="text-align:center;line-height:100rpx;">
+        <repeat for="{{schoolLevelList}}" index="index" item="item">
+          <van-col span="8" @tap="clickSchoolLevBtn({{item}})">
+            <van-button wx:if="{{selectedSchoolLev == item}}" plain size="small" type="primary">{{item}}</van-button>
+            <van-button wx:else plain size="small">{{item}}</van-button>
+          </van-col>
+        </repeat>
+      </van-row>
+    </view>
     <view class="filter-hangye-box" wx:if="{{showHangyeSelectBox}}">
       <van-tree-select
         items="{{ hangyeData }}"
@@ -228,7 +263,8 @@ button[size = mini] {
       usingComponents: {
         "van-tree-select": "../../vant/tree-select/index",
         "van-row": "../../vant/row/index",
-        "van-col": "../../vant/col/index"
+        "van-col": "../../vant/col/index",
+        "van-button": "../../vant/button/index"
       }
     }
 
@@ -245,6 +281,7 @@ button[size = mini] {
       startTime: '',
       endTime: '',
       showMask: false,    // 控制显示遮罩层
+      showXueliSelectBox: false,
       showOfferSelectBox: false,
       showHangyeSelectBox: false,
       selectOrder: false,
@@ -253,8 +290,10 @@ button[size = mini] {
       loadingNew: false,
       datalist: [],
       filterList: null,
-      xueliList: ['本科','硕士','博士','其它','全部'],
-      selectedXueli: 4,
+      xueliList: ['全部','本科','硕士','博士','其它'],
+      schoolLevelList: ['全部','C9','985','211','海外','其它'],
+      selectedXueli: 0,
+      selectedSchoolLev: '全部',
       hangyeMainActiveIndex: 0,
       hangyeActiveId: 0,
       hangyeData: [],
@@ -262,45 +301,66 @@ button[size = mini] {
       offerActiveId: 0,
       offerData: [
         {text: '春秋季招聘', children: [{text:'2019秋招', id: 11},{text:'2018春招', id: 12},{text:'2018秋招', id: 13},{text:'2017春招', id: 14},{text:'2017秋招', id: 15}]},
-        {text: '详细时间段', children: [{text:'三个月以内', id: 21},{text:'六个月以内', id: 22},{text:'一年以内', id: 23},{text:'一年以上', id: 24}]},
-        // {text: '排序选择', children: [{text:'阅读数', id: 31},{text:'点赞数', id: 32},{text:'收藏数', id: 33},{text:'发布时间', id: 34},{text:'发布时间', id: 35}]},
+        // {text: '详细时间段', children: [{text:'三个月以内', id: 21},{text:'六个月以内', id: 22},{text:'一年以内', id: 23},{text:'一年以上', id: 24}]},
+        {text: '薪资爆料时间', children: [{text:'最新爆料', id: 31},{text:'最热爆料', id: 32}]},
       ]
     }
 
     methods = {
+      clickXueliBtn: function(index) {
+        this.selectedXueli = index
+        this.getSalary()
+        this.showXueliSelectBox = false
+        this.showMask = false
+      },
+      clickSchoolLevBtn: function(item) {
+        this.selectedSchoolLev = item
+        this.getSalary()
+        this.showXueliSelectBox = false
+        this.showMask = false
+      },
       scrolltolower: function() {
+        console.log(11111111111)
         this.onReachBottom()
       },
       scrolltoupper: function() {
+        console.log(11111111111)
         // this.loadingNew = true;
         // this.$apply()
       },
       selectXueli: function() {
-        let self = this
-        self.selectXueli = true
-        wx.showActionSheet({
-          itemList: self.xueliList,
-          success: function(res) {
-            // console.log(res)
-            if (!res.cancel) {
-              console.log(res.tapIndex)
-              self.selectedXueli = res.tapIndex
-              self.$apply()
-              if(self.inputVal != '') {
-                self.searchSalary()
-              } else {
-                self.getSalary()
-              }
-            }
-          },
-          fail: function(res) {
-            console.log(res.errMsg)
-          }
-        })
-        self.selectXueli = false
+        this.showOfferSelectBox = false
+        this.showHangyeSelectBox = false
+        if(this.showMask && this.showXueliSelectBox) {
+          this.showMask = false
+          this.showXueliSelectBox = false
+        } else {
+          this.showMask = true
+          this.showXueliSelectBox = true
+        }
+        // wx.showActionSheet({
+        //   itemList: self.xueliList,
+        //   success: function(res) {
+        //     // console.log(res)
+        //     if (!res.cancel) {
+        //       console.log(res.tapIndex)
+        //       self.selectedXueli = res.tapIndex
+        //       self.$apply()
+        //       if(self.inputVal != '') {
+        //         self.searchSalary()
+        //       } else {
+        //         self.getSalary()
+        //       }
+        //     }
+        //   },
+        //   fail: function(res) {
+        //     console.log(res.errMsg)
+        //   }
+        // })
       },
       selectHangye: function() {
         this.showOfferSelectBox = false
+        this.showXueliSelectBox = false
         if(this.showMask && this.showHangyeSelectBox) {
           this.showMask = false
           this.showHangyeSelectBox = false
@@ -308,10 +368,10 @@ button[size = mini] {
           this.showMask = true
           this.showHangyeSelectBox = true
         }
-        console.log()
       },
       selectOffer: function() {
         this.showHangyeSelectBox = false
+        this.showXueliSelectBox = false
         if(this.showMask && this.showOfferSelectBox) {
           this.showMask = false
           this.showOfferSelectBox = false
@@ -346,6 +406,7 @@ button[size = mini] {
         this.showMask = false
         this.showHangyeSelectBox = false
         this.showOfferSelectBox = false
+        this.showXueliSelectBox = false
       },
 
       inputTyping: function(e) {
@@ -376,6 +437,7 @@ button[size = mini] {
     }
 
     onReachBottom() {
+      console.log(111)
       this.loadingMore = true;
       this.$apply()
       let temp = this.datalist;
@@ -433,8 +495,11 @@ button[size = mini] {
     getSalary(){
       const url = Api.host + Api.salary
       let data = {}
-      if(this.selectedXueli != 4) {
-        data.type = this.selectedXueli
+      if(this.selectedXueli != 0) {
+        data.type = this.selectedXueli - 1
+      }
+      if(this.selectedSchoolLev != '全部') {
+        data.collegeLevel = this.selectedSchoolLev
       }
       if(this.hangyeActiveId != 0) {
         data.industryId = this.hangyeData[0].children[this.hangyeActiveId - 1].cid
@@ -443,26 +508,32 @@ button[size = mini] {
         let time = {}
         if(parseInt(this.offerActiveId / 10) == 1) {
           time = ZhaoPinJiToDate(this.offerData[0].children[this.offerActiveId % 10 - 1].text)
+          data.startTime = time.start
+          data.endTime = time.end
         } else {
           if(this.offerActiveId % 10 == 1) {
-            time.start = Dayjs().subtract(3, 'month').format('YYYY-MM-DD')
-            time.end = Dayjs().format('YYYY-MM-DD')
+            data.order = 0
           }
           if(this.offerActiveId % 10 == 2) {
-            time.start = Dayjs().subtract(6, 'month').format('YYYY-MM-DD')
-            time.end = Dayjs().format('YYYY-MM-DD')
+            data.order = 10
           }
-          if(this.offerActiveId % 10 == 3) {
-            time.start = Dayjs().subtract(1, 'year').format('YYYY-MM-DD')
-            time.end = Dayjs().format('YYYY-MM-DD')
-          }
-          if(this.offerActiveId % 10 == 4) {
-            time.start = '2000-01-01'
-            time.end = Dayjs().subtract(1, 'year').format('YYYY-MM-DD')
-          }
+          // if(this.offerActiveId % 10 == 1) {
+          //   time.start = Dayjs().subtract(3, 'month').format('YYYY-MM-DD')
+          //   time.end = Dayjs().format('YYYY-MM-DD')
+          // }
+          // if(this.offerActiveId % 10 == 2) {
+          //   time.start = Dayjs().subtract(6, 'month').format('YYYY-MM-DD')
+          //   time.end = Dayjs().format('YYYY-MM-DD')
+          // }
+          // if(this.offerActiveId % 10 == 3) {
+          //   time.start = Dayjs().subtract(1, 'year').format('YYYY-MM-DD')
+          //   time.end = Dayjs().format('YYYY-MM-DD')
+          // }
+          // if(this.offerActiveId % 10 == 4) {
+          //   time.start = '2000-01-01'
+          //   time.end = Dayjs().subtract(1, 'year').format('YYYY-MM-DD')
+          // }
         }
-        data.startTime = time.start
-        data.endTime = time.end
       }
 
       wepy.request({

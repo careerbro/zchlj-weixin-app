@@ -104,7 +104,7 @@
           <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(1)">
               <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__bd weui-cell_primary">
-                    <view>{{salaryInfo.corporation}} </view>
+                    <view>{{salaryInfo.scorporation == '---' ? salaryInfo.corporation : salaryInfo.scorporation}}</view>
                 </view>
                 <view class="weui-cell__ft weui-cell__ft_in-access"></view>
               </view>
@@ -352,7 +352,7 @@
         let name = ''
         if(category == 1) {
           id = this.salaryInfo.corporationId
-          name = this.salaryInfo.corporation
+          name = this.salaryInfo.scorporation == '---' ? this.salaryInfo.corporation : this.salaryInfo.scorporation
         } else if(category == 2) {
           id = this.salaryInfo.jobId
           name = this.salaryInfo.job

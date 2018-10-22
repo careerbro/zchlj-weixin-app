@@ -10,6 +10,13 @@
 button[type = primary] {
   background-color: #6f95ff !important;
 }
+
+.van-button--primary{
+  color: #6f95ff !important;;
+  background-color:#fff !important;
+  border:1px solid #6f95ff !important;
+}
+
 </style>
 
 <script>

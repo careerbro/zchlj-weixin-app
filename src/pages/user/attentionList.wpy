@@ -30,6 +30,7 @@
                 <view class="weui-cell__bd weui-cell_primary">
                     <view>{{item.attend}}</view>
                 </view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
               </view>
             </view>
           </view>

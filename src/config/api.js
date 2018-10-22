@@ -10,10 +10,7 @@ export default {
 
   login: '/careerbro/sys/login',
 
-  /**
-   * GET /:uid  关注
-   * POST  取消关注
-   */
+
   attention: '/careerbro/attention/attention' ,
   isAttention: '/careerbro/attention/isAttend' ,
   cancelAttention: '/careerbro/attention/cancelAttend' ,
