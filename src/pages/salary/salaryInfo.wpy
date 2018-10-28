@@ -135,7 +135,7 @@
           <view class="weui-media-box weui-media-box_small-appmsg">
             <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
               <view class="weui-cell__bd weui-cell_primary">
-                  <view class="label">学习背景</view>
+                  <view class="label">学历背景</view>
                   <view class="value">{{salaryInfo.collegeLevel}}--{{xueli[salaryInfo.eduBackGround]}}</view>
               </view>
             </view>
@@ -167,9 +167,7 @@
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">福利信息</view>
                 <view class="value">
-                <repeat for="{{salaryInfo.fuli}}" index="index" item="item">
-                  <view>{{item}}</view>
-                </repeat>
+                <view>{{salaryInfo.fuli}}</view>
                 </view>
             </view>
           </view>
@@ -274,7 +272,7 @@
         collegeLevel: '',
         salary: '',
         experienceMonthNum: '',
-        fuli: [],
+        fuli: '',
         offtime: ''
       },
       extendData: null,
@@ -384,7 +382,7 @@
         if(res.data.code == 0) {
           let result = res.data.body.data
           result.salary = result.yearSalaryMin + 'K-' + result.yearSalaryMax + 'K'
-          result.fuli = result.welfare.split(",")
+          result.fuli = result.welfare
           result.offtime = result.offerTime.substring(0,10)
           if(res.data.body.extendData && res.data.body.extendData != {}) {
             this.thank = res.data.body.extendData.gra == '1'

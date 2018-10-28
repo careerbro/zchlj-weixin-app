@@ -80,6 +80,15 @@
               <input class="weui-input select-input-value" value="{{company}}"  placeholder="请输入公司名称" @input="findCompany"/>
           </view>
         </view>
+        <view class="weui-cell weui-cell_input" @tap="selectItemValue('hangye', '选择行业')">
+          <view class="weui-cell__hd">
+              <view class="weui-label">公司行业</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input disabled="true" class="weui-input select-input-value" value="{{hangye}}"  placeholder="请选择公司行业"/>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </view>
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
               <view class="weui-label import-item-color">岗位名称</view>
@@ -96,15 +105,6 @@
               <input class="weui-input" placeholder="请选择工作地点" @input="findCity"/>
           </view>
         </view>
-        <!-- <view class="weui-cell weui-cell_input">
-          <view class="weui-cell__hd">
-              <view class="weui-label">公司行业</view>
-          </view>
-          <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{hangye}}"  placeholder="请输入公司行业"  @input="findHangye"/>
-          </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-        </view> -->
       </view>
 
       <!-- <view class="weui-cells__title">岗位信息</view>
@@ -178,7 +178,7 @@
         </view>
       </view>
 
-      <view class="weui-cells__title">福利信息</view>
+      <!-- <view class="weui-cells__title">福利备注</view>
       <view class="weui-cells weui-cells_after-title">
         <label class="weui-cell weui-check__label" wx:for="{{fuliInfos}}" wx:key="value" bindtap='clickFuliItem' data-fuliitem="{{item.value}}">
           <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
@@ -191,10 +191,18 @@
         <view class="weui-cell weui-cell_link">
             <view class="weui-cell__bd" bindtap='addItem'>添加更多</view>
         </view>
-      </view>
+      </view> -->
 
       <view class="weui-cells__title">其它信息</view>
       <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label import-item-color">福利信息</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input"  placeholder="年终/饭补/房补/交通补贴" @input="inputFuliInfo"/>
+          </view>
+        </view>
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
               <view class="weui-label import-item-color">实习/全职</view>
@@ -208,9 +216,17 @@
               <view class="weui-label">Offer时间</view>
           </view>
           <view class="weui-cell__bd">
-            <picker mode="date" value="{{offerDate}}" @change="bindDateChange">
+            <picker mode="date" fields="year" value="{{offerDate}}" @change="bindDateChange">
               <input class="weui-input" value="{{offerDate}}" placeholder="请选择得到Offer时间" disabled/>
             </picker>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input" @tap="selectOfferFrom">
+          <view class="weui-cell__hd">
+              <view class="weui-label">Offer途径</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" value="{{offerFrom}}" placeholder="请选择得到Offer途径" disabled/>
           </view>
         </view>
 
@@ -238,7 +254,7 @@
 
 
     <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" @tap="postAddSalary">确定</button>
+      <button class="weui-btn" type="primary" @tap="postAddSalary">确定爆料</button>
     </view>
   </view>
   </view>
@@ -332,6 +348,9 @@
       schoolId: '',
       secectSalary: 'year',
       offerDate: '',
+      offerFrom: '',
+      offerFromId: '',
+      offerFroms: ['秋招', '春招', '社招'],
       yearSalaryMax: '',
       yearSalaryMin: '',
       monthSalary: '',
@@ -339,6 +358,7 @@
       experienceMonthNum: '',
       cityId: '',
       cityName: '',
+      welfare: '',
 
       showCompanySearch: false,
       companyList: [],
@@ -388,6 +408,24 @@
               } else {
                 self.education = res.tapIndex
               }
+              self.$apply()
+            }
+          },
+          fail: function(res) {
+            console.log(res.errMsg)
+          }
+        })
+      },
+
+      selectOfferFrom: function () {
+        let self = this
+        wx.showActionSheet({
+          itemList: self.offerFroms,
+          success: function(res) {
+            if (!res.cancel) {
+              console.log(res.tapIndex)
+              self.offerFrom = self.offerFroms[res.tapIndex]
+              self.offerFromId = res.tapIndex
               self.$apply()
             }
           },
@@ -509,6 +547,10 @@
         this.schoolList = []
         this.showSchoolSearch = false
       },
+      inputFuliInfo: function(e) {
+        console.log(e)
+        this.welfare = e.detail.value
+      }
     }
 
     findMatchInfoByName(type, name) {
@@ -567,13 +609,13 @@
 
     postAddSalary() {
       const url = Api.host + Api.salary
-      let welfare = ''
-      for(let fuli of this.fuliInfos) {
-        if(fuli.checked) {
-          welfare += fuli.value + ','
-        }
-      }
-      welfare = welfare.substring(0,welfare.length-1)
+      // let welfare = ''
+      // for(let fuli of this.fuliInfos) {
+      //   if(fuli.checked) {
+      //     welfare += fuli.value + ','
+      //   }
+      // }
+      // welfare = welfare.substring(0,welfare.length-1)
       if(this.jobId ==null || this.jobId == '' ) {
         wepy.showToast({
           title: '岗位信息不完整，请填写',
@@ -616,13 +658,13 @@
           job: this.jobId,
           user: this.$parent.globalData.userInfo.id,
           college: this.schoolId,
-          // industry: this.hangyeId,
+          industry: this.hangyeId,
           corporation: this.companyId,
           yearSalaryMax: this.yearSalaryMin != '' ? this.yearSalaryMin : 0,
           yearSalaryMin: this.yearSalaryMin != '' ? this.yearSalaryMin : 0,
           monthSalary: this.monthSalary != '' ? this.monthSalary : 0,
           monthNum: this.monthNum != '' ? this.monthNum : 0,
-          welfare: welfare,
+          welfare: this.welfare,
           collegeLevel: this.school,
           eduBackGround: this.education,
           offerTime: this.offerDate,

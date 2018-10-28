@@ -116,7 +116,7 @@ button[size = mini] {
   transition: all 1s ease;
   top: calc(90rpx + 45px);
   width: 750rpx;
-  height: 700rpx;
+  height: 300px;
   background-color: #fff;
 }
 .filter-xueli-box {
@@ -254,7 +254,7 @@ button[size = mini] {
 
   export default class home extends wepy.page{
     config = {
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
       usingComponents: {
         "van-tree-select": "../../vant/tree-select/index",
         "van-row": "../../vant/row/index",

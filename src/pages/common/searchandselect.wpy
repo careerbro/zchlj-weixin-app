@@ -1,4 +1,7 @@
 <style scoped>
+.weui-cells {
+  margin-top:0;
+}
 
 </style>
 
@@ -7,7 +10,7 @@
   <view class="container">
     <view class="page">
       <view class="page__bd">
-      <view class="weui-search-bar">
+      <!-- <view class="weui-search-bar">
           <view class="weui-search-bar__form">
               <view class="weui-search-bar__box">
                   <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
@@ -18,16 +21,16 @@
               </view>
               <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
                   <icon class="weui-icon-search" type="search" size="14"></icon>
-                  <view class="weui-search-bar__text">输入并选择新的学校</view>
+                  <view class="weui-search-bar__text">搜索行业</view>
               </label>
           </view>
           <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
-        </view>
-        <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
-          <repeat for="{{schoolList}}" item="item">
+        </view> -->
+        <view class="weui-cells searchbar-result">
+          <repeat for="{{hangyeData}}" item="item">
           <view class="weui-cell" hover-class="weui-cell_active" @tap="selectItem({{item}})">
               <view class="weui-cell__bd">
-                  <view>{{item.cName}}</view>
+                  <view>{{item.text}}</view>
               </view>
           </view>
           </repeat>
@@ -47,7 +50,7 @@
       inputShowed: false,
       inputVal: "",
       type: '',
-      schoolList: []
+      hangyeData: []
     }
 
     methods = {
@@ -70,75 +73,51 @@
       selectItem: function(item) {
         console.log("selectItem..", item);
         const self = this
-        wx.showModal({
-          title: '确定修改学校信息',
-          confirmText: "确认",
-          cancelText: "取消",
-          success: function (res) {
-            console.log(res)
-            if (res.confirm) {
-              // 更新上一页
-              self.changeSchool(item)
-            }else{
-              console.log('取消')
-            }
-          }
-        });
+        self.selectThisItem(item)
       }
     }
 
-    changeSchool(item) {
-      const url = Api.host + Api.user
-      console.log(url)
-      wepy.request({
-        url: url,
-        method: 'PUT',
-        data: {
-          college: item.id,
-          id: this.$parent.globalData.userInfo.id
-        }
-      }).then(res => {
-        console.log(res)
-        if(res.data.code == 0) {
-          wepy.showToast({
-            title: '修改成功！页面将自动返回！',
-            icon: 'none',
-            duration: 2000
-          });
-          let pages = getCurrentPages();
-          let prePage = pages[pages.length - 2];
-          this.$parent.$pages[`/${prePage.route}`].college = item.cName;
-          this.$parent.$pages[`/${prePage.route}`].$apply();
-          this.$parent.globalData.userInfo.college = item.cName;
+    selectThisItem(item) {
+      let pages = getCurrentPages();
+      let prePage = pages[pages.length - 2];
+      this.$parent.$pages[`/${prePage.route}`].hangye = item.text;
+      this.$parent.$pages[`/${prePage.route}`].hangyeId = item.cid;
+      this.$parent.$pages[`/${prePage.route}`].$apply();
 
-          wepy.navigateBack({
-            delta: 1
-          });
-        } else {
-          wepy.showToast({
-            title: '修改失败！请重试！',
-            icon: 'none',
-            duration: 2000
-          });
-        }
-      })
+      wepy.navigateBack({
+        delta: 1
+      });
     }
 
-    searchCollege(school) {
-      const url = Api.host + Api.searchCollege + '/' + school
-      console.log(url)
-      wepy.request({
-        url: url,
-      }).then(res => {
-        console.log(res.data)
-        if(res.data.code == 0 &&res.data.body.data.length > 0) {
-          this.schoolList = res.data.body.data
-          this.$apply()
-        }
-      })
+    getAllIndustry(){
+      if(this.$parent.globalData.allIndustrys.length == 0) {
+        const url = Api.host + Api.getAllIndustry
+        wepy.request({
+          url: url
+        }).then(res => {
+          console.log(res.data)
+          if(res.data.code == 0 ) {
+            let result = res.data.body.data
+            for(let index in result){
+              result[index].text = result[index].cname
+              result[index].cid = result[index].id
+              result[index].id = ++index
+            }
+            this.$parent.globalData.allIndustrys = result
+            this.hangyeData = result
+            this.$apply()
+          }
+        })
+      } else {
+        this.hangyeData = this.$parent.globalData.allIndustrys
+        this.$apply()
+      }
     }
 
     onLoad(options) {
+      if(options.type == 'hangye') {
+        this.getAllIndustry()
+      }
       wepy.setNavigationBarTitle({
         title: options.title
       })

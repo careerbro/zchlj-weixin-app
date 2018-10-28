@@ -107,9 +107,13 @@
         </view>
         <view class="weui-media-box__desc detail">
           <view class='tags' style="width:60%;">
-            <view class="tag">
+            <view wx:if="{{itemValue.yearSalaryMin == itemValue.yearSalaryMax}}" class="tag">
               <image class="salary-icon" src="../images/qian.png"/>
-              {{itemValue.yearSalaryMin}}K-{{itemValue.yearSalaryMax}}K
+              {{itemValue.yearSalaryMin}}K /年
+            </view>
+            <view wx:if="{{itemValue.yearSalaryMin != itemValue.yearSalaryMax}}" class="tag">
+              <image class="salary-icon" src="../images/qian.png"/>
+              {{itemValue.yearSalaryMin}}K-{{itemValue.yearSalaryMax}}K /年
             </view>
             <view class="tag">
               <image class="salary-icon" src="../images/xueli.png"/>
