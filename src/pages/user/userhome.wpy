@@ -58,7 +58,7 @@
           </view>
           <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="goToPage('./userAttention')">
             <view class="weui-cell__hd">
-              <image src="../../images/xihuan.png" class='itemImageIcon' />
+              <image src="../../images/guanzhu.png" class='itemImageIcon' />
             </view>
             <view class="weui-cell__bd weui-cell_primary">
                 <view>我的关注</view>

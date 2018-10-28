@@ -15,7 +15,7 @@
 
   .job-cell {
     padding: 20px 15px;
-    color: #6f95ff;
+    color: #d53c34;
   }
 
   .job-share-icon {
@@ -191,7 +191,7 @@
           <view class="zantong-box">
             <image wx:if="{{zantong}}" class="option-other-icon" src="../../images/zantong1.png" />
             <image wx:if="{{!zantong}}" class="option-other-icon" src="../../images/zantong2.png" />
-            <view wx:if="{{zantong}}" class="option-zantong-label" style="color: #6f95ff">已赞同{{salaryInfo.agreeNum}}</view>
+            <view wx:if="{{zantong}}" class="option-zantong-label" style="color: #d53c34">已赞同{{salaryInfo.agreeNum}}</view>
             <view wx:if="{{!zantong}}" class="option-zantong-label">赞同{{salaryInfo.agreeNum}}</view>
           </view>
         </view>
@@ -206,7 +206,7 @@
             <image wx:if="{{ganxie}}" class="option-other-icon" src="../../images/ganxie5.png" />
             <image wx:if="{{!ganxie}}" class="option-other-icon" src="../../images/ganxie4.png" />
           </view>
-          <view class="option-other-label" style="{{ganxie? 'color: #6f95ff' : ''}}">感谢</view>
+          <view class="option-other-label" style="{{ganxie? 'color: #d53c34' : ''}}">感谢</view>
         </view> -->
 
         <view class="option-other" @tap="shareThisItemToOther">
@@ -217,24 +217,24 @@
         </view>
         <view class="option-other" @tap="shoucangThisItem">
           <view>
-            <image wx:if="{{shoucang}}" class="option-other-icon" src="../../images/shoucang5.png" />
-            <image wx:if="{{!shoucang}}" class="option-other-icon" src="../../images/shoucang4.png" />
+            <image wx:if="{{shoucang}}" class="option-other-icon" src="../../images/shoucang-yes.png" />
+            <image wx:if="{{!shoucang}}" class="option-other-icon" src="../../images/shoucang-no.png" />
           </view>
-          <view class="option-other-label" style="{{shoucang? 'color: #6f95ff' : ''}}">收藏</view>
+          <view class="option-other-label" style="{{shoucang? 'color: #d53c34' : ''}}">收藏</view>
         </view>
         <view class="option-other" @tap="zantongThisItem">
           <view>
-            <image wx:if="{{zantong}}" class="option-other-icon big-icon" src="../../images/tongyi-yes.png" />
-            <image wx:if="{{!zantong}}" class="option-other-icon big-icon" src="../../images/tongyi-no.png" />
+            <image wx:if="{{zantong}}" class="option-other-icon " src="../../images/tongyi-yes.png" />
+            <image wx:if="{{!zantong}}" class="option-other-icon " src="../../images/tongyi-no.png" />
           </view>
-          <view class="option-other-label" style="{{zantong? 'color: #6f95ff' : ''}}">同意</view>
+          <view class="option-other-label" style="{{zantong? 'color: #d53c34' : ''}}">同意</view>
         </view>
         <view class="option-other" @tap="buzantongThisItem">
           <view>
-            <image wx:if="{{buzantong}}" class="option-other-icon big-icon" src="../../images/fandui-yes.png" />
-            <image wx:if="{{!buzantong}}" class="option-other-icon big-icon" src="../../images/fandui-no.png" />
+            <image wx:if="{{buzantong}}" class="option-other-icon " src="../../images/fandui-yes.png" />
+            <image wx:if="{{!buzantong}}" class="option-other-icon " src="../../images/fandui-no.png" />
           </view>
-          <view class="option-other-label" style="{{buzantong? 'color: #6f95ff' : ''}}">反对</view>
+          <view class="option-other-label" style="{{buzantong? 'color: #d53c34' : ''}}">反对</view>
         </view>
         <view class="option-other" @tap="commentThisItem">
           <view>

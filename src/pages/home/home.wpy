@@ -4,7 +4,7 @@
   top: 0;
   left: 0;
   /* text-align: center; */
-  background-color: #6f95ff;
+  background-color: #d53c34;
   top: -1px;
   height: 15vh;
   z-index: 100;
@@ -81,7 +81,7 @@ button[size = mini] {
 }
 
 .weui-search-bar {
-  background-color: #6f95ff;
+  background-color: #d53c34;
   padding: 0;
   width: 600rpx;
   border-style: none;

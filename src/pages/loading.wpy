@@ -16,7 +16,7 @@
   background-color: #ffffff;
   border-radius: 10rpx;
   border-style: solid;
-  border-color: #6f95ff;
+  border-color: #d53c34;
   border-width: 6rpx;
   font-size: 32rpx;
   padding: 50rpx 0;
@@ -28,7 +28,7 @@
 }
 
 .message-import {
-  color: #6f95ff;
+  color: #d53c34;
 }
 
 .loading-icon-box {
@@ -42,7 +42,7 @@
 }
 
 .loading-icon-box > view {
-  background-color: #6f95ff;
+  background-color: #d53c34;
   height: 100%;
   width: 12rpx;
   display: inline-block;

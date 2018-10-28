@@ -21,7 +21,7 @@
 }
 
 textarea {
-  border-bottom: 1px solid #6f95ff;
+  border-bottom: 1px solid #d53c34;
   width: 650rpx;
 }
 .publish-box {
@@ -86,8 +86,8 @@ textarea {
             <view class="weui-media-box__info">
                 <view class="weui-media-box__info__meta">{{item.dateDay}}</view>
                 <view class="weui-media-box__info__meta agree-box" @tap="agreeThisComment({{index}})">
-                  <image wx:if="{{!item.isAgree}}" class="agree-icon" src="../../images/agree_no.png"/>
-                  <image wx:if="{{item.isAgree}}" class="agree-icon" src="../../images/agree_yes.png"/>
+                  <image wx:if="{{!item.isAgree}}" class="agree-icon" src="../../images/agree-no.png"/>
+                  <image wx:if="{{item.isAgree}}" class="agree-icon" src="../../images/agree-yes.png"/>
                   <view>{{item.agreeNum}}</view>
                 </view>
             </view>

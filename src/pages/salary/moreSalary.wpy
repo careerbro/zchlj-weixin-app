@@ -1,4 +1,8 @@
 <style scoped>
+  .weui-media-box__bd_in-appmsg {
+    line-height:80rpx;
+  }
+
   .salary-info {
     overflow: hidden;
     overflow-y: auto;
@@ -13,6 +17,11 @@
   }
   .attention {
     color: #000;
+    display: flex;
+  }
+  .attention-icon {
+    width: 64rpx;
+    height: 64rpx;
   }
 
 </style>
@@ -27,8 +36,12 @@
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <view class="weui-media-box__title">{{name}}</view>
             </view>
-            <view wx:if="{{!attened}}" class="weui-cell__ft attention"  @tap="attentionThis">➕关注</view>
-            <view wx:if="{{attened}}" class="weui-cell__ft attention" @tap="cancelAttentionThis">➖取消关注</view>
+            <view wx:if="{{!attened}}" class="weui-cell__ft attention"  @tap="attentionThis">
+              <image class="attention-icon" src="../../images/attention-yes.png"/>关注
+            </view>
+            <view wx:if="{{attened}}" class="weui-cell__ft attention" @tap="cancelAttentionThis">
+              <image class="attention-icon" src="../../images/attention-no.png"/>取消关注
+            </view>
           </view>
         </view>
       </view>
@@ -57,7 +70,8 @@
       salarys: [],
       id: '',
       attened: false,
-      attenedId: ''
+      attenedId: '',
+      start: 1
     }
 
     components = {
@@ -140,6 +154,8 @@
       } else {
         data.cityId = this.id
       }
+      data.start = this.start
+      data.limit = 20
       wepy.request({
         url: url,
         data: data
@@ -153,7 +169,7 @@
               salary.offerTime = salary.offerTime.slice(0,7)
             }
           }
-          this.salarys = result
+          this.salarys = this.salarys.concat(result)
           this.$apply()
         }
       })

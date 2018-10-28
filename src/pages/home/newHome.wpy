@@ -4,7 +4,7 @@
   top: 0;
   left: 0;
   /* text-align: center; */
-  background-color: #6f95ff;
+  background-color: #d53c34;
   /* top: -1px; */
   height: 45px;
   z-index: 100;
@@ -40,7 +40,7 @@ button[size = mini] {
   line-height: 30px;
   display: flex;
   justify-content:center;
-  background-color: #4169E1;
+  background-color: #B22222;
   border-radius: 15px;
 }
 
@@ -56,7 +56,7 @@ button[size = mini] {
 }
 
 .weui-search-bar {
-  background-color: #6f95ff;
+  background-color: #d53c34;
   padding: 0;
   width: 600rpx;
   border-style: none;
@@ -151,7 +151,7 @@ button[size = mini] {
           <view class="weui-search-bar__form">
             <view class="weui-search-bar__box">
                 <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" @blur="searchSalary"/>
+                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" @blur="getSalary"/>
                 <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" @tap="clearInput">
                     <icon type="clear" size="14"></icon>
                 </view>
@@ -181,13 +181,7 @@ button[size = mini] {
       </view>
     </view>
     <!-- <view class="item-title"> —— 猜你喜欢 ——</view> -->
-    <view scroll-y style="height: calc(100vh - 92rpx - 45px)" class="salary-info-box scroll-view-box" upper-threshold="{{10}}" @scroll="scrolltoupper" bindscrolltoupper="scrolltoupper" bindscrolltolower="scrolltolower">
-      <view class="loading-info" wx:if="{{loadingNew}}">
-        <view class="weui-loadmore">
-          <view class="weui-loading"></view>
-          <view class="weui-loadmore__tips">正在加载</view>
-        </view>
-      </view>
+    <scroll-view scroll-y style="height: calc(100vh - 92rpx - 45px)" class="salary-info-box scroll-view-box" upper-threshold="{{10}}" @scrolltolower="scrolltolower">
       <view wx:if="{{datalist.length > 0}}" style="background-color: #eee;">
         <repeat for="{{datalist}}" index="index" item="item">
           <view class="weui-panel weui-panel_access all-item-info">
@@ -202,7 +196,8 @@ button[size = mini] {
           <view class="weui-loadmore__tips">正在加载，请稍等...</view>
         </view>
       </view>
-    </view>
+      <view wx:if="{{!loadingMore && datalist.length > 5 && datalist.length % 20 != 0}}" style="text-align:center; color: #A9A9A9; font-size: 28rpx; line-height: 60rpx;">抱歉，暂时没有更多数据了</view>
+    </scroll-view>
 
     <!-- 遮罩层与下拉选择框 -->
     <view class="mask" wx:if="{{showMask}}" @tap="closeFilterDetail"></view>
@@ -275,6 +270,7 @@ button[size = mini] {
     }
 
     data = {
+      start: 1,
       showLogin: false,
       inputShowed: false,
       inputVal: '',
@@ -300,7 +296,7 @@ button[size = mini] {
       offerMainActiveIndex: 0,
       offerActiveId: 0,
       offerData: [
-        {text: '春秋季招聘', children: [{text:'2019秋招', id: 11},{text:'2018春招', id: 12},{text:'2018秋招', id: 13},{text:'2017春招', id: 14},{text:'2017秋招', id: 15}]},
+        {text: '春秋季招聘', children: [{text:'全部', id: 10},{text:'2019秋招', id: 11},{text:'2018春招', id: 12},{text:'2018秋招', id: 13},{text:'2017春招', id: 14},{text:'2017秋招', id: 15}]},
         // {text: '详细时间段', children: [{text:'三个月以内', id: 21},{text:'六个月以内', id: 22},{text:'一年以内', id: 23},{text:'一年以上', id: 24}]},
         {text: '薪资爆料时间', children: [{text:'最新爆料', id: 31},{text:'最热爆料', id: 32}]},
       ]
@@ -309,24 +305,24 @@ button[size = mini] {
     methods = {
       clickXueliBtn: function(index) {
         this.selectedXueli = index
+        this.datalist = []
         this.getSalary()
         this.showXueliSelectBox = false
         this.showMask = false
       },
       clickSchoolLevBtn: function(item) {
         this.selectedSchoolLev = item
+        this.datalist = []
         this.getSalary()
         this.showXueliSelectBox = false
         this.showMask = false
       },
       scrolltolower: function() {
-        console.log(11111111111)
+        if(this.loadingMore || this.datalist.length % 20 != 0) {
+          return
+        }
+        this.loadingMore = true
         this.onReachBottom()
-      },
-      scrolltoupper: function() {
-        console.log(11111111111)
-        // this.loadingNew = true;
-        // this.$apply()
       },
       selectXueli: function() {
         this.showOfferSelectBox = false
@@ -388,6 +384,7 @@ button[size = mini] {
         this.showHangyeSelectBox = false
         this.showOfferSelectBox = false
         this.showMask = false
+        this.datalist = []
         this.getSalary()
       },
       clickOfferMain: function(e) {
@@ -399,6 +396,7 @@ button[size = mini] {
         this.showHangyeSelectBox = false
         this.showOfferSelectBox = false
         this.showMask = false
+        this.datalist = []
         this.getSalary()
       },
 
@@ -437,10 +435,10 @@ button[size = mini] {
     }
 
     onReachBottom() {
-      console.log(111)
-      this.loadingMore = true;
+      this.start = this.start + 1
+      this.loadingMore = true
+      this.getSalary()
       this.$apply()
-      let temp = this.datalist;
     }
 
     checkUserLogin(code) {
@@ -495,6 +493,11 @@ button[size = mini] {
     getSalary(){
       const url = Api.host + Api.salary
       let data = {}
+      data.start = this.start
+      data.limit = 20
+      if(this.inputVal != '') {
+        data.temp = this.inputVal
+      }
       if(this.selectedXueli != 0) {
         data.type = this.selectedXueli - 1
       }
@@ -507,9 +510,14 @@ button[size = mini] {
       if(this.offerActiveId != 0) {
         let time = {}
         if(parseInt(this.offerActiveId / 10) == 1) {
-          time = ZhaoPinJiToDate(this.offerData[0].children[this.offerActiveId % 10 - 1].text)
-          data.startTime = time.start
-          data.endTime = time.end
+          if(this.offerActiveId % 10 == 0) {
+            data.startTime = '1900-01-01'
+            data.endTime = '2999-01-01'
+          } else {
+            time = ZhaoPinJiToDate(this.offerData[0].children[this.offerActiveId % 10 - 1].text)
+            data.startTime = time.start
+            data.endTime = time.end
+          }
         } else {
           if(this.offerActiveId % 10 == 1) {
             data.order = 0
@@ -549,10 +557,11 @@ button[size = mini] {
               salary.offerTime = DateToZhaoPinJi(salary.offerTime)
             }
           }
-          this.datalist = result
+          this.datalist = this.datalist.concat(result)
           this.$apply()
           wepy.stopPullDownRefresh();
         }
+        this.loadingMore = false
       })
 
     }
@@ -568,6 +577,9 @@ button[size = mini] {
       } else {
         data.temp = this.inputVal
       }
+
+      data.limit = 20
+      data.start = 1
 
       wepy.request({
         url: url,
