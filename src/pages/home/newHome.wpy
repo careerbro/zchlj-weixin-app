@@ -344,9 +344,6 @@ button[size = mini] {
         this.showMask = false
       },
       clickOfferFromBtn: function(index) {
-        if (index == 0) {
-          return
-        }
         this.offerFrom = index
         this.datalist = []
         this.getSalary()
@@ -437,6 +434,7 @@ button[size = mini] {
         this.hangyeMainActiveIndex = e.detail.index || 0
       },
       clickHangyeValue: function(e) {
+        console.log(e)
         this.hangyeActiveId = e.detail.id
         this.showHangyeSelectBox = false
         this.showOfferSelectBox = false
@@ -578,7 +576,7 @@ button[size = mini] {
         data.collegeLevel = this.selectedSchoolLev
       }
       if(this.hangyeActiveId != 0) {
-        data.industryId = this.hangyeData[0].children[this.hangyeActiveId - 1].cid
+        data.industryId = this.hangyeData[0].children[this.hangyeActiveId].cid
       }
       if(this.offerDate != '全部') {
         data.offerYear = this.offerDate
