@@ -116,7 +116,7 @@ button[size = mini] {
   transition: all 1s ease;
   top: calc(90rpx + 45px);
   width: 750rpx;
-  height: 300px;
+  height: 350px;
   background-color: #fff;
 }
 .filter-xueli-box {
@@ -151,7 +151,7 @@ button[size = mini] {
           <view class="weui-search-bar__form">
             <view class="weui-search-bar__box">
                 <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" @blur="getSalary"/>
+                <input type="text" class="weui-search-bar__input"  value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" @blur="searchByInput"/>
                 <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" @tap="clearInput">
                     <icon type="clear" size="14"></icon>
                 </view>
@@ -231,13 +231,40 @@ button[size = mini] {
       />
     </view>
     <view class="filter-hangye-box" wx:if="{{showOfferSelectBox}}">
-      <van-tree-select
+      <!-- <van-tree-select
         items="{{ offerData }}"
         main-active-index="{{ offerMainActiveIndex }}"
         active-id="{{ offerActiveId }}"
         bind:click-nav="clickOfferMain"
         bind:click-item="clickOfferValue"
-      />
+      /> -->
+      <view class="filter-item-title">Offer时间</view>
+      <van-row gutter="20" style="text-align:center;line-height:100rpx;">
+        <repeat for="{{offerDates}}" index="index" item="item">
+          <van-col span="8" @tap="clickOfferDateBtn({{item}})">
+            <van-button wx:if="{{offerDate == item}}" plain size="small" type="primary">{{item}}</van-button>
+            <van-button wx:else plain size="small">{{item}}</van-button>
+          </van-col>
+        </repeat>
+      </van-row>
+      <view class="filter-item-title">Offer途径</view>
+      <van-row gutter="20" style="text-align:center;line-height:100rpx;">
+        <repeat for="{{offerFroms}}" index="index" item="item">
+          <van-col span="8" @tap="clickOfferFromBtn({{index}})">
+            <van-button wx:if="{{offerFrom == index}}" plain size="small" type="primary">{{item}}</van-button>
+            <van-button wx:else plain size="small">{{item}}</van-button>
+          </van-col>
+        </repeat>
+      </van-row>
+      <view class="filter-item-title">Offer排序</view>
+      <van-row gutter="20" style="text-align:center;line-height:100rpx;">
+        <repeat for="{{offerSorts}}" index="index" item="item">
+          <van-col span="8" @tap="clickOfferSortBtn({{index}})">
+            <van-button wx:if="{{offerSort == index}}" plain size="small" type="primary">{{item}}</van-button>
+            <van-button wx:else plain size="small">{{item}}</van-button>
+          </van-col>
+        </repeat>
+      </van-row>
     </view>
 
   </view>
@@ -254,7 +281,7 @@ button[size = mini] {
 
   export default class home extends wepy.page{
     config = {
-      enablePullDownRefresh: false,
+      enablePullDownRefresh: true,
       usingComponents: {
         "van-tree-select": "../../vant/tree-select/index",
         "van-row": "../../vant/row/index",
@@ -286,7 +313,7 @@ button[size = mini] {
       loadingNew: false,
       datalist: [],
       filterList: null,
-      xueliList: ['全部','本科','硕士','博士','其它'],
+      xueliList: ['全部','其它','本科','硕士','博士'],
       schoolLevelList: ['全部','C9','985','211','海外','其它'],
       selectedXueli: 0,
       selectedSchoolLev: '全部',
@@ -299,10 +326,40 @@ button[size = mini] {
         {text: '春秋季招聘', children: [{text:'全部', id: 10},{text:'2019秋招', id: 11},{text:'2018春招', id: 12},{text:'2018秋招', id: 13},{text:'2017春招', id: 14},{text:'2017秋招', id: 15}]},
         // {text: '详细时间段', children: [{text:'三个月以内', id: 21},{text:'六个月以内', id: 22},{text:'一年以内', id: 23},{text:'一年以上', id: 24}]},
         {text: '薪资爆料时间', children: [{text:'最新爆料', id: 31},{text:'最热爆料', id: 32}]},
-      ]
+      ],
+      offerDate: '全部',
+      offerDates: ['全部', '2019', '2018', '2017', '2016', '2015'],
+      offerFrom: 0,
+      offerFroms: ['全部', '其它','秋招', '春招', '社招'],
+      offerSort: 0,
+      offerSorts: ['最新爆料', '最热爆料']
     }
 
     methods = {
+      clickOfferDateBtn: function(date) {
+        this.offerDate = date
+        this.datalist = []
+        this.getSalary()
+        this.showOfferSelectBox = false
+        this.showMask = false
+      },
+      clickOfferFromBtn: function(index) {
+        if (index == 0) {
+          return
+        }
+        this.offerFrom = index
+        this.datalist = []
+        this.getSalary()
+        this.showOfferSelectBox = false
+        this.showMask = false
+      },
+      clickOfferSortBtn: function(index) {
+        this.offerSort = index
+        this.datalist = []
+        this.getSalary()
+        this.showOfferSelectBox = false
+        this.showMask = false
+      },
       clickXueliBtn: function(index) {
         this.selectedXueli = index
         this.datalist = []
@@ -431,6 +488,10 @@ button[size = mini] {
         if(this.inputVal == '') {
           this.inputShowed = false
         }
+      },
+      searchByInput: function() {
+        this.datalist = []
+        this.getSalary()
       }
     }
 
@@ -474,13 +535,24 @@ button[size = mini] {
           console.log(res.data)
           if(res.data.code == 0 ) {
             let result = res.data.body.data
+            let temp = []
             for(let index in result){
-              result[index].text = result[index].cname
-              result[index].cid = result[index].id
-              result[index].id = ++index
+              // temp[index + 1].text = result[index].cname
+              // temp[index + 1].cid = result[index].id
+              // temp[index + 1].id = index + 1
+              temp[parseInt(index) + 1] = {
+                text: result[index].cname,
+                id: parseInt(index) + 1,
+                cid: result[index].id
+              }
             }
-            this.$parent.globalData.allIndustrys = result
-            this.hangyeData = [{text: '所有行业', children: result}]
+            temp[0] = {
+              text: '所有行业',
+              id: 0,
+              cid: ''
+            }
+            this.$parent.globalData.allIndustrys = temp
+            this.hangyeData = [{text: '所有行业', children: temp}]
             this.$apply()
           }
         })
@@ -495,11 +567,12 @@ button[size = mini] {
       let data = {}
       data.start = this.start
       data.limit = 20
+      data.order = this.offerSort
       if(this.inputVal != '') {
         data.temp = this.inputVal
       }
       if(this.selectedXueli != 0) {
-        data.type = this.selectedXueli - 1
+        data.type = this.selectedXueli
       }
       if(this.selectedSchoolLev != '全部') {
         data.collegeLevel = this.selectedSchoolLev
@@ -507,41 +580,11 @@ button[size = mini] {
       if(this.hangyeActiveId != 0) {
         data.industryId = this.hangyeData[0].children[this.hangyeActiveId - 1].cid
       }
-      if(this.offerActiveId != 0) {
-        let time = {}
-        if(parseInt(this.offerActiveId / 10) == 1) {
-          if(this.offerActiveId % 10 == 0) {
-            data.startTime = '1900-01-01'
-            data.endTime = '2999-01-01'
-          } else {
-            time = ZhaoPinJiToDate(this.offerData[0].children[this.offerActiveId % 10 - 1].text)
-            data.startTime = time.start
-            data.endTime = time.end
-          }
-        } else {
-          if(this.offerActiveId % 10 == 1) {
-            data.order = 0
-          }
-          if(this.offerActiveId % 10 == 2) {
-            data.order = 10
-          }
-          // if(this.offerActiveId % 10 == 1) {
-          //   time.start = Dayjs().subtract(3, 'month').format('YYYY-MM-DD')
-          //   time.end = Dayjs().format('YYYY-MM-DD')
-          // }
-          // if(this.offerActiveId % 10 == 2) {
-          //   time.start = Dayjs().subtract(6, 'month').format('YYYY-MM-DD')
-          //   time.end = Dayjs().format('YYYY-MM-DD')
-          // }
-          // if(this.offerActiveId % 10 == 3) {
-          //   time.start = Dayjs().subtract(1, 'year').format('YYYY-MM-DD')
-          //   time.end = Dayjs().format('YYYY-MM-DD')
-          // }
-          // if(this.offerActiveId % 10 == 4) {
-          //   time.start = '2000-01-01'
-          //   time.end = Dayjs().subtract(1, 'year').format('YYYY-MM-DD')
-          // }
-        }
+      if(this.offerDate != '全部') {
+        data.offerYear = this.offerDate
+      }
+      if(this.offerFrom != 0) {
+        data.recruitSeason = this.offerFrom - 1
       }
 
       wepy.request({
@@ -553,9 +596,9 @@ button[size = mini] {
           let result = res.data.body.data
           for(let salary of result){
             salary.join = false
-            if(salary.offerTime!=null && salary.offerTime!='') {
-              salary.offerTime = DateToZhaoPinJi(salary.offerTime)
-            }
+            // if(salary.offerTime!=null && salary.offerTime!='') {
+            //   salary.offerTime = DateToZhaoPinJi(salary.offerTime)
+            // }
           }
           this.datalist = this.datalist.concat(result)
           this.$apply()

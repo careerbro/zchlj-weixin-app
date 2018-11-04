@@ -60,17 +60,18 @@
 }
 
 .import-item-color {
-  /* color: #FF7F50 */
+  color: #d53c34
 }
 
 </style>
 
 
 <template>
-  <view class="container weui-mask"  style="{{showMask?'height:100vh;overflow:hidden':''}}">
+  <view class="container weui-mask"  @tap="closeSearchBox"
+    style="{{showMask?'height:100vh;overflow:hidden':''}}">
     <view class='page'>
     <view class="page__bd">
-      <view class="weui-cells__title">岗位信息</view>
+      <view class="weui-cells__title">岗位信息(必填项)</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
@@ -82,7 +83,7 @@
         </view>
         <view class="weui-cell weui-cell_input" @tap="selectItemValue('hangye', '选择行业')">
           <view class="weui-cell__hd">
-              <view class="weui-label">公司行业</view>
+              <view class="weui-label import-item-color">公司行业</view>
           </view>
           <view class="weui-cell__bd">
               <input disabled="true" class="weui-input select-input-value" value="{{hangye}}"  placeholder="请选择公司行业"/>
@@ -99,10 +100,10 @@
         </view>
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label">工作地点</view>
+              <view class="weui-label import-item-color">工作地点</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="请选择工作地点" @input="findCity"/>
+              <input class="weui-input select-input-value" value="{{city}}" placeholder="请选择工作地点" @input="findCity"/>
           </view>
         </view>
       </view>
@@ -112,7 +113,7 @@
 
       </view> -->
 
-      <view class="weui-cells__title" >薪资数据</view>
+      <view class="weui-cells__title" >薪资数据(必填项)</view>
       <view class="weui-cells weui-cells_after-title">
         <radio-group bindchange="radioChange">
           <view class="weui-cell weui-cell_input">
@@ -145,34 +146,43 @@
             </view>
           </view>
         </radio-group>
-      </view>
+      <!-- </view>
 
       <view class="weui-cells__title">学历背景</view>
-      <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input" @tap="selectEducation(0)">
+      <view class="weui-cells weui-cells_after-title"> -->
+        <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label">学历</view>
+              <view class="weui-label import-item-color">Offer时间</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" value="{{educations[education]}}" disabled/>
+            <picker mode="date" fields="year" value="{{offerDate}}" @change="bindDateChange">
+              <input class="weui-input" value="{{offerDate}}" placeholder="请选择得到Offer时间" disabled/>
+            </picker>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input" @tap="selectOfferFrom">
+          <view class="weui-cell__hd import-item-color">
+              <view class="weui-label">Offer途径</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" value="{{offerFrom}}" placeholder="请选择得到Offer途径" disabled/>
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input" @tap="selectEducation(0)">
+          <view class="weui-cell__hd import-item-color">
+              <view class="weui-label">学历情况</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input" value="{{educations[education]}}" placeholder="请选择学历情况背景" disabled/>
           </view>
           <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
         <view class="weui-cell weui-cell_input" @tap="selectEducation(1)">
           <view class="weui-cell__hd">
-              <view class="weui-label">学校</view>
+              <view class="weui-label import-item-color">学校背景</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input input-education" value="{{school}}" disabled/>
-          </view>
-          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
-        </view>
-        <view class="weui-cell weui-cell_input">
-          <view class="weui-cell__hd">
-              <view class="weui-label">学校名称</view>
-          </view>
-          <view class="weui-cell__bd">
-              <input class="weui-input select-input-value" value="{{schoolName}}" placeholder="请输入学校名称" @input="findSchool"/>
+              <input class="weui-input input-education" value="{{school}}" placeholder="请选择学校背景" disabled/>
           </view>
           <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
         </view>
@@ -193,11 +203,21 @@
         </view>
       </view> -->
 
-      <view class="weui-cells__title">其它信息</view>
+      <view class="weui-cells__title">其它信息(选填项)</view>
       <view class="weui-cells weui-cells_after-title">
+
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label import-item-color">福利信息</view>
+              <view class="weui-label">学校名称</view>
+          </view>
+          <view class="weui-cell__bd">
+              <input class="weui-input select-input-value" value="{{schoolName}}" placeholder="请输入学校名称" @input="findSchool"/>
+          </view>
+          <!-- <view class="weui-cell__ft weui-cell__ft_in-access"></view> -->
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+              <view class="weui-label">福利信息</view>
           </view>
           <view class="weui-cell__bd">
               <input class="weui-input"  placeholder="年终/饭补/房补/交通补贴" @input="inputFuliInfo"/>
@@ -205,28 +225,10 @@
         </view>
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label import-item-color">实习/全职</view>
+              <view class="weui-label">实习/全职</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input"  type="number" placeholder="请输入工作月数" @input="inputExperienceMonthNum"/>
-          </view>
-        </view>
-        <view class="weui-cell weui-cell_input">
-          <view class="weui-cell__hd">
-              <view class="weui-label">Offer时间</view>
-          </view>
-          <view class="weui-cell__bd">
-            <picker mode="date" fields="year" value="{{offerDate}}" @change="bindDateChange">
-              <input class="weui-input" value="{{offerDate}}" placeholder="请选择得到Offer时间" disabled/>
-            </picker>
-          </view>
-        </view>
-        <view class="weui-cell weui-cell_input" @tap="selectOfferFrom">
-          <view class="weui-cell__hd">
-              <view class="weui-label">Offer途径</view>
-          </view>
-          <view class="weui-cell__bd">
-            <input class="weui-input" value="{{offerFrom}}" placeholder="请选择得到Offer途径" disabled/>
+              <input class="weui-input"  type="number" placeholder="请输入工作月数(含实习月数)" @input="inputExperienceMonthNum"/>
           </view>
         </view>
 
@@ -243,10 +245,6 @@
 
       <label class="weui-agree" for="weuiAgree">
         <view class="weui-agree__text">
-          <!-- <view class="weui-agree__checkbox-icon">
-              <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9"></icon>
-          </view> -->
-          <!-- 阅读并同意<navigator url="" class="weui-agree__link">《相关条款》</navigator> -->
           <view style="display:flex;">注意：使用<view class="import-item-color">颜色</view>标注项目为必填项，请填写</view>
         </view>
       </label>
@@ -279,7 +277,7 @@
       </view>
     </repeat>
   </view>
-  <view wx:if="{{showJobSearch}}" class="search-select-bar" style="top: 125px;">
+  <view wx:if="{{showJobSearch}}" class="search-select-bar" style="top: 170px;">
     <repeat for="{{jobList}}" item="item">
       <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisJob({{item}})">
         <view class="weui-cell__bd weui-cell_primary">
@@ -289,7 +287,7 @@
     </repeat>
   </view>
 
-  <view wx:if="{{showSchoolSearch}}" class="search-select-bar" style="top: 460px;">
+  <view wx:if="{{showSchoolSearch}}" class="search-select-bar" style="top: 595px;">
     <repeat for="{{schoolList}}" item="item">
       <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisSchool({{item}})">
         <view class="weui-cell__bd weui-cell_primary">
@@ -298,7 +296,7 @@
       </view>
     </repeat>
   </view>
-  <view wx:if="{{showCitySearch}}" class="search-select-bar" style="top: 166px;">
+  <view wx:if="{{showCitySearch}}" class="search-select-bar" style="top: 215px;">
     <repeat for="{{cityList}}" item="item">
       <view class="weui-cell weui-cell_access" hover-class="weui-cell_active"  @tap="selectThisCity({{item}})">
         <view class="weui-cell__bd weui-cell_primary">
@@ -330,11 +328,11 @@
       { name: '解决户口', value: '解决户口', checked: false },
       ],
       educations: [
-        '本科','硕士','博士','其他'
+        '其他','本科','硕士','博士'
       ],
       schools: ['211','985','C9','海外高校','其他'],
-      education: 0,
-      school: '211',
+      education: '',
+      school: '',
       addItemFormTitle: '添加福利',
       addItemFormPlace: '请输入福利信息',
       addItemInfo: '',
@@ -350,12 +348,13 @@
       offerDate: '',
       offerFrom: '',
       offerFromId: '',
-      offerFroms: ['秋招', '春招', '社招'],
+      offerFroms: ['其它','秋招', '春招', '社招'],
       yearSalaryMax: '',
       yearSalaryMin: '',
       monthSalary: '',
       monthNum: '',
       experienceMonthNum: '',
+      city: '',
       cityId: '',
       cityName: '',
       welfare: '',
@@ -550,6 +549,28 @@
       inputFuliInfo: function(e) {
         console.log(e)
         this.welfare = e.detail.value
+      },
+      closeSearchBox: function(e) {
+        this.showCompanySearch = false
+        this.showHangyeSearch = false
+        this.showJobSearch = false
+        this.showCitySearch = false
+        this.showSchoolSearch = false
+        // if(this.companyId == null || this.companyId == '') {
+        //   this.company = ''
+        // }
+        // if(this.jobId ==null || this.jobId == '') {
+        //   this.job = ''
+        // }
+        // console.log(this.cityId)
+        // console.log(this.cityId ==null || this.cityId == '')
+        // if(this.cityId ==null || this.cityId == '') {
+        //   this.city = ''
+        //   this.$apply()
+        // }
+        // if(this.schoolId ==null || this.schoolId == '') {
+        //   this.school = ''
+        // }
       }
     }
 
@@ -609,13 +630,22 @@
 
     postAddSalary() {
       const url = Api.host + Api.salary
-      // let welfare = ''
-      // for(let fuli of this.fuliInfos) {
-      //   if(fuli.checked) {
-      //     welfare += fuli.value + ','
-      //   }
-      // }
-      // welfare = welfare.substring(0,welfare.length-1)
+      if(this.companyId ==null || this.companyId == '' ) {
+        wepy.showToast({
+          title: '公司信息不完整，请填写',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+      if(this.hangyeId ==null || this.hangyeId == '' ) {
+        wepy.showToast({
+          title: '未选择行业信息，请选择',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
       if(this.jobId ==null || this.jobId == '' ) {
         wepy.showToast({
           title: '岗位信息不完整，请填写',
@@ -624,9 +654,9 @@
         });
         return;
       }
-      if(this.companyId ==null || this.companyId == '' ) {
+      if(this.cityId ==null || this.cityId == '' ) {
         wepy.showToast({
-          title: '公司信息不完整，请填写',
+          title: '城市信息不完整，请填写',
           icon: 'none',
           duration: 2000
         });
@@ -641,10 +671,33 @@
         });
         return;
       }
-      console.log(this.experienceMonthNum)
-      if(this.experienceMonthNum == null || this.experienceMonthNum == '' ) {
+      if(this.offerDate == null || this.offerDate == '' ) {
         wepy.showToast({
-          title: '工作经验信息不完整，请填写',
+          title: 'Offer时间信息不完整，请填写',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+      if(this.offerFromId == null || this.offerFromId == '' ) {
+        wepy.showToast({
+          title: 'Offer途径信息不完整，请填写',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+      if(this.school == null || this.school == '' ) {
+        wepy.showToast({
+          title: '学历情况信息不完整，请填写',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+      if(this.education == null || this.education == '' ) {
+        wepy.showToast({
+          title: '学校背景信息不完整，请填写',
           icon: 'none',
           duration: 2000
         });
@@ -667,7 +720,8 @@
           welfare: this.welfare,
           collegeLevel: this.school,
           eduBackGround: this.education,
-          offerTime: this.offerDate,
+          offerYear: this.offerDate,
+          recruitSeason: this.offerFromId,
           experienceMonthNum:  this.experienceMonthNum != '' ? this.experienceMonthNum : 0,
         },
       }).then(res => {

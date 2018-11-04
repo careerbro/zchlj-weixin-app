@@ -3,10 +3,9 @@ export function DateToZhaoPinJi(date) {
   let result = ''
   let year = time.getFullYear()
   let month = time.getMonth()
-  if(month > 0 && month < 7) {
+  if( month < 6) {
     result = year + '春招'
   } else {
-    year++
     result = year + '秋招'
   }
 
@@ -19,12 +18,11 @@ export function ZhaoPinJiToDate(zhaopinji) {
   let year = parseInt(zhaopinji)
   let ji = zhaopinji.slice(4)
   if(ji == '秋招') {
-    result.end = year + '-01-31'
-    year--
-    result.start = year + '-08-01'
+    result.end = year + '-12-31'
+    result.start = year + '-07-01'
   } else {
-    result.start = year + '-02-01'
-    result.end = year + '-07-31'
+    result.start = year + '-01-01'
+    result.end = year + '-06-30'
   }
   return result
 }

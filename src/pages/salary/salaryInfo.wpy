@@ -87,6 +87,10 @@
     height: 30rpx;
     margin-top: -10rpx;
   }
+  button[plain]{
+    border: 0;
+    line-height: 35rpx;
+  }
 </style>
 
 
@@ -104,16 +108,16 @@
           <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(1)">
               <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__bd weui-cell_primary">
-                    <view>{{salaryInfo.scorporation == '---' ? salaryInfo.corporation : salaryInfo.scorporation}}</view>
+                    <view>{{salaryInfo.corporation ? salaryInfo.corporation : salaryInfo.corporationDetails}}</view>
                 </view>
                 <view class="weui-cell__ft weui-cell__ft_in-access"></view>
               </view>
           </view>
-          <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(2)">
+          <view wx:if="{{salaryInfo.jobId}}" class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(2)">
             <!-- <view class="weui-cells weui-cells_in-small-appmsg"> -->
               <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__bd weui-cell_primary">
-                    <view>{{salaryInfo.job}} </view>
+                    <view>{{salaryInfo.job ? salaryInfo.job : salaryInfo.jobDetails}} </view>
                 </view>
                 <view class="weui-cell__ft weui-cell__ft_in-access"></view>
                 <!-- <view class="job-share" @tap="shareThisItemToOther">
@@ -122,11 +126,11 @@
               </view>
             <!-- </view> -->
           </view>
-          <view class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(3)">
+          <view wx:if="{{salaryInfo.cityId}}" class="weui-media-box weui-media-box_small-appmsg"  @tap="getMoreSalary(3)">
             <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
               <view class="weui-cell__bd weui-cell_primary">
                   <view class="label">地点</view>
-                  <view class="value">{{salaryInfo.city}}</view>
+                  <view class="value">{{salaryInfo.city ? salaryInfo.city : salaryInfo.cityDetails}}</view>
               </view>
               <view class="weui-cell__ft weui-cell__ft_in-access"></view>
             </view>
@@ -136,7 +140,7 @@
             <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
               <view class="weui-cell__bd weui-cell_primary">
                   <view class="label">学历背景</view>
-                  <view class="value">{{salaryInfo.collegeLevel}}--{{xueli[salaryInfo.eduBackGround]}}</view>
+                  <view class="value">{{salaryInfo.collegeLevel}}  {{xueli[salaryInfo.eduBackGround]}}</view>
               </view>
             </view>
           </view>
@@ -181,6 +185,30 @@
             </view>
           </view>
         </view>
+
+        <view class="weui-media-box weui-media-box_small-appmsg">
+          <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view class="label">发布时间</view>
+                <view class="value">{{salaryInfo.createTime}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view  wx:if="{{hasComments.length > 0}}" class="weui-panel weui-panel_access ">
+        <repeat for="{{hasComments}}" index="index" item="item">
+          <view class="weui-panel__bd weui-media-box weui-media-box_appmsg" >
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view style="line-height: 34rpx;">
+                <text class="comment-contend">{{item.contend}}</text>
+              </view>
+              <view class="weui-media-box__info">
+                <view class="weui-media-box__info__meta">{{item.dateDay}}</view>
+              </view>
+            </view>
+          </view>
+        </repeat>
       </view>
     </view>
     <view class="footer-option-cell">
@@ -207,12 +235,12 @@
           <view class="option-other-label" style="{{ganxie? 'color: #d53c34' : ''}}">感谢</view>
         </view> -->
 
-        <view class="option-other" @tap="shareThisItemToOther">
+        <button plain="true" class="option-other" open-type="share" @tap="shareThisItemToOther">
           <view>
             <image class="option-other-icon" src="../../images/fenxiang.png" />
           </view>
           <view class="option-other-label">分享</view>
-        </view>
+        </button>
         <view class="option-other" @tap="shoucangThisItem">
           <view>
             <image wx:if="{{shoucang}}" class="option-other-icon" src="../../images/shoucang-yes.png" />
@@ -254,6 +282,7 @@
 <script>
   import wepy from 'wepy'
   import Api from '../../config/api.js'
+  import { DateToZhaoPinJi } from '../../config/util.js'
 
   export default class salaryInfo extends wepy.page{
     config = {
@@ -281,7 +310,8 @@
       zantong: false,
       buzantong: false,
       commentsNum: 0,
-      xueli: ['本科','硕士','博士','其他']
+      xueli: ['不详','其他','本科','硕士','博士'],
+      hasComments: []
     }
 
     methods = {
@@ -318,18 +348,18 @@
       zantongThisItem: function() {
         // this.zantong = !this.zantong;
         // this.buzantong = false;
-        if(this.zantong) {
-          return
-        }
+        // if(this.zantong || this.buzantong) {
+        //   return
+        // }
         this.postSalaryOptionByUser('zantong')
       },
 
       buzantongThisItem: function() {
         // this.buzantong = !this.buzantong;
         // this.zantong = false;
-        if(!this.zantong) {
-          return
-        }
+        // if(this.zantong || this.buzantong) {
+        //   return
+        // }
         this.postSalaryOptionByUser('buzantong')
       },
 
@@ -350,13 +380,13 @@
         let name = ''
         if(category == 1) {
           id = this.salaryInfo.corporationId
-          name = this.salaryInfo.scorporation == '---' ? this.salaryInfo.corporation : this.salaryInfo.scorporation
+          name = this.salaryInfo.corporation ? this.salaryInfo.corporation : this.salaryInfo.corDetails
         } else if(category == 2) {
           id = this.salaryInfo.jobId
-          name = this.salaryInfo.job
+          name = this.salaryInfo.job ? this.salaryInfo.job : this.salaryInfo.jobDetails
         } else {
           id = this.salaryInfo.cityId
-          name = this.salaryInfo.city
+          name = this.salaryInfo.city ? this.salaryInfo.city : this.salaryInfo.cityDetails
         }
         wepy.navigateTo({
           url: './moreSalary?id='+ id + '&name=' + name + '&category=' + category
@@ -366,9 +396,9 @@
 
     onShareAppMessage() {
       return {
-        title: '哇，这里的薪资待遇好诱人啊，好想去啊！',
+        title: '职场红领巾，匿名薪资爆料小程序',
         desc: '',
-        path: '/pages/salary/salaryInfo'
+        path: '/pages/salary/salaryInfo?id=' + this.salaryInfo.id
       }
     }
 
@@ -381,9 +411,14 @@
         console.log(res.data)
         if(res.data.code == 0) {
           let result = res.data.body.data
-          result.salary = result.yearSalaryMin + 'K-' + result.yearSalaryMax + 'K'
+          if(result.yearSalaryMin == result.yearSalaryMax) {
+            result.salary = result.yearSalaryMin + 'K'
+          } else {
+            result.salary = result.yearSalaryMin + 'K-' + result.yearSalaryMax + 'K'
+          }
           result.fuli = result.welfare
-          result.offtime = result.offerTime.substring(0,10)
+          result.offtime = DateToZhaoPinJi(result.offerTime.substring(0,10))
+          result.createTime = result.createTime.substring(0,10)
           if(res.data.body.extendData && res.data.body.extendData != {}) {
             this.thank = res.data.body.extendData.gra == '1'
             this.zantong = res.data.body.extendData.agree == '1'
@@ -440,12 +475,12 @@
             msg = '收藏成功，可在我的收藏中查看'
           } else if(option == 'zantong'){
             this.zantong = !this.zantong;
-            msg = '赞同成功'
+            msg = this.zantong ? '赞同成功' : '取消赞同成功'
             this.buzantong = false;
           } else if(option == 'buzantong'){
             this.buzantong = !this.buzantong;
             this.zantong = false;
-            msg = '反对成功'
+            msg = this.buzantong ? '反对成功' : '取消反对成功'
           }
           this.$apply()
           wepy.showToast({
@@ -457,6 +492,29 @@
       })
     }
 
+    getHotComments(salaryId) {
+      const url = Api.host + Api.commentSalary + '/' + salaryId
+      console.log(this.salaryId)
+
+      wepy.request({
+        url: url,
+      }).then(res => {
+        console.log(res.data)
+        if(res.data.code == '0') {
+          this.hasComments = res.data.body.data
+          if(this.hasComments.length > 3) {
+            this.hasComments = this.hasComments.slice(0, 3)
+          }
+          for(let comment of this.hasComments) {
+            comment.dateDay = comment.time.slice(0, 10)
+            comment.contend = comment.contend.replace(/<br>/g,"\n")
+            comment.isAgree = false
+          }
+          this.$apply()
+        }
+      })
+    }
+
     onLoad(options) {
       wepy.showLoading({
         title: '加载中，请稍等',
@@ -464,6 +522,7 @@
       if(options && options.id) {
         console.log(options.id)
         this.getSalaryInfo(options.id)
+        this.getHotComments(options.id)
       }
     }
   }

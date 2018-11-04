@@ -91,18 +91,18 @@
     </view> -->
     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
         <view class="weui-media-box__title ">
-            <view class="job">{{itemValue.scorporation == '---' ? itemValue.corporation : itemValue.scorporation}}</view>
-            <view class="salary">
+            <view class="job">{{itemValue.corporation && itemValue.corporation != '' ? itemValue.corporation : itemValue.corDetails}}</view>
+            <view class="salary" wx:if="{{itemValue.cityId}}">
               <image class="salary-icon" src="../images/didian_un.png"/>
-              {{itemValue.city}}
+              {{itemValue.city ? itemValue.city : itemValue.cityDetails}}
             </view>
         </view>
         <view class="weui-media-box__desc detail">
           <view class='tags'>
-            <view class="tag">
-              {{itemValue.job}}
+            <view class="tag" wx:if="{{itemValue.jobId}}">
+              {{itemValue.job ? itemValue.job : itemValue.jobDetails}}
             </view>
-            <view class="tag">{{itemValue.offerTime}}</view>
+            <view class="tag">{{itemValue.offerYear}}年{{itemValue.recruitSeason == '1' ? '秋招' : itemValue.recruitSeason == '2' ? '春招' : '社招'}}</view>
           </view>
         </view>
         <view class="weui-media-box__desc detail">
@@ -115,7 +115,7 @@
               <image class="salary-icon" src="../images/qian.png"/>
               {{itemValue.yearSalaryMin}}K-{{itemValue.yearSalaryMax}}K /年
             </view>
-            <view class="tag">
+            <view wx:if="{{itemValue.eduBackGround != '' && itemValue.eduBackGround != 0}}" class="tag">
               <image class="salary-icon" src="../images/xueli.png"/>
               {{xueli[itemValue.eduBackGround]}}
             </view>
@@ -142,7 +142,7 @@
     }
 
     data = {
-      xueli: ['本科','硕士','博士','其他']
+      xueli: ['不详','其他','本科','硕士','博士']
     }
 
     methods = {

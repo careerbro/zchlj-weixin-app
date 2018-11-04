@@ -6,7 +6,6 @@
   .salary-info {
     overflow: hidden;
     overflow-y: auto;
-    position: fixed;
     top: 0;
     left: 0;
     /* height: 91vh; */

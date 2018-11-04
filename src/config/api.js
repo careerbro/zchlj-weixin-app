@@ -1,8 +1,6 @@
 export default {
   // host: 'http://127.0.0.1:8080',
-  // host: 'http://10.30.4.119:8080',
   // host: 'http://10.1.2.9:8080',
-  // host: 'http://47.94.255.76:8080',
   host: 'https://api.brocareer.com',
 
   user: '/careerbro/user/user',
