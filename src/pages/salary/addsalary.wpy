@@ -125,7 +125,7 @@
               <view wx:if="{{secectSalary == 'month'}}" class="weui-label salary-title-label" >年薪</view>
             </view>
             <view class="weui-cell__bd salary-input">
-              <input class="weui-input salary-input-value" type="number" style="width: 310rpx" @input="inputYearSalaryMin"/>
+              <input class="weui-input salary-input-value" type="digit" style="width: 310rpx" @input="inputYearSalaryMin"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
             </view>
           </view>
@@ -138,10 +138,10 @@
               <view wx:if="{{secectSalary == 'year'}}" class="weui-label salary-title-label" >月薪</view>
             </view>
             <view class="weui-cell__bd salary-input">
-              <input class="weui-input salary-input-value" type="number" @input="inputMonthSalary"/>
+              <input class="weui-input salary-input-value" type="digit" @input="inputMonthSalary"/>
               <view style="width: 40rpx; paddind-left: -20rpx">K</view>
               <view style="width: 40rpx;">x</view>
-              <input class="weui-input salary-input-value" type="number" @input="inputMonthNum"/>
+              <input class="weui-input salary-input-value" type="digit" @input="inputMonthNum"/>
               <view style="width: 40rpx; paddind-left: -20rpx">月</view>
             </view>
           </view>
@@ -225,7 +225,7 @@
         </view>
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
-              <view class="weui-label">实习/全职</view>
+              <view class="weui-label">工作经验</view>
           </view>
           <view class="weui-cell__bd">
               <input class="weui-input"  type="number" placeholder="请输入工作月数(含实习月数)" @input="inputExperienceMonthNum"/>
@@ -328,7 +328,7 @@
       { name: '解决户口', value: '解决户口', checked: false },
       ],
       educations: [
-        '其他','本科','硕士','博士'
+        '不详','其他','本科','硕士','博士'
       ],
       schools: ['211','985','C9','海外高校','其他'],
       education: '',
@@ -663,7 +663,9 @@
         return;
       }
 
-      if((this.yearSalaryMax != '' || this.yearSalaryMin != '') && (this.monthSalary != '' || this.monthNum != '') ) {
+      if(this.secectSalary == 'year' && this.yearSalaryMin != '' || (this.secectSalary == 'month' && this.monthSalary != '' && this.monthNum != '')) {
+
+      } else {
         wepy.showToast({
           title: '薪资信息不完整，请填写',
           icon: 'none',
@@ -671,6 +673,7 @@
         });
         return;
       }
+
       if(this.offerDate == null || this.offerDate == '' ) {
         wepy.showToast({
           title: 'Offer时间信息不完整，请填写',
@@ -703,6 +706,35 @@
         });
         return;
       }
+
+      if( this.secectSalary == 'month' ) {
+        this.yearSalaryMin = (parseFloat(this.monthSalary) * parseInt(this.monthNum)).toFixed(2)
+        this.yearSalaryMax = this.yearSalaryMin
+      }
+
+      let offerYear = this.offerDate
+      if(this.offerFromId == 1) {
+        offerYear = parseInt(offerYear) + 1
+      }
+      // console.log({
+      //     city: this.cityId,
+      //     job: this.jobId,
+      //     user: this.$parent.globalData.userInfo.id,
+      //     collegeId: this.schoolId,
+      //     industry: this.hangyeId,
+      //     corporation: this.companyId,
+      //     yearSalaryMax: this.yearSalaryMin != '' ? this.yearSalaryMin : 0,
+      //     yearSalaryMin: this.yearSalaryMin != '' ? this.yearSalaryMin : 0,
+      //     monthSalary: this.monthSalary != '' ? this.monthSalary : 0,
+      //     monthNum: this.monthNum != '' ? this.monthNum : 0,
+      //     welfare: this.welfare,
+      //     collegeLevel: this.school,
+      //     eduBackGround: this.education,
+      //     offerYear: offerYear,
+      //     recruitSeason: this.offerFromId,
+      //     experienceMonthNum:  this.experienceMonthNum != '' ? this.experienceMonthNum : 0,
+      //   })
+      // return
       wepy.request({
         url: url,
         method: 'POST',
@@ -710,7 +742,7 @@
           city: this.cityId,
           job: this.jobId,
           user: this.$parent.globalData.userInfo.id,
-          college: this.schoolId,
+          collegeId: this.schoolId,
           industry: this.hangyeId,
           corporation: this.companyId,
           yearSalaryMax: this.yearSalaryMin != '' ? this.yearSalaryMin : 0,
@@ -720,7 +752,7 @@
           welfare: this.welfare,
           collegeLevel: this.school,
           eduBackGround: this.education,
-          offerYear: this.offerDate,
+          offerYear: offerYear,
           recruitSeason: this.offerFromId,
           experienceMonthNum:  this.experienceMonthNum != '' ? this.experienceMonthNum : 0,
         },

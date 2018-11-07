@@ -24,7 +24,7 @@ export default {
   searchCorperation: '/careerbro/corporation/corporation', // 公司模糊搜索
 
   salary: '/careerbro/salary/salary', // post
-  salaryUser: '/careerbro/salary/user/', // get 根据用户ID查询用户发布的薪资信息
+  salaryUser: '/careerbro/salary/user', // get 根据用户ID查询用户发布的薪资信息
   salaryShoucang: '/careerbro/salary/eva_system/', // get 获取用户关注（收藏）的薪资
   salaryComment: '/careerbro/salary/comment/',  // get 获取用户评论赞同的薪资
 

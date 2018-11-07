@@ -125,29 +125,10 @@
     }
 
     goHome() {
-        console.log('go to home')
+        console.log('go to newHome')
         wepy.switchTab({
-          url: 'home/home'
+          url: 'home/newHome'
         })
-    }
-
-    getUserSum() {
-      const url = Api.host + Api.getUserSum
-      console.log(url)
-
-      wepy.request({
-        url: url,
-        header: {
-          'content-type': 'application/json;charset=UTF-8'
-        },
-      }).then(res => {
-        console.log(res.data)
-        if(res.data.code == '0') {
-          // this.goHome()
-          this.number = 4
-
-        }
-      })
     }
 
     onLoad(options) {
@@ -155,7 +136,6 @@
         this.school = options.school
         this.number = options.number
       }
-      // this.getUserSum()
       setTimeout(() => {
         this.goHome();
       }, 1500);

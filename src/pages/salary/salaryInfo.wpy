@@ -161,7 +161,7 @@
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">工作经验</view>
-                <view class="value">{{salaryInfo.experienceMonthNum}}月</view>
+                <view class="value">{{salaryInfo.experienceMonthNum == '0' ? '' : salaryInfo.experienceMonthNum + '月'}}</view>
             </view>
           </view>
         </view>

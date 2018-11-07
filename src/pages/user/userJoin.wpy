@@ -29,14 +29,16 @@
       </view>
       <view class="weui-tab__panel">
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-          <repeat for="{{datalist1}}" index="index" item="item">
+          <EmptyData1 wx:if="{{datalist1.length == 0}}"/>
+          <repeat wx:if="{{datalist1.length > 0}}" for="{{datalist1}}" index="index" item="item">
             <view class="weui-panel weui-panel_access all-item-info">
                 <SalaryItem1 :itemValue.sync="item"></SalaryItem1>
             </view>
           </repeat>
         </view>
         <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-          <repeat for="{{datalist2}}" index="index" item="item">
+          <EmptyData2  wx:if="{{datalist2.length == 0}}"/>
+          <repeat wx:if="{{datalist2.length > 0}}" for="{{datalist2}}" index="index" item="item">
             <view class="weui-panel weui-panel_access all-item-info">
                 <SalaryItem2 :itemValue.sync="item"></SalaryItem2>
             </view>
@@ -51,6 +53,7 @@
   import wepy from 'wepy'
   import Api from '../../config/api.js'
   import SalaryItem  from '../../components/SalaryItem'
+  import EmptyData from '../../components/emptyData'
 
   export default class userJoin extends wepy.page{
     config = {
@@ -60,9 +63,12 @@
     components = {
       SalaryItem1: SalaryItem,
       SalaryItem2: SalaryItem,
+      EmptyData1: EmptyData,
+      EmptyData2: EmptyData
     }
 
     data = {
+      page: 1,
       userInfo: null,
       datalist1: [],
       datalist2: [],
@@ -76,9 +82,11 @@
       tabClick: function(e) {
         this.activeIndex = e.currentTarget.id
         if(e.currentTarget.id == 1) {
+          this.page = 1
           this.sliderOffset = 385;
           this.getSalaryByComment()
         } else {
+          this.page = 1
           this.sliderOffset = 0
           this.getSalaryByUserId()
         }
@@ -86,10 +94,14 @@
     }
 
     getSalaryByUserId() {
-      const url = Api.host + Api.salaryUser + this.userInfo.id
-
+      const url = Api.host + Api.salaryUser
       wepy.request({
-        url: url
+        url: url,
+        data: {
+          start: this.page,
+          limit: 10,
+          user: this.userInfo.id
+        }
       }).then(res=> {
         console.log(res)
         if(res.data.code == 0) {
@@ -110,7 +122,11 @@
       const url = Api.host + Api.salaryComment + this.userInfo.id
 
       wepy.request({
-        url: url
+        url: url,
+        data: {
+          start: this.page,
+          limit: 10
+        }
       }).then(res=> {
         console.log(res)
         if(res.data.code == 0) {

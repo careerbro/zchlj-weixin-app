@@ -259,9 +259,9 @@ button[size = mini] {
       <view class="filter-item-title">Offer排序</view>
       <van-row gutter="20" style="text-align:center;line-height:100rpx;">
         <repeat for="{{offerSorts}}" index="index" item="item">
-          <van-col span="8" @tap="clickOfferSortBtn({{index}})">
-            <van-button wx:if="{{offerSort == index}}" plain size="small" type="primary">{{item}}</van-button>
-            <van-button wx:else plain size="small">{{item}}</van-button>
+          <van-col span="8" @tap="clickOfferSortBtn({{item.value}})">
+            <van-button wx:if="{{offerSort == item.value}}" plain size="small" type="primary">{{item.name}}</van-button>
+            <van-button wx:else plain size="small">{{item.name}}</van-button>
           </van-col>
         </repeat>
       </van-row>
@@ -331,8 +331,9 @@ button[size = mini] {
       offerDates: ['全部', '2019', '2018', '2017', '2016', '2015'],
       offerFrom: 0,
       offerFroms: ['全部', '其它','秋招', '春招', '社招'],
-      offerSort: 0,
-      offerSorts: ['最新爆料', '最热爆料']
+      offerSort: 10,
+      // offerSorts: ['最新爆料', '最热爆料']
+      offerSorts: [{name: '最新爆料', value: 10}]
     }
 
     methods = {
@@ -489,6 +490,12 @@ button[size = mini] {
       },
       searchByInput: function() {
         this.datalist = []
+        this.selectedXueli = 0
+        this.selectedSchoolLev = '全部'
+        this.offerDate = '全部'
+        this.offerFrom = 0
+        this.offerSort = 0
+        this.hangyeActiveId = 0
         this.getSalary()
       }
     }
@@ -566,8 +573,8 @@ button[size = mini] {
       data.start = this.start
       data.limit = 20
       data.order = this.offerSort
-      if(this.inputVal != '') {
-        data.temp = this.inputVal
+      if(this.inputVal.replace(/\s+/g,"") != '') {
+        data.temp = this.inputVal.replace(/\s+/g,"")
       }
       if(this.selectedXueli != 0) {
         data.type = this.selectedXueli
@@ -642,6 +649,7 @@ button[size = mini] {
     }
 
     onPullDownRefresh() {
+      this.datalist = []
       this.getSalary();
     }
 

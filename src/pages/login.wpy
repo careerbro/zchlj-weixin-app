@@ -14,7 +14,7 @@
   font-size: 1.5em;
   font-weight: bold;
   position: relative;
-  top: 9vh;
+  top: 12vh;
 }
 
 .description {
@@ -158,7 +158,7 @@
     <view wx:else>
       <view class="show-info">
         <view class="title">职场红领巾</view>
-        <view class="description">一个为你确定方向的平台</view>
+        <!-- <view class="description">一个为你确定方向的平台</view> -->
       </view>
       <view wx:if="{{noLogin}}" class="login-form">
         <view class="input-form">
@@ -178,7 +178,7 @@
           <view class="note"> · 邮箱将会收到关注公司的更新薪资信息</view>
         </view>
       </view>
-      <view class="important-info">本平台坚决保护个人信息，解决你的后顾之忧</view>
+      <!-- <view class="important-info">本平台坚决保护个人信息，解决你的后顾之忧</view> -->
     </view>
   </view>
 
@@ -287,13 +287,15 @@
               email: this.email,
               petName: this.userInfo.nickName,
               photoPath: this.userInfo.avatarUrl,
+              collegeId: this.schoolId,
               college: this.schoolId
             },
           }).then(res => {
             console.log(res.data)
             if(res.data.code == 0 ) {
+              const number = res.data.body.sum
               wepy.navigateTo({
-                url: 'loading?school=' + this.school + '&number=' + res.data.body.sum
+                url: 'loading?school=' + this.school + '&number=' + number
               })
             } else {
               wepy.showToast({
