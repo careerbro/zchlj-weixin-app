@@ -155,6 +155,7 @@
     onLoad() {
       let self = this
       this.userInfo = this.$parent.globalData.userInfo;
+      this.userInfo.petName = decodeURI(this.userInfo.petName )
     }
   }
 </script>

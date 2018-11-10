@@ -181,7 +181,7 @@
           <view class="weui-cell weui-cell_access " hover-class="weui-cell_active">
             <view class="weui-cell__bd weui-cell_primary">
                 <view class="label">Offer发放时间</view>
-                <view class="value">{{salaryInfo.offtime}}</view>
+                <view class="value">{{salaryInfo.offerYear + salaryInfo.recruitSeason}}</view>
             </view>
           </view>
         </view>
@@ -398,7 +398,7 @@
       return {
         title: '职场红领巾，匿名薪资爆料小程序',
         desc: '',
-        path: '/pages/salary/salaryInfo?id=' + this.salaryInfo.id
+        path: 'pages/home/newHome?to=salaryInfo&salaryId=' + this.salaryInfo.id
       }
     }
 
@@ -417,7 +417,7 @@
             result.salary = result.yearSalaryMin + 'K-' + result.yearSalaryMax + 'K'
           }
           result.fuli = result.welfare
-          result.offtime = DateToZhaoPinJi(result.offerTime.substring(0,10))
+          result.recruitSeason = result.recruitSeason == '1' ? '秋招' : result.recruitSeason == '2' ? '春招' : '社招'
           result.createTime = result.createTime.substring(0,10)
           if(res.data.body.extendData && res.data.body.extendData != {}) {
             this.thank = res.data.body.extendData.gra == '1'

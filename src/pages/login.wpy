@@ -285,7 +285,7 @@
             method: 'POST',
             data: {
               email: this.email,
-              petName: this.userInfo.nickName,
+              petName: encodeURI(this.userInfo.nickName),
               photoPath: this.userInfo.avatarUrl,
               collegeId: this.schoolId,
               college: this.schoolId

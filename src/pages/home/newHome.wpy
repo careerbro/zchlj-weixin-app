@@ -297,6 +297,7 @@ button[size = mini] {
     }
 
     data = {
+      toOptions: {},
       start: 1,
       showLogin: false,
       inputShowed: false,
@@ -527,6 +528,11 @@ button[size = mini] {
           this.$parent.globalData.userInfo = res.data.body.data
           this.getAllIndustry()
           this.getSalary()
+          if(this.toOptions.to == 'salaryInfo' && this.toOptions.salaryId) {
+            wepy.navigateTo({
+              url: '../salary/salaryInfo?id=' + this.toOptions.salaryId,
+            })
+          }
         }
       })
     }
@@ -653,7 +659,8 @@ button[size = mini] {
       this.getSalary();
     }
 
-    onLoad() {
+    onLoad(options) {
+      this.toOptions = options
       if(this.$parent.globalData.firstLogin) {
         wepy.showLoading({
           title: '加载中',

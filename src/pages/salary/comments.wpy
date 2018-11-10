@@ -1,7 +1,6 @@
 <style scoped>
 .container {
   width: 750rpx;
-  height: 100vh;
   background-size: 100% 100%;
 }
 
@@ -12,10 +11,10 @@
   width: 750rpx;
   z-index: 100;
   background-color: #fff;
-  padding-left: 20rpx;
+  padding-left: 10rpx;
   padding-right: 10rpx;
-  padding-top: 20rpx;
-  padding-bottom: 20rpx;
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
   display: flex;
   border-top:1px solid #D3D3D3;
 }
@@ -98,7 +97,7 @@ textarea {
 
       <EmptyData  wx:if="{{hasComments.length == 0}}"/>
     </view>
-    <view class="write-comment">
+    <view class="write-comment" cursor-spacing ='0'>
       <textarea auto-height="{{true}}"  value="{{comment}}" cursor-spacing="5" show-confirm-bar="{{false}}" style="height:40px" @input="inputComment"/>
       <view class="publish-box" @tap="submitComment">
         <image class="publish" src="../../images/publish.png" />
@@ -133,6 +132,14 @@ textarea {
         console.log(this.comment)
       },
       submitComment: function () {
+        if (this.comment.replace(/\s+/g,"") == '') {
+          wepy.showToast({
+            title: '评论不能为空',
+            icon: 'none',
+            duration: 2000
+          });
+          return
+        }
         const url = Api.host + Api.comment
 
         wepy.request({
